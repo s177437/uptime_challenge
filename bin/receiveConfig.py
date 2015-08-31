@@ -1,6 +1,5 @@
 import ast
 import pika
-from config import *
 from ConfigFile import *
 
 
@@ -13,18 +12,18 @@ def requestConfig():
 	connection.close()
 def receiveConfig() :
 	credentials = pika.PlainCredentials('guest', 'guest')
-        connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
-        channel=connection.channel() 
-        channel.queue_declare(queue='sendconfig')
+	connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
+	channel=connection.channel() 
+	channel.queue_declare(queue='sendconfig')
 	method_frame, header_frame, body = channel.basic_get(queue = 'sendconfig')  
-	if method_frame.NAME == 'Basic.GetEmpty':
+	if method_frame.NAME == 'Basic.GetEmpty' :
 		connection.close()
 	else : 
 		channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-        	connection.close() 
+		connection.close() 
 		configdict= ast.literal_eval(body)
 		configfile=ConfigFile()
-        	configfile.writeConfig(configdict)	
+		configfile.writeConfig(configdict)	
 
 
-#receiveConfig()
+receiveConfig()
