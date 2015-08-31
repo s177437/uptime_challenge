@@ -1,6 +1,6 @@
 import ast
 import pika
-from Config import *
+from config import *
 configdict={}
 def receiveConfig() : 
     credentials = pika.PlainCredentials('guest', 'guest')
@@ -12,8 +12,13 @@ def receiveConfig() :
 
 def callback(channel, method, properties, body) :
     configdict= ast.literal_eval(body)
-    print configdict 
+    setConfigDict(configdict)
 def getConfig():
     return configdict
-
+def setConfigDict(config) : 
+	configdict=config
+def createConfigObject() : 
+	config=Config()
+	
 receiveConfig()
+
