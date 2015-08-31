@@ -6,7 +6,7 @@ Created on 31. aug. 2015
 class ConfigFile(object):
     def writeConfig(self, configdata):
         for key, value in configdata.iteritems() :
-            self.writeToFile(key,value) 
+            self.writeToFile(key,str(value)) 
     def writeToFile(self, key,value):
         file=open('config.cfg','w')
         file.write(key+ " = "+value+"\n" )
