@@ -11,7 +11,7 @@ def connect(message) :
 	print message
 	connection.close()
 def addConfigToCouch() : 
-	configdict=["{'queue_names':'testq'}","{'interval':'2'}"]
+	configdict=["{'queue_name':'testq'}","{'interval':'2'}"]
 	for c in configdict :  
 		connect(c)
 addConfigToCouch()
