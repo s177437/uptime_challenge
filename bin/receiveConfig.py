@@ -15,15 +15,19 @@ def receiveConfig() :
 	connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
 	channel=connection.channel() 
 	channel.queue_declare(queue='sendconfig')
-	method_frame, header_frame, body = channel.basic_get(queue = 'sendconfig')  
-	if method_frame.NAME == 'Basic.GetEmpty' :
-		connection.close()
-	else : 
-		channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-		connection.close() 
-		configdict= ast.literal_eval(body)
-		configfile=ConfigFile()
-		configfile.writeConfig(configdict)	
+	try : 
+		method_frame, header_frame, body = channel.basic_get(queue = 'sendconfig')  
+		if method_frame.NAME == 'Basic.GetEmpty' :
+			connection.close()
+		else : 
+			channel.basic_ack(delivery_tag=method_frame.delivery_tag)
+			connection.close() 
+			configdict= ast.literal_eval(body)
+			configfile=ConfigFile()
+			configfile.writeConfig(configdict)	
+	except AttributeError : 
+		print "Waiting for answer"
+		receiveConfig()
 
 requestConfig()
 print "sleeping while waiting for answer"
