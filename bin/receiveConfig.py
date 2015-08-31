@@ -2,27 +2,30 @@ import ast
 import pika
 from config import *
 import time
-configdict={}
 def receiveConfig() :
-    start_time=time.time() 
-    while (time.time()-start_time<=10.0) : 
-        credentials = pika.PlainCredentials('guest', 'guest')
+	credentials = pika.PlainCredentials('guest', 'guest')
         connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
         channel=connection.channel() 
         channel.queue_declare(queue='sendconfig')
-        channel.basic_consume(callback, queue='sendconfig', no_ack=True)
-        channel.start_consuming()
-    
-def callback(channel, method, properties, body) :
-    configdict= ast.literal_eval(body)
-    setConfigDict(configdict)
+	method_frame, header_frame, body = channel.basic_get(queue = 'sendconfig')  
+	if method_frame.NAME == 'Basic.GetEmpty':
+		connection.close()
+	else : 
+		channel.basic_ack(delivery_tag=method_frame.delivery_tag)
+        	connection.close() 
+		configdict= ast.literal_eval(body)
+		createConfigObject(configdict)
+		#print configdict
+		#setConfigDict(configdict)
+		    
+#def callback(channel, method, properties, body) :
+#    configdict= ast.literal_eval(body)
+#    setConfigDict(configdict)
 
-    
-
-def createConfigObject() : 
+def createConfigObject(configdict) : 
     config=Config()
-    configelements=getConfigDict()
-    
+    configelements=configdict
+    print configelements    
     for key,value in configelements.iteritems() : 
         if ("queue") in key : 
             config.set_quename(value)
@@ -37,4 +40,4 @@ def getConfigDict():
 def setConfigDict(config) : 
     configdict=config
 receiveConfig()
-createConfigObject()
+#createConfigObject()

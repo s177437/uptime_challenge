@@ -6,10 +6,10 @@ Created on 31. aug. 2015
 
 class Config():
     quename= ""
-    interval=0
+    __interval=0
 
     def get_quename(self):
-        return self.__quename
+        return self.quename
 
 
     def get_interval(self):
@@ -17,7 +17,7 @@ class Config():
 
 
     def set_quename(self, value):
-        self.__quename = value
+        self.quename = value
 
 
     def set_interval(self, value):
