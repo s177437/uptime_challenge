@@ -26,10 +26,10 @@ def receiveConfig() :
 			configfile=ConfigFile()
 			configfile.writeConfig(configdict)	
 	except AttributeError : 
-		print "Waiting for answer"
+		print "Waiting for answer.."
 		receiveConfig()
 
 requestConfig()
-print "sleeping while waiting for answer"
-time.sleep(5)
+#print "sleeping while waiting for answer"
+#time.sleep(5)
 receiveConfig()
