@@ -1,7 +1,7 @@
 import ast
 import pika
 from ConfigFile import *
-
+import time
 
 def requestConfig():
 	credentials = pika.PlainCredentials('guest', 'guest')
@@ -22,8 +22,10 @@ def receiveConfig() :
 		channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 		connection.close() 
 		configdict= ast.literal_eval(body)
-		configfile=bin.ConfigFile()
+		configfile=ConfigFile()
 		configfile.writeConfig(configdict)	
 
-
-#receiveConfig()
+requestConfig()
+print "sleeping while waiting for answer"
+time.sleep(5)
+receiveConfig()
