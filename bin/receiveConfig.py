@@ -1,15 +1,18 @@
 import ast
 import pika
 from config import *
+import time
 configdict={}
-def receiveConfig() : 
-    credentials = pika.PlainCredentials('guest', 'guest')
-    connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
-    channel=connection.channel() 
-    channel.queue_declare(queue='sendconfig')
-    channel.basic_consume(callback, queue='sendconfig', no_ack=True)
-    channel.start_consuming()
-
+def receiveConfig() :
+    start_time=time.time() 
+    while (time.time()-start_time<=10.0) : 
+        credentials = pika.PlainCredentials('guest', 'guest')
+        connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
+        channel=connection.channel() 
+        channel.queue_declare(queue='sendconfig')
+        channel.basic_consume(callback, queue='sendconfig', no_ack=True)
+        channel.start_consuming()
+    
 def callback(channel, method, properties, body) :
     configdict= ast.literal_eval(body)
     setConfigDict(configdict)
