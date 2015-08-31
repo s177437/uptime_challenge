@@ -1,5 +1,6 @@
+import ast
 import pika
-
+from Config import *
 def receiveConfig() : 
     credentials = pika.PlainCredentials('guest', 'guest')
     connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
@@ -9,5 +10,7 @@ def receiveConfig() :
     channel.start_consuming()
 
 def callback(channel, method, properties, body) :
-	print "Received message...."+ body 
+    configdict= ast.literal_eval(body)
+    print configdict 
+
 receiveConfig()
