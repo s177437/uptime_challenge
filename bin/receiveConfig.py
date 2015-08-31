@@ -16,7 +16,8 @@ def receiveConfig() :
         	connection.close() 
 		configdict= ast.literal_eval(body)
 		configfile=ConfigFile()
-        configfile.writeConfig(configdict)
+		print configdict
+        	configfile.writeConfig(configdict)
 		#print configdict
 		#setConfigDict(configdict)
 		    

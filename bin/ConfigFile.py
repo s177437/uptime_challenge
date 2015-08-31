@@ -8,7 +8,7 @@ class ConfigFile(object):
         for key, value in configdata.iteritems() :
             self.writeToFile(key,str(value)) 
     def writeToFile(self, key,value):
-        file=open('config.cfg','w')
+        file=open('config.cfg','a')
         file.write(key+ " = "+value+"\n" )
         
         
