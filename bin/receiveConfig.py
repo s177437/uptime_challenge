@@ -23,7 +23,7 @@ def receiveConfig() :
 			channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 			connection.close() 
 			configdict= ast.literal_eval(body)
-			configfile=ConfigFile()
+			configfile=bin.ConfigFile()
 			configfile.writeConfig(configdict)	
 	except AttributeError : 
 		print "Waiting for answer.."
