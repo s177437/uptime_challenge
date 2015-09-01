@@ -10,8 +10,11 @@ class Queue :
     classdocs
     '''
     queuename=""
-
-    
+    queuecontent=""
+    def setQueueContent(self,value): 
+        self.queuecontent=value
+    def getQueueContent(self):
+        return self.queuecontent
     def connectToRabbitMQ(self):
         credentials = pika.PlainCredentials('guest', 'guest')
         connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
@@ -45,11 +48,12 @@ class Queue :
                 connection.close()
             else : 
                 channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-                stringValue=body
                 connection.close() 
-                return stringValue
+                self.setQueueContent(body)
                 
         except AttributeError : 
             print "Waiting for answer.."
             self.receiveOneMessageFromQ(queuename)
+    
+        
         
