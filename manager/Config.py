@@ -45,13 +45,13 @@ class Config:
         
     def initDbConfig(self):
         config = self.readConfigFromFile()
-        configparser=ConfigParser.SafeConfigParser()
-        configparser.read("config.ini")
         queue=Queue()
         queue.createQueue("requestconfigq", "configrequest")
         queue.receiveOneMessageFromQ("sendconfig")
         configdict= ast.literal_eval(queue.getQueueContent())
         self.writeConfig(configdict)
+        configparser=ConfigParser.SafeConfigParser()
+        configparser.read("config.ini")
         config.set_interval(configparser.get("Global","interval"))
         config.set_queue_name(configparser.get("Global","queuename"))
         print config.get_interval(), config.get_queue_name()
