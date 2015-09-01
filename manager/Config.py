@@ -54,7 +54,7 @@ class Config:
         configparser.read("config.ini")
         config.set_interval(configparser.get("Global","interval"))
         config.set_queue_name(configparser.get("Global","queue_name"))
-        print config.get_interval(), config.get_queue_name()
+        return config
         
        
         
