@@ -44,8 +44,9 @@ class Queue :
                 connection.close()
             else : 
                 channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-                connection.close() 
                 return body
+                connection.close() 
+                
         except AttributeError : 
             print "Waiting for answer.."
             self.receiveOneMessageFromQ(queuename)
