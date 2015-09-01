@@ -53,7 +53,7 @@ class Config:
         configparser=ConfigParser.SafeConfigParser()
         configparser.read("config.ini")
         config.set_interval(configparser.get("Global","interval"))
-        config.set_queue_name(configparser.get("Global","queuename"))
+        config.set_queue_name(configparser.get("Global","queue_name"))
         print config.get_interval(), config.get_queue_name()
         
        
