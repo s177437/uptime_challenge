@@ -1,5 +1,6 @@
-from subclasses import Queue
-from subclasses import Config
+from Queue import *
+from Config import *
+
 import pika
 import couchdb
 
