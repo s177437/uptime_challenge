@@ -14,6 +14,7 @@ def fetchJobFromQ():
             channel.basic_ack(delivery_tag=method_frame.delivery_tag)
             print "Received job:", body
             connection.close() 
+            fetchJobFromQ()
     except AttributeError : 
         print "No message has not arrived yet"
 	fetchJobFromQ()
