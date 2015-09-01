@@ -1,6 +1,5 @@
 from Queue import *
 from Config import *
-
 import pika
 import couchdb
 
@@ -11,5 +10,6 @@ class Manager():
         config.initDbConfig()
         
         
-        
+manager=Manager()
+manager.fetchConfig()        
          

@@ -13,10 +13,6 @@ class Account():
     
 
 
-    def __init__(self, params):
-        '''
-        Constructor
-        '''
 
     def get_course(self):
         return self.__course

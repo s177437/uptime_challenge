@@ -12,12 +12,11 @@ import couchdb
 class Config:
     queue_name=""
     interval=0
-    account=Account()
     configdbname=""
     dbserver=""
     queserver=""
     configinstance="None"
-    
+    account=Account() 
     
     def convertJSONToDictionary(self,data):
         jsondict=json.loads(data)[0]
@@ -35,16 +34,17 @@ class Config:
         config=ConfigParser.SafeConfigParser()
         config.read("config.ini")
         configclass=Config()
-        configclass.getAccount().set_course(config.get("Account,","course"))
-        configclass.getAccount.set_group(config.get("Account","group"))
+	configclass.setAccount(self.account)
+        configclass.getAccount().set_course(config.get("Account","course"))
+        configclass.getAccount().set_group(config.get("Account","group"))
         configclass.setConfigDbName(config.get("Global", "configdbname"))
         configclass.set_dbserver(config.get("Global","dbserver"))
-        configclass.set_queserver(config.get("Glocal","queueserver"))
+        configclass.set_queserver(config.get("Global","queueserver"))
         return configclass
         
     def initDbConfig(self):
         config = self.readConfigFromFile()
-        print config.get_dbserver()
+        print config.getAccount().get_course()
     def get_queue_name(self):
         return self.__queue_name
 
