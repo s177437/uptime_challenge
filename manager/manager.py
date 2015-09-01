@@ -8,7 +8,7 @@ class Manager():
         queue=Queue()
         config=Config()
         newconfig=config.initDbConfig()
-        newconfig.createWorkQ(newconfig.get_queue_name(),"")
+        newconfig.createWorkQ(newconfig.get_queue_name())
         
         
 manager=Manager()

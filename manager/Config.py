@@ -62,7 +62,7 @@ class Config:
         return config
     def createWorkQ(self,queuename):
         queue=Queue()
-        queue.createQueue(queuename, "")
+        queue.createQueue(queuename, "ss")
         
         
         
