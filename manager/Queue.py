@@ -45,6 +45,7 @@ class Queue :
             else : 
                 channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                 connection.close() 
+                print body
                 return body
         except AttributeError : 
             print "Waiting for answer.."
