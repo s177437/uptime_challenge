@@ -47,7 +47,7 @@ class Config:
         queue=Queue()
         queue.createQueue("requestconfigq", "configrequest")
         configString=queue.receiveOneMessageFromQ("sendconfig")
-        print type(configString)
+        print configString
         
         
         

@@ -35,6 +35,7 @@ class Queue :
         print body
     
     def receiveOneMessageFromQ(self,queuename):
+        stringValue=""
         connection=self.connectToRabbitMQ()
         channel=connection.channel() 
         channel.queue_declare(queue=queuename)
@@ -44,9 +45,11 @@ class Queue :
                 connection.close()
             else : 
                 channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-                return body
+                stringValue=body
                 connection.close() 
+                return stringValue
                 
         except AttributeError : 
             print "Waiting for answer.."
             self.receiveOneMessageFromQ(queuename)
+        
