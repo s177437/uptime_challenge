@@ -35,7 +35,7 @@ class Queue :
         channel.start_consuming()
     
     def callback(self,channel, method, properties, body) :
-        print body
+        print "Status for job:", body
     
     def receiveOneMessageFromQ(self,queuename):
         stringValue=""
