@@ -34,7 +34,7 @@ class Config:
         config=ConfigParser.SafeConfigParser()
         config.read("config.ini")
         configclass=Config()
-	configclass.setAccount(self.account)
+        configclass.setAccount(self.account)
         configclass.getAccount().set_course(config.get("Account","course"))
         configclass.getAccount().set_group(config.get("Account","group"))
         configclass.setConfigDbName(config.get("Global", "configdbname"))
@@ -44,7 +44,14 @@ class Config:
         
     def initDbConfig(self):
         config = self.readConfigFromFile()
-        print config.getAccount().get_course()
+        queue=Queue()
+        queue.createQueue("requestconfigq", "configrequest")
+        configString=queue.receiveOneMessageFromQ("sendconfig")
+        print configString
+        
+        
+        
+
     def get_queue_name(self):
         return self.__queue_name
 
