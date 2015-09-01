@@ -12,13 +12,25 @@ def fetchJobFromQ():
             connection.close()
         else : 
             channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-            print "Received job:", body
+            print "Received job:", body, "starting job to reply"
+            replyToMaster()
             connection.close() 
             fetchJobFromQ()
     except AttributeError : 
         print "No message has not arrived yet"
 	fetchJobFromQ()
 
+
+
 def doJob():
     return "True"
+
+def replyToMaster():
+    message=doJob()
+    credentials = pika.PlainCredentials('guest', 'guest')
+    connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
+    channel = connection.channel() 
+    channel.queue_declare(queue="reportq")
+    channel.basic_publish(exchange='', routing_key='reportq',body=message)
+    connection.close()
 fetchJobFromQ()
