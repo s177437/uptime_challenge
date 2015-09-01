@@ -28,8 +28,13 @@ class Config:
             self.writeToFile(key,str(value)) 
     
     def writeToFile(self, key,value):
-        file=open('config.ini','a')
-        file.write(key+ " = "+value+"\n" )
+        with open('config.ini','r') as f : 
+            words=f.read().split()
+            if key in words : 
+                print "No need to write to file, key is present" 
+            else: 
+                file=open('config.ini','a')
+                file.write(key+ " = "+value+"\n" )
     
     def readConfigFromFile(self):
         config=ConfigParser.SafeConfigParser()
