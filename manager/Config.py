@@ -9,6 +9,7 @@ from Account import *
 import json
 import ConfigParser
 import couchdb
+import ast
 class Config:
     queue_name=""
     interval=0
@@ -46,8 +47,11 @@ class Config:
         config = self.readConfigFromFile()
         queue=Queue()
         queue.createQueue("requestconfigq", "configrequest")
-        configString=queue.receiveOneMessageFromQ("sendconfig")
-        print queue.getQueueContent()
+        queue.receiveOneMessageFromQ("sendconfig")
+        configdict= ast.literal_eval(queue.getQueueContent())
+        print configdict
+       
+        
         
         
         
