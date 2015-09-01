@@ -48,4 +48,4 @@ class Queue :
                 return body
         except AttributeError : 
             print "Waiting for answer.."
-            self.receiveOneMessageFromQ()
+            self.receiveOneMessageFromQ(queuename)
