@@ -7,8 +7,9 @@ class Manager():
     def fetchConfig(self):
         queue=Queue()
         config=Config()
-        config.initDbConfig()
-        print config.get_queue_name()
+        newconfig=config.initDbConfig()
+        print newconfig.get_queue_name()
+        
         
 manager=Manager()
 manager.fetchConfig()        
