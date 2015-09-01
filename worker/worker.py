@@ -8,14 +8,16 @@ def fetchJobFromQ():
     try : 
         method_frame, header_frame, body = channel.basic_get(queue = 'testq')  
         if method_frame.NAME == 'Basic.GetEmpty' :
+	    print "You end up here"
             connection.close()
         else : 
             channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-            if "configrequest" in body :
-                print "Received job:", body, "doing job"
+            print "Received job:", body
             connection.close() 
     except AttributeError : 
         print "No message has not arrived yet"
+	fetchJobFromQ()
 
 def doJob():
     return "True"
+fetchJobFromQ()
