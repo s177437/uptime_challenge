@@ -49,7 +49,8 @@ class Config:
         queue.createQueue("requestconfigq", "configrequest")
         queue.receiveOneMessageFromQ("sendconfig")
         configdict= ast.literal_eval(queue.getQueueContent())
-        print configdict
+        self.writeConfig(configdict)
+        
        
         
         
