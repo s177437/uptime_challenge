@@ -5,10 +5,11 @@ import couchdb
 
 class Manager():
     def fetchConfig(self):
+        worklist=["returnTrue","returnTrue", "returnTrue"]
         queue=Queue()
         config=Config()
         newconfig=config.initDbConfig()
-        newconfig.createWorkQ(newconfig.get_queue_name())
+        newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
         
         
 manager=Manager()
