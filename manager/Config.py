@@ -50,6 +50,9 @@ class Config:
         queue.receiveOneMessageFromQ("sendconfig")
         configdict= ast.literal_eval(queue.getQueueContent())
         self.writeConfig(configdict)
+        config.set_interval(config.get("Global","interval"))
+        config.set_queue_name(config.get("Global","queuename"))
+        print config.get_interval(), config.get_queue_name()
         
        
         
