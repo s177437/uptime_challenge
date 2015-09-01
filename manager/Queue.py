@@ -11,8 +11,6 @@ class Queue :
     '''
     queuename=""
 
-    def __init__(self, params):
-        print ""
     
     def connectToRabbitMQ(self):
         credentials = pika.PlainCredentials('guest', 'guest')
