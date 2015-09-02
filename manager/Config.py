@@ -33,8 +33,13 @@ class Config:
         tempdict=groupsandmembers[0]
         groupsdict.update({"groups":tempdict})
         listtosend.append(groupsdict)
-        print listtosend 
-      
+        return listtosend 
+    
+    def sendUsersToQueue(self, accountlist):
+        listtostring=accountlist
+        queue=Queue()
+        queue.createQueue("createuserq", listtostring)
+        
         
     
     def writeConfig(self, configdata):
