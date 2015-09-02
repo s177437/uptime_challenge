@@ -9,7 +9,7 @@ class Account():
     classdocs
     '''
     course=""
-    group=""
+    groups=[]
     teacher=""
     students=[]
     
@@ -20,16 +20,16 @@ class Account():
         return self.__course
 
 
-    def get_group(self):
-        return self.__group
+    def get_groups(self):
+        return self.__groups
 
 
     def set_course(self, value):
         self.__course = value
 
 
-    def set_group(self, value):
-        self.__group = value
+    def set_groups(self, value):
+        self.__groups = value
     def set_teacher(self,value):
         self.teacher=value
     def get_teacher(self):
