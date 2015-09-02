@@ -24,21 +24,22 @@ class Config:
         return jsondict
     def requestUserCreation(self, configobject):
         listtosend=[]
-        teacherdict={"teacher":configobject.getAccount().get_teacher()}
+        teacherdict={"teacher":[configobject.getAccount().get_teacher()]}
         listtosend.append(teacherdict)
-        coursedict={"course": configobject.getAccount().get_course()}
+        coursedict={"course": [configobject.getAccount().get_course()]}
         listtosend.append(coursedict)
         groupsdict={}
         groupsandmembers=configobject.getAccount().get_groups()
         tempdict=groupsandmembers[0]
         groupsdict.update({"groups":tempdict})
         listtosend.append(groupsdict)
+	print listtosend
         return listtosend 
     
     def sendUsersToQueue(self, accountlist):
         listtostring=accountlist
         queue=Queue()
-        queue.createQueue("createuserq", listtostring)
+        queue.createQueue("createuserq", str(listtostring))
         
         
     
