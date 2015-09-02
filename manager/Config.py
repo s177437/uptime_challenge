@@ -22,6 +22,9 @@ class Config:
     def convertJSONToDictionary(self,data):
         jsondict=json.loads(data)[0]
         return jsondict
+    def requestUserCreation(self, configobject):
+        configobject
+        
     
     def writeConfig(self, configdata):
         for key, value in configdata.iteritems() :
@@ -42,13 +45,12 @@ class Config:
         configclass=Config()
         configclass.setAccount(self.account)
         configclass.getAccount().set_course(config.get("Account","course"))
-        configclass.getAccount().set_group(config.get("Account","group"))
+        configclass.getAccount().set_groups(json.loads(config.get("Account","groups")))
         configclass.getAccount().set_teacher(config.get("Account","teacher"))
-        configclass.getAccount().setStudentList(json.loads(config.get("Account","students")))
         configclass.setConfigDbName(config.get("Global", "configdbname"))
         configclass.set_dbserver(config.get("Global","dbserver"))
         configclass.set_queserver(config.get("Global","queueserver"))
-        print configclass.getAccount().getStudentList()
+        print configclass.getAccount().get_groups()
         return configclass
     def initDbConfig(self):
         config = self.readConfigFromFile()
@@ -66,16 +68,7 @@ class Config:
         queue=Queue()
         for job in joblist : 
             queue.createQueue(queuename,job)
-        
-        
-        
-        
-       
-        
-        
-        
-        
-
+            
     def get_queue_name(self):
         return self.__queue_name
 
