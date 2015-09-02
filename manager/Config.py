@@ -43,11 +43,13 @@ class Config:
         configclass.setAccount(self.account)
         configclass.getAccount().set_course(config.get("Account","course"))
         configclass.getAccount().set_group(config.get("Account","group"))
+        configclass.getAccount().set_teacher(config.get("Account","teacher"))
+        configclass.getAccount().setStudentList(json.loads(config.get("Account","students")))
         configclass.setConfigDbName(config.get("Global", "configdbname"))
         configclass.set_dbserver(config.get("Global","dbserver"))
         configclass.set_queserver(config.get("Global","queueserver"))
+        print configclass.getAccount().getStudentList()
         return configclass
-        
     def initDbConfig(self):
         config = self.readConfigFromFile()
         queue=Queue()

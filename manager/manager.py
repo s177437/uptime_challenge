@@ -12,7 +12,7 @@ class Manager():
         newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
         queue.listenContinouslyToQueue("reportq")
         
-        
+    
 manager=Manager()
 manager.fetchConfig()        
          

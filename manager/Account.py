@@ -10,6 +10,8 @@ class Account():
     '''
     course=""
     group=""
+    teacher=""
+    students=[]
     
 
 
@@ -28,6 +30,15 @@ class Account():
 
     def set_group(self, value):
         self.__group = value
+    def set_teacher(self,value):
+        self.teacher=value
+    def get_teacher(self):
+        return self.teacher
+    def setStudentList(self, studentlist):
+        self.students=studentlist
+    def getStudentList(self):
+        return self.students
+        
 
 
         
