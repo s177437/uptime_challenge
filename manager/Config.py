@@ -23,7 +23,13 @@ class Config:
         jsondict=json.loads(data)[0]
         return jsondict
     def requestUserCreation(self, configobject):
-        configobject
+        listtosend=[]
+        teacherdict={"teacher":configobject.getAccount().get_teacher()}
+        listtosend.append(teacherdict)
+        coursedict={"course": configobject.getAccount().get_course()}
+        listtosend.append(coursedict)
+        groupsdict={}
+      
         
     
     def writeConfig(self, configdata):
