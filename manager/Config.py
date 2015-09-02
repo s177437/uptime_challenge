@@ -29,6 +29,11 @@ class Config:
         coursedict={"course": configobject.getAccount().get_course()}
         listtosend.append(coursedict)
         groupsdict={}
+        groupsandmembers=configobject.getAccount().get_groups()
+        tempdict=groupsandmembers[0]
+        groupsdict.update({"groups":tempdict})
+        listtosend.append(groupsdict)
+        print listtosend 
       
         
     
