@@ -5,7 +5,7 @@ import couchdb
 
 class Manager():
     def fetchConfig(self):
-        worklist=["returnTrue","returnTrue", "returnTrue"]
+        worklist=["returnTrue","returnTrue", "returnTrue","returnTrue", "returnTrue", "returnTrue"]
         queue=Queue()
         config=Config()
         newconfig=config.initDbConfig()
