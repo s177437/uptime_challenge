@@ -11,8 +11,8 @@ class Manager():
         newconfig=config.initDbConfig()
         usercontent=config.requestUserCreation(newconfig)
         config.sendUsersToQueue(usercontent)
-        #newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
-        #queue.listenContinouslyToQueue("reportq")
+        newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
+        queue.listenContinouslyToQueue("reportq")
         
     
 manager=Manager()
