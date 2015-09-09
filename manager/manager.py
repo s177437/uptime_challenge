@@ -10,8 +10,9 @@ class Manager():
         config=Config()
         queue.createQueue("mainq", "config_manager")
         newconfig=config.initDbConfig()
-        #usercontent=config.requestUserCreation(newconfig)
-        #config.sendUsersToQueue(usercontent)
+        queue.createQueue("mainq", "account_manager")
+        usercontent=config.requestUserCreation(newconfig)
+        config.sendUsersToQueue(usercontent)
         #newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
         #queue.listenContinouslyToQueue("reportq")
         
