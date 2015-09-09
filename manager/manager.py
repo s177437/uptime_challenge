@@ -8,6 +8,7 @@ class Manager():
         worklist=["returnTrue","returnTrue", "returnTrue","returnTrue", "returnTrue", "returnTrue"]
         queue=Queue()
         config=Config()
+        queue.createQueue("mainq", "config_manager")
         newconfig=config.initDbConfig()
         #usercontent=config.requestUserCreation(newconfig)
         #config.sendUsersToQueue(usercontent)
