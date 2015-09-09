@@ -71,9 +71,10 @@ class Config:
         return configclass
     def initDbConfig(self):
         config = self.readConfigFromFile()
+        replyqname="sendConfigqueue"
         queue=Queue()
-        queue.createQueue("requestconfigq", "configrequest")
-        queue.receiveOneMessageFromQ("sendconfig")
+        queue.createQueue("requestconfigq", replyqname)
+        queue.receiveOneMessageFromQ(replyqname)
         configdict= ast.literal_eval(queue.getQueueContent())
         self.writeConfig(configdict)
         configparser=ConfigParser.SafeConfigParser()
