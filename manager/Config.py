@@ -81,7 +81,7 @@ class Config:
         config.set_interval(configparser.get("Global","interval"))
         config.set_queue_name(configparser.get("Global","queue_name"))
         return config
-    def createWorkQ(self,queuename, joblist):
+    def     createWorkQ(self,queuename, joblist):
         queue=Queue()
         for job in joblist : 
             queue.createQueue(queuename,job)
