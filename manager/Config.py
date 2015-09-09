@@ -73,7 +73,7 @@ class Config:
         config = self.readConfigFromFile()
         replyqname="sendConfigqueue"
         queue=Queue()
-        queue.createQueue("requestconfigq", replyqname)
+        queue.createQueue("config_manager", replyqname)
         queue.receiveOneMessageFromQ(replyqname)
         configdict= ast.literal_eval(queue.getQueueContent())
         self.writeConfig(configdict)
