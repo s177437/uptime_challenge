@@ -10,6 +10,7 @@ import json
 import ConfigParser
 import couchdb
 import ast
+import Pyro4
 class Config:
     queue_name=""
     interval=0
@@ -17,7 +18,8 @@ class Config:
     dbserver=""
     queserver=""
     configinstance="None"
-    account=Account() 
+    account=Account()
+    interpreterServer=Pyro4.Proxy("PYRONAME:interpreter")
     
     def convertJSONToDictionary(self,data):
         jsondict=json.loads(data)[0]
@@ -71,18 +73,14 @@ class Config:
         return configclass
     def initDbConfig(self):
         config = self.readConfigFromFile()
-        replyqname="sendConfigqueue"
-        queue=Queue()
-        queue.createQueue("config_manager", replyqname)
-        queue.receiveOneMessageFromQ(replyqname)
-        configdict= ast.literal_eval(queue.getQueueContent())
+        configdict= ast.literal_eval(self.interpreterServer.fetchConfig())
         self.writeConfig(configdict)
         configparser=ConfigParser.SafeConfigParser()
         configparser.read("config.ini")
         config.set_interval(configparser.get("Global","interval"))
         config.set_queue_name(configparser.get("Global","queue_name"))
         return config
-    def     createWorkQ(self,queuename, joblist):
+    def createWorkQ(self,queuename, joblist):
         queue=Queue()
         for job in joblist : 
             queue.createQueue(queuename,job)

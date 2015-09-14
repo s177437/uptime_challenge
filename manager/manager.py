@@ -5,16 +5,15 @@ import couchdb
 
 class Manager():
     def fetchConfig(self):
-        worklist=["returnTrue","returnTrue", "returnTrue","returnTrue", "returnTrue", "returnTrue"]
-        queue=Queue()
+        #worklist=["returnTrue","returnTrue", "returnTrue","returnTrue", "returnTrue", "returnTrue"]
         config=Config()
-        queue.createQueue("mainq", "config_manager")
         newconfig=config.initDbConfig()
-        queue.createQueue("mainq", "account_manager")
-        usercontent=config.requestUserCreation(newconfig)
-        config.sendUsersToQueue(usercontent)
+        #queue.createQueue("mainq", "account_manager")
+        #usercontent=config.requestUserCreation(newconfig)
+        #config.sendUsersToQueue(usercontent)
         #newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
         #queue.listenContinouslyToQueue("reportq")
+        print ""
         
     
 manager=Manager()
