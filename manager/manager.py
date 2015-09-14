@@ -11,7 +11,8 @@ class Manager():
         config=Config()
         newconfig=config.initDbConfig()
         userinfo=config.requestUserCreation(newconfig)
-        print self.interpreterServer.createAccounts(userinfo)
+	print userinfo
+        self.interpreterServer.createAccounts(userinfo)
         #newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
         #queue.listenContinouslyToQueue("reportq")
         
