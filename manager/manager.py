@@ -13,7 +13,6 @@ class Manager():
         #config.sendUsersToQueue(usercontent)
         #newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
         #queue.listenContinouslyToQueue("reportq")
-        print ""
         
     
 manager=Manager()

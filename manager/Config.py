@@ -35,7 +35,7 @@ class Config:
         tempdict=groupsandmembers[0]
         groupsdict.update({"groups":tempdict})
         listtosend.append(groupsdict)
-	print listtosend
+	#print listtosend
         return listtosend 
     
     def sendUsersToQueue(self, accountlist):
@@ -69,11 +69,11 @@ class Config:
         configclass.setConfigDbName(config.get("Global", "configdbname"))
         configclass.set_dbserver(config.get("Global","dbserver"))
         configclass.set_queserver(config.get("Global","queueserver"))
-        print configclass.getAccount().get_groups()
+        #print configclass.getAccount().get_groups()
         return configclass
     def initDbConfig(self):
         config = self.readConfigFromFile()
-        configdict= ast.literal_eval(self.interpreterServer.fetchConfig())
+        configdict=self.interpreterServer.fetchConfig()
         self.writeConfig(configdict)
         configparser=ConfigParser.SafeConfigParser()
         configparser.read("config.ini")
