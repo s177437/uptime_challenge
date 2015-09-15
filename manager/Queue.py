@@ -37,7 +37,6 @@ class Queue():
     
     def callback(self,channel, method, properties, body) :
         #print "Status for job:", body
-        print body
         report = Report()
         report.buildReport(body)
         #create report
