@@ -29,7 +29,7 @@ site = sys.argv[1]
 code = httpclass.checkstatus(site)
 systime=(time.time()-starttime)
 response_time=format(round(systime,2))
-print "Site", site, "returncode", code, "response-time:",response_time, "Award:", httpclass.giveAward(response_time)
+print "Site", site, "returncode", code, "response-time",response_time, "Award", httpclass.giveAward(response_time)
 
 
 
