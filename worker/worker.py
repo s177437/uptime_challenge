@@ -1,6 +1,6 @@
 import pika
 import subprocess
-
+import time
 def fetchJobFromQ():
     credentials = pika.PlainCredentials('guest', 'guest')
     connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
@@ -14,23 +14,22 @@ def fetchJobFromQ():
         else : 
             channel.basic_ack(delivery_tag=method_frame.delivery_tag)
             print "Received job:", body, "starting job to reply"
-            doJob(body)
-            replyToMaster()
+            replyToMaster(body)
             connection.close() 
             fetchJobFromQ()
     except AttributeError : 
-        print "No message has not arrived yet"
-	#fetchJobFromQ()
+        print "No content"
+	time.sleep(2)
+	fetchJobFromQ()
 
 
 
 def doJob(command):
-    return "True"
     outputdata=getcommandoutput(command)
-    print outputdata
+    return outputdata
 
-def replyToMaster():
-    message=doJob()
+def replyToMaster(content):
+    message=doJob(content)
     credentials = pika.PlainCredentials('guest', 'guest')
     connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
     channel = connection.channel() 
