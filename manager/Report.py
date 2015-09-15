@@ -1,4 +1,5 @@
 from Queue import *
+import ast
 '''
 Created on 1. sep. 2015
 
@@ -13,11 +14,8 @@ class Report():
         queue.createQueue(queuename, content)
 
     def buildReport(self, content):
-        list= content.split()
-        dict={}
-        for i,j in zip(list,list[1:]):
-            dict.update({i,j})
-        print dict
+	dict = ast.literal_eval(content)
+	print dict	
 
 
 
