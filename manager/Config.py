@@ -90,6 +90,7 @@ class Config:
             for j in job:
                 jobdict={}
                 jobdict.update({group:j})
+                print jobdict
                 queue.createQueue(queuename,jobdict)
 
     def get_queue_name(self):
