@@ -1,4 +1,5 @@
 import pika
+import subprocess
 
 def fetchJobFromQ():
     credentials = pika.PlainCredentials('guest', 'guest')
@@ -13,17 +14,20 @@ def fetchJobFromQ():
         else : 
             channel.basic_ack(delivery_tag=method_frame.delivery_tag)
             print "Received job:", body, "starting job to reply"
+            doJob(body)
             replyToMaster()
             connection.close() 
             fetchJobFromQ()
     except AttributeError : 
         print "No message has not arrived yet"
-	fetchJobFromQ()
+	#fetchJobFromQ()
 
 
 
-def doJob():
+def doJob(command):
     return "True"
+    outputdata=getcommandoutput(command)
+    print outputdata
 
 def replyToMaster():
     message=doJob()
@@ -33,4 +37,14 @@ def replyToMaster():
     channel.queue_declare(queue="reportq")
     channel.basic_publish(exchange='', routing_key='reportq',body=message)
     connection.close()
+
+
+def getcommandoutput(self, command):
+    p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    (output, error) = p.communicate()
+    return output
+
+def runcommand(self, command):
+    subprocess.call(command, shell=True)
+
 fetchJobFromQ()
