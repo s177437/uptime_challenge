@@ -5,12 +5,12 @@ Created on 1. sep. 2015
 @author: stianstrom
 '''
 class Report():
-    queue = Queue()
     groupname=""
     course=""
 
     def createReportQueue(self, queuename,content):
-        self.queue.createQueue(queuename, content)
+        queue=Queue()
+        queue.createQueue(queuename, content)
 
     def buildReport(self, content):
         list= content.split()
@@ -18,11 +18,3 @@ class Report():
 
     def writeReportToDatabase(self,content):
         self.createReportQueue("dbreportq", content)
-
-
-
-
-
-    
-    
-    
