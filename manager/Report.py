@@ -8,6 +8,7 @@ class Report():
     queue = Queue()
     groupname=""
     course=""
+
     def createReportQueue(self, queuename,content):
         self.queue.createQueue(queuename, content)
 
