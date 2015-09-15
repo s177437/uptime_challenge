@@ -87,6 +87,7 @@ class Config:
         queue=Queue()
 
         for group,job in joblist.iteritems():
+            print job
             jobdict={}
             jobdict.update({group:job})
             queue.createQueue(queuename,jobdict)
