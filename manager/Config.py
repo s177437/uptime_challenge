@@ -89,7 +89,7 @@ class Config:
         for group,job in joblist.iteritems():
             for j in job:
                 jobdict={}
-                jobdict.update({group:job})
+                jobdict.update({group:j})
                 queue.createQueue(queuename,jobdict)
 
     def get_queue_name(self):
