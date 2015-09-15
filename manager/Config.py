@@ -42,7 +42,10 @@ class Config:
         queue=Queue()
         queue.createQueue("createuserq", str(listtostring))
         
-        
+    def findGroupnames(self, grouplist):
+        groupnames = []
+        for i,j in grouplist[0].iteritems() :
+            groupnames.append(i)
     
     def writeConfig(self, configdata):
         for key, value in configdata.iteritems() :
@@ -118,7 +121,7 @@ class Config:
         self.configinstance=value
     def getConfigInstance(self, value):
         return self.configinstance
-          
+
 
 
 
