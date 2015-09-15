@@ -25,7 +25,7 @@ class Queue():
         connection = self.connectToRabbitMQ()
         channel = connection.channel() 
         channel.queue_declare(queue=quename)
-        channel.basic_publish(exchange='', routing_key=quename,body=content)
+        channel.basic_publish(exchange='', routing_key=quename,body=str(content))
         connection.close()
     
     def listenContinouslyToQueue(self, quename):
