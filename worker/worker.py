@@ -2,6 +2,8 @@ import pika
 import ast
 import subprocess
 import time
+
+groupname=""
 def fetchJobFromQ():
     credentials = pika.PlainCredentials('guest', 'guest')
     connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
@@ -29,11 +31,13 @@ def doJob(command):
     outputdata=getcommandoutput(command)
     dict=ast.literal_eval(outputdata)
     dict.update({"worker": getHostName()})
+    dict.update({"group":get_group_name()})
     return str(dict)
 
 def replyToMaster(content):
     dict=ast.literal_eval(content)
     job=dict.values()[0]
+    set_group_name(dict.keys()[0])
     message=doJob(job)
     print message
     credentials = pika.PlainCredentials('guest', 'guest')
@@ -53,5 +57,8 @@ def runcommand(self, command):
     subprocess.call(command, shell=True)
 def getHostName() : 
 	return getcommandoutput("hostname").strip("\n")
-
+def set_group_name(name) :
+	groupname=name
+def get_group_name() : 
+	return groupname
 fetchJobFromQ()
