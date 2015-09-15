@@ -14,8 +14,8 @@ class Manager():
         config.getAccount()
         newconfig=config.initDbConfig()
         userinfo=config.requestUserCreation(newconfig)
-        grouplist= config.findGroupnames(newconfig.getAccount().get_groups())
-        print grouplist
+        test= newconfig.findGroupnames(newconfig.getAccount().get_groups())
+
         self.interpreterServer.createAccounts(userinfo)
         newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
         queue.listenContinouslyToQueue("reportq")

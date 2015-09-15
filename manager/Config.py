@@ -44,9 +44,9 @@ class Config:
         
     def findGroupnames(self, grouplist):
         groupnames = []
-        print grouplist
         for i,j in grouplist[0].iteritems() :
             groupnames.append(i)
+        return groupnames
     
     def writeConfig(self, configdata):
         for key, value in configdata.iteritems() :
