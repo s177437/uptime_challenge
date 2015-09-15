@@ -6,7 +6,7 @@ Created on 1. sep. 2015
 @author: stianstrom
 '''
 
-class Queue :
+class Queue():
     '''
     classdocs
     '''
