@@ -26,6 +26,7 @@ def fetchJobFromQ():
 
 
 def doJob(command):
+    print command.values()[0]
     outputdata=getcommandoutput(command.values()[0])
     dict=ast.literal_eval(outputdata)
     dict.update({"worker": getHostName()})
