@@ -1,4 +1,5 @@
 import pika
+import ast
 import subprocess
 import time
 def fetchJobFromQ():
@@ -26,7 +27,9 @@ def fetchJobFromQ():
 
 def doJob(command):
     outputdata=getcommandoutput(command)
-    return outputdata
+    dict=ast.literal_eval(outputdata)
+    dict.update({"worker": getHostName()})
+    return dict
 
 def replyToMaster(content):
     message=doJob(content)
@@ -45,5 +48,7 @@ def getcommandoutput(command):
 
 def runcommand(self, command):
     subprocess.call(command, shell=True)
+def getHostName() : 
+	return getcommandoutput("hostname")
 
 fetchJobFromQ()
