@@ -85,7 +85,6 @@ class Config:
         return config
     def createWorkQ(self,queuename, joblist):
         queue=Queue()
-
         for group,job in joblist.iteritems():
             for j in job:
                 jobdict={}

@@ -21,7 +21,6 @@ class Manager():
             groupdict={}
             groupdict.update({i:worklist})
             newconfig.createWorkQ(newconfig.get_queue_name(),groupdict)
-        print "Hello"
         queue.listenContinouslyToQueue("reportq")
         
     
