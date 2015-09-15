@@ -49,6 +49,6 @@ def getcommandoutput(command):
 def runcommand(self, command):
     subprocess.call(command, shell=True)
 def getHostName() : 
-	return getcommandoutput("hostname")
+	return getcommandoutput("hostname").strip("\n")
 
 fetchJobFromQ()
