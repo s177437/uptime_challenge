@@ -7,14 +7,15 @@ import Pyro4
 class Manager():
     interpreterServer=Pyro4.Proxy("PYRONAME:interpreter")
     def fetchConfig(self):
-        #worklist=["returnTrue","returnTrue", "returnTrue","returnTrue", "returnTrue", "returnTrue"]
+        queue=Queue()
+        worklist=["returnTrue","returnTrue", "returnTrue","returnTrue", "returnTrue", "returnTrue"]
         config=Config()
         newconfig=config.initDbConfig()
         userinfo=config.requestUserCreation(newconfig)
-	print userinfo
+        print userinfo
         self.interpreterServer.createAccounts(userinfo)
-        #newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
-        #queue.listenContinouslyToQueue("reportq")
+        newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
+        queue.listenContinouslyToQueue("reportq")
         
     
 manager=Manager()
