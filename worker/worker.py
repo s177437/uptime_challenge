@@ -38,7 +38,7 @@ def replyToMaster(content):
     connection.close()
 
 
-def getcommandoutput(self, command):
+def getcommandoutput(command):
     p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     (output, error) = p.communicate()
     return output
