@@ -16,11 +16,14 @@ class Manager():
         userinfo=config.requestUserCreation(newconfig)
         grouplist= newconfig.findGroupnames(newconfig.getAccount().get_groups())
         self.interpreterServer.createAccounts(userinfo)
+
         for i in grouplist :
-            newconfig.createWorkQ(newconfig.get_queue_name(),worklist)
+            groupdict={}
+            groupdict.update({i:worklist})
+            newconfig.createWorkQ(newconfig.get_queue_name(),groupdict)
         queue.listenContinouslyToQueue("reportq")
         
     
 manager=Manager()
-manager.fetchConfig()        
+manager.fetchConfig()
          
