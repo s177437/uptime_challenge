@@ -14,7 +14,12 @@ class Report():
 
     def buildReport(self, content):
         list= content.split()
-        print list
+        dict={}
+        for i,j in zip(list,list[1:]):
+            dict.update({i,j})
+        print dict
+
+
 
     def writeReportToDatabase(self,content):
         self.createReportQueue("dbreportq", content)
