@@ -32,9 +32,8 @@ def doJob(command):
     return str(dict)
 
 def replyToMaster(content):
-    print "This is content",content
     dict=ast.literal_eval(content)
-    job=content.values()[0]
+    job=dict.values()[0]
     message=doJob(job)
     credentials = pika.PlainCredentials('guest', 'guest')
     connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
