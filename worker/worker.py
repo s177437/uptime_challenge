@@ -29,7 +29,7 @@ def doJob(command):
     outputdata=getcommandoutput(command)
     dict=ast.literal_eval(outputdata)
     dict.update({"worker": getHostName()})
-    return dict
+    return str(dict)
 
 def replyToMaster(content):
     message=doJob(content)
