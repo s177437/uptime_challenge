@@ -30,7 +30,7 @@ code = httpclass.checkstatus(site)
 systime=(time.time()-starttime)
 response_time=format(round(systime,2))
 resultdict={}
-resultdict.update({"Site": site, "response time": response_time, "Award": httpclass.giveAward(response_time)})
+resultdict.update({"Site": site, "Response time": response_time,"Response Code": code,"Award": httpclass.giveAward(response_time)})
 print resultdict
 
 
