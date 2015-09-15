@@ -31,7 +31,7 @@ def doJob(command):
     outputdata=getcommandoutput(command)
     dict=ast.literal_eval(outputdata)
     dict.update({"worker": getHostName()})
-    dict.update({"group":get_group_name()})
+    dict.update({"group":groupname})
     return str(dict)
 
 def replyToMaster(content):
