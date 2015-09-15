@@ -13,7 +13,8 @@ class Report():
         self.queue.createQueue(queuename, content)
 
     def buildReport(self, content):
-        return content
+        list= content.split()
+        print list
 
     def writeReportToDatabase(self,content):
         self.createReportQueue("dbreportq", content)

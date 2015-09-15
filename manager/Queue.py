@@ -1,4 +1,5 @@
 import pika
+from Report import *
 '''
 Created on 1. sep. 2015
 
@@ -35,7 +36,10 @@ class Queue :
         channel.start_consuming()
     
     def callback(self,channel, method, properties, body) :
-        print "Status for job:", body
+        #print "Status for job:", body
+        report = Report()
+        report.buildReport(body)
+        #create report
     
     def receiveOneMessageFromQ(self,queuename):
         stringValue=""
