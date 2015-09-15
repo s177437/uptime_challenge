@@ -1,12 +1,11 @@
+from Queue import *
 '''
 Created on 1. sep. 2015
 
 @author: stianstrom
 '''
-from Queue import *
 class Report():
     queue = Queue()
-
     groupname=""
     course=""
     def createReportQueue(self, queuename,content):
