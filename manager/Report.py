@@ -14,8 +14,8 @@ class Report():
         queue.createQueue(queuename, content)
 
     def buildReport(self, content):
-	dict = ast.literal_eval(content)
-	print dict	
+	    dict = ast.literal_eval(content)
+	    print dict
 
 
 
