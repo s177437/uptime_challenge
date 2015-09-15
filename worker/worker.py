@@ -26,7 +26,7 @@ def fetchJobFromQ():
 
 
 def doJob(command):
-    outputdata=getcommandoutput(command.values()[0])
+    outputdata=getcommandoutput(command)
     dict=ast.literal_eval(outputdata)
     dict.update({"worker": getHostName()})
     return str(dict)
@@ -35,6 +35,7 @@ def replyToMaster(content):
     dict=ast.literal_eval(content)
     job=dict.values()[0]
     message=doJob(job)
+    print message
     credentials = pika.PlainCredentials('guest', 'guest')
     connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
     channel = connection.channel() 
