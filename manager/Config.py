@@ -87,7 +87,7 @@ class Config:
         queue=Queue()
         for job in joblist : 
             queue.createQueue(queuename,job)
-            
+
     def get_queue_name(self):
         return self.__queue_name
 
