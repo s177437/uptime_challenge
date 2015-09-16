@@ -40,6 +40,9 @@ class Queue():
         report = Report()
         report.buildReport(body)
         #create report
+        #use content to something useful.
+
+
     
     def receiveOneMessageFromQ(self,queuename):
         stringValue=""

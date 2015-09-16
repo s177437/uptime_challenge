@@ -1,5 +1,6 @@
 from Queue import *
 import ast
+import Pyro4
 '''
 Created on 1. sep. 2015
 
@@ -8,6 +9,7 @@ Created on 1. sep. 2015
 class Report():
     groupname=""
     course=""
+    interpreterServer=Pyro4.Proxy("PYRONAME:interpreter")
 
     def createReportQueue(self, queuename,content):
         queue=Queue()
@@ -15,9 +17,10 @@ class Report():
 
     def buildReport(self, content):
 	    dict = ast.literal_eval(content)
-	    print dict
+	    self.writeReportToDatabase(dict)
 
 
 
-    def writeReportToDatabase(self,content):
-        self.createReportQueue("dbreportq", content)
+    def writeReportToDatabase(self,reportdict):
+        self.interpreterServer.postReportToDatabase(reportdict)
+
