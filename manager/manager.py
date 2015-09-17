@@ -9,7 +9,8 @@ class Manager():
     def fetchConfig(self):
         queue=Queue()
         path="/root/uptime_challenge_master/testscript/"
-        worklist=["python "+path+ "check_http.py db.no","python "+path+ "check_http.py vg.no", "python "+path+ "check_http.py facebook.com","python "+path+ "check_http.py arngren.net", "python "+path+ "check_http.py db.no","python "+path+ "check_http.py db.no"]
+        #worklist=["python "+path+ "check_http.py db.no","python "+path+ "check_http.py vg.no", "python "+path+ "check_http.py facebook.com","python "+path+ "check_http.py arngren.net", "python "+path+ "check_http.py db.no","python "+path+ "check_http.py db.no"]
+        worklist=[path+"traffic.sh 100 10",path+"traffic.sh 100 10"]
         config=Config()
         config.getAccount()
         newconfig=config.initDbConfig()

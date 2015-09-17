@@ -31,18 +31,19 @@ class worker () :
 
     def doJob(self,command):
         outputdata=self.getcommandoutput(command)
-	try : 
-        	dict=ast.literal_eval(outputdata)
-		dict.update({"worker": self.getHostName()})
-        	dict.update({"group":self.get_group_name()})
-        	return str(dict)
-	except SyntaxError:
-		print "This is not a dict" 
-		dict=self.convertOutPutToDict(content)
-		return str(dict)
+        try :
+            dict=ast.literal_eval(outputdata)
+            dict.update({"worker": self.getHostName()})
+            dict.update({"group":self.get_group_name()})
+            return str(dict)
+        except SyntaxError :
+            print "This is not a dict"
+            dict=self.convertOutPutToDict(outputdata)
+            dict.update({"worker": self.getHostName()})
+            dict.update({"group":self.get_group_name()})
+            return str(dict)
         	
-	#dict.update({"worker": self.getHostName()})
-        #dict.update({"group":self.get_group_name()})
+
 
     def replyToMaster(self,content):
         dict=ast.literal_eval(content)
@@ -61,7 +62,7 @@ class worker () :
     def getcommandoutput(self,command):
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, error) = p.communicate()
-	return output
+        return output
 
     def convertOutPutToDict(self,content):
         buf = StringIO.StringIO(content.strip("\n"))
