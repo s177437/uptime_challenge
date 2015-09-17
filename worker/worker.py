@@ -2,6 +2,7 @@ import pika
 import ast
 import subprocess
 import time
+import StringIO
 class worker () :
     groupname=""
 
@@ -52,7 +53,36 @@ class worker () :
     def getcommandoutput(self,command):
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, error) = p.communicate()
-        return output
+        try :
+            outputdict=ast.literal_eval(output)
+            return outputdict
+        except SyntaxError :
+            print "the command output is not formatted as a dictionary"
+            dict=self.convertOutPutToDict(output)
+            return dict
+
+    def convertOutPutToDict(self,content):
+        buf = StringIO.StringIO(content.strip("\n"))
+        templist=[]
+        list=[]
+        reportdict={}
+        for i in buf.readlines() :
+            if " " in i[0] :
+                nolines=""
+            else :
+                templist.append(i)
+        for i in templist :
+            content=i.replace("\n","")
+            if content!="" :
+                list.append(content)
+        for i in list :
+            j = i.split(":")
+            if len(j)==1 :
+                reportdict.update({"message": j[0]})
+            elif (len(j)==2) :
+                reportdict.update({j[0]:j[1]})
+        return reportdict
+
 
     def runcommand(self, command):
         subprocess.call(command, shell=True)
