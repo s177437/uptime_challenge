@@ -2,6 +2,7 @@ import pika
 import ast
 import subprocess
 import time
+import StringIO
 class worker () :
     groupname=""
 
@@ -29,11 +30,20 @@ class worker () :
 
 
     def doJob(self,command):
-        outputdata= self.getcommandoutput(command)
-        dict=ast.literal_eval(outputdata)
-        dict.update({"worker": self.getHostName()})
-        dict.update({"group":self.get_group_name()})
-        return str(dict)
+        outputdata=self.getcommandoutput(command)
+        try :
+            dict=ast.literal_eval(outputdata)
+            dict.update({"worker": self.getHostName()})
+            dict.update({"group":self.get_group_name()})
+            return str(dict)
+        except SyntaxError :
+            print "This is not a dict"
+            dict=self.convertOutPutToDict(outputdata)
+            dict.update({"worker": self.getHostName()})
+            dict.update({"group":self.get_group_name()})
+            return str(dict)
+        	
+
 
     def replyToMaster(self,content):
         dict=ast.literal_eval(content)
@@ -53,6 +63,29 @@ class worker () :
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, error) = p.communicate()
         return output
+
+    def convertOutPutToDict(self,content):
+        buf = StringIO.StringIO(content.strip("\n"))
+        templist=[]
+        list=[]
+        reportdict={}
+        for i in buf.readlines() :
+            if " " in i[0] :
+                nolines=""
+            else :
+                templist.append(i)
+        for i in templist :
+            content=i.replace("\n","")
+            if content!="" :
+                list.append(content)
+        for i in list :
+            j = i.split(":")
+            if len(j)==1 :
+                reportdict.update({"message": j[0]})
+            elif (len(j)==2) :
+                reportdict.update({j[0]:j[1]})
+        return reportdict
+
 
     def runcommand(self, command):
         subprocess.call(command, shell=True)
