@@ -13,6 +13,7 @@ import ast
 import Pyro4
 class Config:
     queue_name=""
+    scriptpath=""
     interval=0
     configdbname=""
     dbserver=""
@@ -70,6 +71,7 @@ class Config:
         configclass.getAccount().set_groups(json.loads(config.get("Account","groups")))
         configclass.getAccount().set_teacher(config.get("Account","teacher"))
         configclass.setConfigDbName(config.get("Global", "configdbname"))
+        configclass.set_script_path(config.get("Global","scriptpath"))
         configclass.set_dbserver(config.get("Global","dbserver"))
         configclass.set_queserver(config.get("Global","queueserver"))
         #print configclass.getAccount().get_groups()
@@ -125,7 +127,10 @@ class Config:
         self.configinstance=value
     def getConfigInstance(self, value):
         return self.configinstance
-
+    def get_script_path(self):
+        return self.scriptpath
+    def set_script_path(self, path):
+        self.scriptpath=path
 
 
 
