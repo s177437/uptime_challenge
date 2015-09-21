@@ -1,0 +1,2 @@
+A fulle functioning demo is now running with a check_http test. This test checks different websites, and logs the reponse time, http response code,
+and sends it back to the interpreter where the final result is saved in the database 
