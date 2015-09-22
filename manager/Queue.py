@@ -12,7 +12,8 @@ class Queue():
     '''
     queuename=""
     #comment
-    time=0
+    #time=0
+    time=time.time()
     queuecontent=""
     def setQueueContent(self,value): 
         self.queuecontent=value
@@ -43,7 +44,9 @@ class Queue():
     def callback(self,channel, method, properties, body) :
         timenow=self.getTime()
         timeused=time.time()-timenow
-        if timeused >=30 :
+        if timeused >=10 :
+	    report=Report()
+            report.buildReport(body)
             raise Exception
         else:
             report = Report()

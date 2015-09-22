@@ -11,7 +11,7 @@ class Manager():
     def fetchConfig(self):
         while True :
             queue=Queue()
-            queue.setTime(time.time())
+            #queue.setTime(time.time())
             config=Config()
             config.getAccount()
             newconfig=config.initDbConfig()
