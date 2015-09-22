@@ -36,44 +36,41 @@ class Queue():
         channel=connection.channel() 
         channel.queue_declare(queue=quename)
         channel.basic_consume(self.callback, queue=quename, no_ack=True)
-        try :
-            channel.start_consuming()
-        except Exception:
-            print "Reporting finished for now reinitialising config"
-    
+        channel.start_consuming()
     def callback(self,channel, method, properties, body) :
-        timenow=self.getTime()
-        timeused=time.time()-timenow
-        if timeused >=10 :
-	    report=Report()
-            report.buildReport(body)
-            raise Exception
-        else:
-            report = Report()
-            report.buildReport(body)
+    	report=Report()
+        report.buildReport(body)
 
     def setTime(self,t):
         self.time=t
     def getTime(self):
         return self.time
     
-    def receiveOneMessageFromQ(self,queuename):
+    def receiveOneMessageFromQ(self,queuename, timevalue):
         stringValue=""
+	timestart=time.time()
         connection=self.connectToRabbitMQ()
         channel=connection.channel() 
         channel.queue_declare(queue=queuename)
         try : 
             method_frame, header_frame, body = channel.basic_get(queue = queuename)  
-            if method_frame.NAME == 'Basic.GetEmpty' :
+            if method_frame.NAME == 'Basic.GetEmpty':
                 connection.close()
+	    elif float(timevalue) >20.0 :
+		connection.close()
             else : 
                 channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                 connection.close() 
-                self.setQueueContent(body)
-                
+                #self.setQueueContent(body)
+                report=Report()
+		report.buildReport(body)
         except AttributeError : 
             print "Waiting for answer.."
-            self.receiveOneMessageFromQ(queuename)
+	    if float(timevalue)> 20 : 
+		connection.close()
+	    else: 
+	    	timeused=(timevalue+(time.time()-timestart))
+            	self.receiveOneMessageFromQ(queuename,timeused)
     
         
         

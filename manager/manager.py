@@ -10,7 +10,6 @@ class Manager():
 #comment
     def fetchConfig(self):
         while True :
-            queue=Queue()
             #queue.setTime(time.time())
             config=Config()
             config.getAccount()
@@ -20,14 +19,19 @@ class Manager():
             self.interpreterServer.createAccounts(userinfo)
             path = newconfig.get_script_path()
             #worklist=[path+"traffic.sh 100 10",path+"traffic.sh 100 10"]
-            #worklist=["python "+path+ "check_http.py db.no","python "+path+ "check_http.py vg.no", "python "+path+ "check_http.py facebook.com","python "+path+ "check_http.py arngren.net", "python "+path+ "check_http.py db.no","python "+path+ "check_http.py db.no"]
-            worklist=[path+"traffic.sh 100 10"]
+            #worklist=["python "+path+ "check_http.py db.no","python "+path+ "check_http.py vg.no", "python "+path+ "check_http.py facebook.com","python "+path+ "check_http.py arngren.net", "python "+path+ "check_http.py db.no","python "+path+ "check_http.py db.no"] 
+            #worklist=[path+"traffic.sh 100 10"]
+            worklist=["python "+path+ "check_http.py db.no"]
             for i in grouplist :
                 groupdict={}
                 groupdict.update({i:worklist})
                 newconfig.createWorkQ(newconfig.get_queue_name(),groupdict)
-            queue.listenContinouslyToQueue("reportq")
-        
+	    queue=Queue()		
+            #queue.listenContinouslyToQueue("reportq")
+	    timestart=time.time()
+	    while(time.time()-timestart<=20):
+		print time.time()-timestart
+            	queue.receiveOneMessageFromQ("reportq",(time.time()-timestart))
     
 manager=Manager()
 manager.fetchConfig()
