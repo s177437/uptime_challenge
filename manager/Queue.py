@@ -57,6 +57,8 @@ class Queue():
             if method_frame.NAME == 'Basic.GetEmpty':
                 connection.close()
 	    elif float(timevalue) >20.0 :
+		report=Report()
+                report.buildReport(body)
 		connection.close()
             else : 
                 channel.basic_ack(delivery_tag=method_frame.delivery_tag)
