@@ -11,6 +11,7 @@ class Queue():
     classdocs
     '''
     queuename=""
+    #comment
     time=0
     queuecontent=""
     def setQueueContent(self,value): 

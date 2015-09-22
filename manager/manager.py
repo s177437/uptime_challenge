@@ -7,7 +7,7 @@ import time
 
 class Manager():
     interpreterServer=Pyro4.Proxy("PYRONAME:interpreter")
-
+#comment
     def fetchConfig(self):
         while True :
             queue=Queue()
