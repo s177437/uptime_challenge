@@ -5,12 +5,13 @@ Created on 1. sep. 2015
 
 @author: stianstrom
 '''
-
+import time
 class Queue():
     '''
     classdocs
     '''
     queuename=""
+    time=0
     queuecontent=""
     def setQueueContent(self,value): 
         self.queuecontent=value
@@ -33,16 +34,24 @@ class Queue():
         channel=connection.channel() 
         channel.queue_declare(queue=quename)
         channel.basic_consume(self.callback, queue=quename, no_ack=True)
-        channel.start_consuming()
+        try :
+            channel.start_consuming()
+        except Exception:
+            print "Reporting finished for now reinitialising config"
     
     def callback(self,channel, method, properties, body) :
-        #print "Status for job:", body
-        report = Report()
-        report.buildReport(body)
-        #create report
-        #use content to something useful.
+        timenow=self.getTime()
+        timeused=time.time()-timenow
+        if timeused >=30 :
+            raise Exception
+        else:
+            report = Report()
+            report.buildReport(body)
 
-
+    def setTime(self,t):
+        self.time=t
+    def getTime(self):
+        return self.time
     
     def receiveOneMessageFromQ(self,queuename):
         stringValue=""
