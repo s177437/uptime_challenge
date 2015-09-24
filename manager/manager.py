@@ -29,9 +29,9 @@ class Manager():
 	    queue=Queue()		
             #queue.listenContinouslyToQueue("reportq")
 	    timestart=time.time()
-	    while(time.time()-timestart<=20):
+	    while(time.time()-timestart<=float(newconfig.get_interval())):
 		print time.time()-timestart
-            	queue.receiveOneMessageFromQ("reportq",(time.time()-timestart))
+            	queue.receiveOneMessageFromQ("reportq",(time.time()-timestart),newconfig.get_interval())
     
 manager=Manager()
 manager.fetchConfig()

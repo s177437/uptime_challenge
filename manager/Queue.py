@@ -46,7 +46,7 @@ class Queue():
     def getTime(self):
         return self.time
     
-    def receiveOneMessageFromQ(self,queuename, timevalue):
+    def receiveOneMessageFromQ(self,queuename, timevalue,interval):
         stringValue=""
 	timestart=time.time()
         connection=self.connectToRabbitMQ()
@@ -56,7 +56,7 @@ class Queue():
             method_frame, header_frame, body = channel.basic_get(queue = queuename)  
             if method_frame.NAME == 'Basic.GetEmpty':
                 connection.close()
-	    elif float(timevalue) >20.0 :
+	    elif float(timevalue) >float(interval) :
 		report=Report()
                 report.buildReport(body)
 		connection.close()
@@ -68,11 +68,11 @@ class Queue():
 		report.buildReport(body)
         except AttributeError : 
             print "Waiting for answer.."
-	    if float(timevalue)> 20 : 
+	    if float(timevalue)> float(interval) : 
 		connection.close()
 	    else: 
 	    	timeused=(timevalue+(time.time()-timestart))
-            	self.receiveOneMessageFromQ(queuename,timeused)
+            	self.receiveOneMessageFromQ(queuename,timeused,interval)
     
         
         
