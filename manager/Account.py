@@ -11,19 +11,18 @@ class Account():
     course=""
     groups=[]
     teacher=""
+    semester=""
     students=[]
     
 
-
-
+    def set_semester(self, s):
+        self.semester=s
+    def get_semester(self):
+        return self.semester
     def get_course(self):
         return self.__course
-
-
     def get_groups(self):
         return self.__groups
-
-
     def set_course(self, value):
         self.__course = value
 
