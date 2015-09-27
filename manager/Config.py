@@ -70,6 +70,7 @@ class Config:
         configclass.getAccount().set_course(config.get("Account","course"))
         configclass.getAccount().set_groups(json.loads(config.get("Account","groups")))
         configclass.getAccount().set_teacher(config.get("Account","teacher"))
+        configclass.getAccount().set_semester(config.get("Account", "semester"))
         configclass.setConfigDbName(config.get("Global", "configdbname"))
         configclass.set_script_path(config.get("Global","scriptpath"))
         configclass.set_dbserver(config.get("Global","dbserver"))
