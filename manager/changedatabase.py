@@ -10,4 +10,11 @@ def modkey(dbname, groupname, key, value):
                         }
                     }'''
     result=db.query(map_fun)
-    print result
+    documentid=""
+    for element in result : 
+	documentid=element["value"]
+    print documentid
+    doc=db[documentid]
+    doc["Balance"]=222
+    db[documentid]=doc
+modkey("testaccounts","group1", "","")
