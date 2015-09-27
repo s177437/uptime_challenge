@@ -26,12 +26,12 @@ class Manager():
                 groupdict={}
                 groupdict.update({i:worklist})
                 newconfig.createWorkQ(newconfig.get_queue_name(),groupdict)
-	    queue=Queue()		
+                queue=Queue()
             #queue.listenContinouslyToQueue("reportq")
-	    timestart=time.time()
-	    while(time.time()-timestart<=float(newconfig.get_interval())):
-		print time.time()-timestart
-            	queue.receiveOneMessageFromQ("reportq",(time.time()-timestart),newconfig.get_interval())
+            timestart=time.time()
+            while(time.time()-timestart<=float(newconfig.get_interval())):
+                print time.time()-timestart
+                queue.receiveOneMessageFromQ("reportq",(time.time()-timestart),newconfig.get_interval())
     
 manager=Manager()
 manager.fetchConfig()

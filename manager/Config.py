@@ -29,6 +29,8 @@ class Config:
         listtosend=[]
         teacherdict={"teacher":[configobject.getAccount().get_teacher()]}
         listtosend.append(teacherdict)
+        semesterdict={"semester": [configobject.getAccount().get_semester()]}
+        listtosend.append(semesterdict)
         coursedict={"course": [configobject.getAccount().get_course()]}
         listtosend.append(coursedict)
         groupsdict={}
