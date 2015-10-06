@@ -7,6 +7,8 @@ class worker () :
     groupname=""
 
     def fetchJobFromQ(self):
+        #do :
+        #sloop=False
         credentials = pika.PlainCredentials('guest', 'guest')
         connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
         channel=connection.channel()
@@ -17,11 +19,13 @@ class worker () :
                 print "You end up here"
                 connection.close()
             else :
+                #loop=True
                 channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                 print "Received job:", body, "starting job to reply"
                 self.replyToMaster(body)
                 connection.close()
                 self.fetchJobFromQ()
+        #while loop = True
         except AttributeError :
             print "No content"
             time.sleep(2)
