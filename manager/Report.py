@@ -22,5 +22,11 @@ class Report():
 
 
     def writeReportToDatabase(self,reportdict):
+        groupname=reportdict['group']
+        for key,value in reportdict.iteritems() :
+            if "Award" in key :
+                self.interpreterServer.updateBalance("testaccounts", groupname, value)
         self.interpreterServer.postReportToDatabase(reportdict)
+
+
 
