@@ -7,11 +7,18 @@ import time
 
 
 class Manager():
+    """
+    This module is the main class for the manager project. This module takes care of the execution of the functions.
+    """
     interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
     # comment
     def fetchConfig(self):
+        """
+        This function is the main method where everything is governed on the manager.
+        :return:
+        :rtype:
+        """
         while True:
-            # queue.setTime(time.time())
             config = Config()
             config.getAccount()
             newconfig = config.initDbConfig()
@@ -21,8 +28,8 @@ class Manager():
             path = newconfig.get_script_path()
             # worklist=[path+"traffic.sh 100 10",path+"traffic.sh 100 10"]
             # worklist=["python "+path+ "check_http.py db.no","python "+path+ "check_http.py vg.no", "python "+path+ "check_http.py facebook.com","python "+path+ "check_http.py arngren.net", "python "+path+ "check_http.py db.no","python "+path+ "check_http.py db.no"]
-            #worklist = [path + "traffic.sh 100 10"]
-            worklist=["python "+path+ "check_http.py db.no"]
+            # worklist = [path + "traffic.sh 100 10"]
+            worklist = ["python " + path + "check_http.py db.no"]
             for i in grouplist:
                 groupdict = {}
                 groupdict.update({i: worklist})
