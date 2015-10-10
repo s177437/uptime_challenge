@@ -11,90 +11,95 @@ import ConfigParser
 import couchdb
 import ast
 import Pyro4
+
+
 class Config:
-    queue_name=""
-    scriptpath=""
-    interval=0
-    configdbname=""
-    dbserver=""
-    queserver=""
-    configinstance="None"
-    account=Account()
-    interpreterServer=Pyro4.Proxy("PYRONAME:interpreter")
-    
-    def convertJSONToDictionary(self,data):
-        jsondict=json.loads(data)[0]
+    queue_name = ""
+    scriptpath = ""
+    interval = 0
+    configdbname = ""
+    dbserver = ""
+    queserver = ""
+    configinstance = "None"
+    account = Account()
+    interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
+
+    def convertJSONToDictionary(self, data):
+        jsondict = json.loads(data)[0]
         return jsondict
+
     def requestUserCreation(self, configobject):
-        listtosend=[]
-        teacherdict={"teacher":[configobject.getAccount().get_teacher()]}
+        listtosend = []
+        teacherdict = {"teacher": [configobject.getAccount().get_teacher()]}
         listtosend.append(teacherdict)
-        semesterdict={"semester": [configobject.getAccount().get_semester()]}
+        semesterdict = {"semester": [configobject.getAccount().get_semester()]}
         listtosend.append(semesterdict)
-        coursedict={"course": [configobject.getAccount().get_course()]}
+        coursedict = {"course": [configobject.getAccount().get_course()]}
         listtosend.append(coursedict)
-        groupsdict={}
-        groupsandmembers=configobject.getAccount().get_groups()
-        tempdict=groupsandmembers[0]
-        groupsdict.update({"groups":tempdict})
+        groupsdict = {}
+        groupsandmembers = configobject.getAccount().get_groups()
+        tempdict = groupsandmembers[0]
+        groupsdict.update({"groups": tempdict})
         listtosend.append(groupsdict)
-        return listtosend 
-    
+        return listtosend
+
     def sendUsersToQueue(self, accountlist):
-        listtostring=accountlist
-        queue=Queue()
+        listtostring = accountlist
+        queue = Queue()
         queue.createQueue("createuserq", str(listtostring))
-        
+
     def findGroupnames(self, grouplist):
         groupnames = []
-        for i,j in grouplist[0].iteritems() :
+        for i, j in grouplist[0].iteritems():
             groupnames.append(i)
         return groupnames
-    
+
     def writeConfig(self, configdata):
-        for key, value in configdata.iteritems() :
-            self.writeToFile(key,str(value)) 
-    
-    def writeToFile(self, key,value):
-        with open('config.ini','r') as f : 
-            words=f.read().split()
-            if key in words : 
-                print "No need to write to file, key is present" 
-            else: 
-                file=open('config.ini','a')
-                file.write(key+ " = "+value+"\n" )
-    
+        for key, value in configdata.iteritems():
+            self.writeToFile(key, str(value))
+
+    def writeToFile(self, key, value):
+        with open('config.ini', 'r') as f:
+            words = f.read().split()
+            if key in words:
+                print "No need to write to file, key is present"
+            else:
+                file = open('config.ini', 'a')
+                file.write(key + " = " + value + "\n")
+
     def readConfigFromFile(self):
-        config=ConfigParser.SafeConfigParser()
+        config = ConfigParser.SafeConfigParser()
         config.read("config.ini")
-        configclass=Config()
+        configclass = Config()
         configclass.setAccount(self.account)
-        configclass.getAccount().set_course(config.get("Account","course"))
-        configclass.getAccount().set_groups(json.loads(config.get("Account","groups")))
-        configclass.getAccount().set_teacher(config.get("Account","teacher"))
+        configclass.getAccount().set_course(config.get("Account", "course"))
+        configclass.getAccount().set_groups(json.loads(config.get("Account", "groups")))
+        configclass.getAccount().set_teacher(config.get("Account", "teacher"))
         configclass.getAccount().set_semester(config.get("Account", "semester"))
         configclass.setConfigDbName(config.get("Global", "configdbname"))
-        configclass.set_script_path(config.get("Global","scriptpath"))
-        configclass.set_dbserver(config.get("Global","dbserver"))
-        configclass.set_queserver(config.get("Global","queueserver"))
-        #print configclass.getAccount().get_groups()
+        configclass.set_script_path(config.get("Global", "scriptpath"))
+        configclass.set_dbserver(config.get("Global", "dbserver"))
+        configclass.set_queserver(config.get("Global", "queueserver"))
+        # print configclass.getAccount().get_groups()
         return configclass
+
     def initDbConfig(self):
         config = self.readConfigFromFile()
-        configdict=self.interpreterServer.fetchConfig()
+        configdict = self.interpreterServer.fetchConfig()
         self.writeConfig(configdict)
-        configparser=ConfigParser.SafeConfigParser()
+        configparser = ConfigParser.SafeConfigParser()
         configparser.read("config.ini")
-        config.set_interval(configparser.get("Global","interval"))
-        config.set_queue_name(configparser.get("Global","queue_name"))
+        config.set_interval(configparser.get("Global", "interval"))
+        config.set_queue_name(configparser.get("Global", "queue_name"))
         return config
-    def createWorkQ(self,queuename, joblist):
-        queue=Queue()
-        for group,job in joblist.iteritems():
+
+    def createWorkQ(self, queuename, joblist):
+        queue = Queue()
+        for group, job in joblist.iteritems():
             for j in job:
-                jobdict={}
-                jobdict.update({group:j})
-                queue.createQueue(queuename,jobdict)
+                jobdict = {}
+                jobdict.update({group: j})
+                queue.createQueue(queuename, jobdict)
 
     def get_queue_name(self):
         return self.__queue_name
@@ -102,19 +107,24 @@ class Config:
     def get_interval(self):
         return self.__interval
 
-    def setConfigDbName(self,value):
-        self.configdbname=value
+    def setConfigDbName(self, value):
+        self.configdbname = value
+
     def getConfigDbName(self):
         return self.configdbname
+
     def set_queue_name(self, value):
         self.__queue_name = value
+
     def getAccount(self):
         return self.account
+
     def setAccount(self, a):
-        self.account=a
+        self.account = a
+
     def set_interval(self, value):
         self.__interval = value
-        
+
     def get_dbserver(self):
         return self.__dbserver
 
@@ -126,17 +136,15 @@ class Config:
 
     def set_queserver(self, value):
         self.__queserver = value
+
     def setConfigInstance(self, value):
-        self.configinstance=value
+        self.configinstance = value
+
     def getConfigInstance(self, value):
         return self.configinstance
+
     def get_script_path(self):
         return self.scriptpath
+
     def set_script_path(self, path):
-        self.scriptpath=path
-
-
-
-
-
-  
+        self.scriptpath = path

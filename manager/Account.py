@@ -33,8 +33,10 @@ class Account():
 
     def set_balance(self, b):
         self.balance = b
+
     def get_balance(self):
         return self.balance
+
     def set_groups(self, value):
         self.__groups = value
 
