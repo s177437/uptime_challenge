@@ -8,7 +8,7 @@ import time
 
 class Manager():
     """
-    This module is the main class for the manager project. This module takes care of the execution of the functions.
+     This module is the main class for the manager project. This module takes care of the execution of the functions.
     """
     interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
     # comment
