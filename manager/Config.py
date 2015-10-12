@@ -325,7 +325,7 @@ class Config:
         answer = []
         load = self.function(x)
         derivative = self.derivedOfFunction(x)
-        answer.append(int(load))
-        answer.append(int(derivative))
+        answer.append(float(load))
+        answer.append(float(derivative))
         return answer
 
