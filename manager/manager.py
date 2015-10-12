@@ -23,8 +23,9 @@ class Manager():
         intervaltime = 900
         time_of_day = random.randint(-12, 12)
         while True:
-            if time_of_day < 12:
+            if time_of_day > 12:
                 time_of_day -= 24
+	    print time_of_day
             config = Config()
             config.getAccount()
             newconfig = config.initDbConfig()
@@ -39,7 +40,9 @@ class Manager():
             while (hour < 3600):
                 fetchload = newconfig.returnLoad(time_of_day)
                 currentload = int(fetchload[0])
-                loadincrease = int(fetchload[1])
+		
+                print currentload
+		loadincrease = int(fetchload[1])
                 time_elapsed = 0
                 worklist = [path + "traffic.sh " + str((currentload * 30)) + " " + str(currentload)]
                 while (time_elapsed < 900):
@@ -48,7 +51,6 @@ class Manager():
                         groupdict.update({i: worklist})
                         newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                         queue = Queue()
-                        print currentload
                     # queue.listenContinouslyToQueue("reportq")
                     timestart = time.time()
                     while (time.time() - timestart <= float(newconfig.get_interval())):
@@ -57,9 +59,10 @@ class Manager():
                     if currentload + loadincrease < 0 :
                         loadincrease *= (-1)
                     currentload += loadincrease
+		    print currentload
                     worklist = [path + "traffic.sh " + str((currentload * 30)) + " " + str(currentload)]
-                    time_elapsed += interval
-                    hour += interval
+                    time_elapsed += int(interval)
+                    hour += int(interval)
                 time_of_day += (1 / 96)
 
 
