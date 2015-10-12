@@ -38,10 +38,11 @@ class Manager():
             #worklist = ["python " + path + "check_http.py db.no"]
             while (hour < 3600) :
                 fetchload=newconfig.returnLoad(time_of_day)
-                currentload = int(fetchload[1])
-                loadincrease = int(fetchload[2])
-                worklist = [path + "traffic.sh "+(currentload*30)+" "+ currentload]
-                time_elapsed = 0
+                currentload = int(fetchload[0])
+                loadincrease = int(fetchload[1])
+                time_elapsed = 0                
+		worklist = [path + "traffic.sh "+str((currentload*30))+" "+ str(currentload)]
+
                 while (time_elapsed < 900):
 
                     for i in grouplist:
@@ -49,14 +50,15 @@ class Manager():
                         groupdict.update({i: worklist})
                         newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                         queue = Queue()
+			print currentload
                     # queue.listenContinouslyToQueue("reportq")
                     timestart = time.time()
                     while (time.time() - timestart <= float(newconfig.get_interval())):
                         print time.time() - timestart
                         queue.receiveOneMessageFromQ("reportq", (time.time() - timestart), newconfig.get_interval())
-
+			
                     currentload += loadincrease
-                    worklist = [path + "traffic.sh "+(currentload*30)+" "+ currentload]
+                    worklist = [path + "traffic.sh "+str((currentload*30))+" "+ str(currentload)]
                     time_elapsed += interval
                     hour += interval
                 time_of_day+=(1/96)
