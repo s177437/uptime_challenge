@@ -143,7 +143,7 @@ class Config:
         :rtype Config:
         """
         config = self.readConfigFromFile()
-        configdict = self.interpreterServer.fetchConfig()
+        configdict = self.interpreterServer.fetchConfig(config.getAccount().get_teacher())
         self.writeConfig(configdict)
         configparser = ConfigParser.SafeConfigParser()
         configparser.read("config.ini")
