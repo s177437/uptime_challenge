@@ -40,13 +40,14 @@ class Manager():
             while (hour < 3600):
                 fetchload = newconfig.returnLoad(time_of_day)
                 currentload = float(fetchload[0])
-                print currentload
+                #print currentload
                 loadincrease = float(fetchload[1]) / 10
             time_elapsed = 0
             worklist = [path + "traffic.sh " + str((currentload * 30)) + " " + str(currentload)]
             while (time_elapsed < 900):
                 for i in grouplist:
                     groupdict = {}
+		    print groupdict
                     groupdict.update({i: worklist})
                     newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                     queue = Queue()
@@ -58,7 +59,6 @@ class Manager():
                 if currentload + loadincrease < 0:
                     loadincrease *= (-1)
                 currentload += loadincrease
-                print currentload
                 worklist = [path + "traffic.sh " + str((currentload * 30)) + " " + str(currentload)]
                 time_elapsed += float(interval)
                 hour += float(interval)
