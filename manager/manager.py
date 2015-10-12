@@ -43,7 +43,7 @@ class Manager():
                 #print currentload
                 loadincrease = float(fetchload[1]) / 10
                 time_elapsed = 0
-                worklist = [path + "traffic.sh " + str((currentload * 30)) + " " + str(currentload)]
+                worklist = [path + "traffic.sh " + str((int(currentload) * 5)) + " " + str(int(currentload))]
                 while (time_elapsed < 900):
                     for i in grouplist:
                         groupdict = {}
@@ -58,10 +58,10 @@ class Manager():
                     if currentload + loadincrease < 0:
                         loadincrease *= (-1)
                     currentload += loadincrease
-                    worklist = [path + "traffic.sh " + str((currentload * 30)) + " " + str(currentload)]
+                    worklist = [path + "traffic.sh " + str((int(currentload) * 5)) + " " + str(int(currentload))]
                     time_elapsed += float(interval)
                     hour += float(interval)
-                time_of_day += (1 / 96)
+                time_of_day += ( 24./ 96)
 
 
 manager = Manager()
