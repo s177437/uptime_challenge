@@ -4,6 +4,7 @@ import pika
 import couchdb
 import Pyro4
 import time
+import random
 
 
 class Manager():
@@ -18,29 +19,46 @@ class Manager():
         :return:
         :rtype:
         """
+        interval=0
+        intervaltime=900
+        time_of_day=random.randint(-12, 12)
         while True:
+            if time_of_day < 12:
+                time_of_day -= 24
             config = Config()
             config.getAccount()
             newconfig = config.initDbConfig()
+            interval = newconfig.get_interval()
             userinfo = config.requestUserCreation(newconfig)
             grouplist = newconfig.findGroupnames(newconfig.getAccount().get_groups())
             self.interpreterServer.createAccounts(userinfo)
             path = newconfig.get_script_path()
-            # worklist=[path+"traffic.sh 100 10",path+"traffic.sh 100 10"]
-            # worklist=["python "+path+ "check_http.py db.no","python "+path+ "check_http.py vg.no", "python "+path+ "check_http.py facebook.com","python "+path+ "check_http.py arngren.net", "python "+path+ "check_http.py db.no","python "+path+ "check_http.py db.no"]
-            # worklist = [path + "traffic.sh 100 10"]
-            worklist = ["python " + path + "check_http.py db.no"]
-            for i in grouplist:
-                groupdict = {}
-                groupdict.update({i: worklist})
-                newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
-                queue = Queue()
-            # queue.listenContinouslyToQueue("reportq")
-            timestart = time.time()
-            while (time.time() - timestart <= float(newconfig.get_interval())):
-                print time.time() - timestart
-                queue.receiveOneMessageFromQ("reportq", (time.time() - timestart), newconfig.get_interval())
+            hour = 0
+            fetchload=[]
+            #worklist = ["python " + path + "check_http.py db.no"]
+            while (hour < 3600) :
+                fetchload=newconfig.returnLoad(time_of_day)
+                currentload = int(fetchload[1])
+                loadincrease = int(fetchload[2])
+                worklist = [path + "traffic.sh "+(currentload*30)+" "+ currentload]
+                time_elapsed = 0
+                while (time_elapsed < 900):
 
+                    for i in grouplist:
+                        groupdict = {}
+                        groupdict.update({i: worklist})
+                        newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
+                        queue = Queue()
+                    # queue.listenContinouslyToQueue("reportq")
+                    timestart = time.time()
+                    while (time.time() - timestart <= float(newconfig.get_interval())):
+                        print time.time() - timestart
+                        queue.receiveOneMessageFromQ("reportq", (time.time() - timestart), newconfig.get_interval())
 
+                    currentload += loadincrease
+                    worklist = [path + "traffic.sh "+(currentload*30)+" "+ currentload]
+                    time_elapsed += interval
+                    hour += interval
+                time_of_day+=(1/96)
 manager = Manager()
 manager.fetchConfig()

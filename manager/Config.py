@@ -11,6 +11,7 @@ import ConfigParser
 import couchdb
 import ast
 import Pyro4
+import random
 
 
 class Config:
@@ -314,3 +315,17 @@ class Config:
         :rtype:
         """
         self.scriptpath = path
+    def function(self, x):
+        return -0.25 * x ** 2 + 50
+
+    def derivedOfFunction(self, x):
+        return -0.5 * x
+
+    def returnLoad(self, x):
+        answer = []
+        load = self.function(x)
+        derivative = self.derivedOfFunction(x)
+        answer.append(int(load))
+        answer.append(int(derivative))
+        return answer
+
