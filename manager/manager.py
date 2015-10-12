@@ -42,27 +42,26 @@ class Manager():
                 currentload = float(fetchload[0])
                 #print currentload
                 loadincrease = float(fetchload[1]) / 10
-            time_elapsed = 0
-            worklist = [path + "traffic.sh " + str((currentload * 30)) + " " + str(currentload)]
-            while (time_elapsed < 900):
-                for i in grouplist:
-                    groupdict = {}
-		    print groupdict
-                    groupdict.update({i: worklist})
-                    newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
-                    queue = Queue()
-                # queue.listenContinouslyToQueue("reportq")
-                timestart = time.time()
-                while (time.time() - timestart <= float(newconfig.get_interval())):
-                    print time.time() - timestart
-                    queue.receiveOneMessageFromQ("reportq", (time.time() - timestart), newconfig.get_interval())
-                if currentload + loadincrease < 0:
-                    loadincrease *= (-1)
-                currentload += loadincrease
+                time_elapsed = 0
                 worklist = [path + "traffic.sh " + str((currentload * 30)) + " " + str(currentload)]
-                time_elapsed += float(interval)
-                hour += float(interval)
-            time_of_day += (1 / 96)
+                while (time_elapsed < 900):
+                    for i in grouplist:
+                        groupdict = {}
+                        groupdict.update({i: worklist})
+                        newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
+                        queue = Queue()
+                    # queue.listenContinouslyToQueue("reportq")
+                    timestart = time.time()
+                    while (time.time() - timestart <= float(newconfig.get_interval())):
+                        print time.time() - timestart
+                        queue.receiveOneMessageFromQ("reportq", (time.time() - timestart), newconfig.get_interval())
+                    if currentload + loadincrease < 0:
+                        loadincrease *= (-1)
+                    currentload += loadincrease
+                    worklist = [path + "traffic.sh " + str((currentload * 30)) + " " + str(currentload)]
+                    time_elapsed += float(interval)
+                    hour += float(interval)
+                time_of_day += (1 / 96)
 
 
 manager = Manager()
