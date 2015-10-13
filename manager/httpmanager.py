@@ -6,7 +6,7 @@ import Pyro4
 import time
 
 
-class Httpanager():
+class Httpmanager():
     """
     This module is the main class for the manager project. This module takes care of the execution of the functions.
     """
@@ -42,5 +42,5 @@ class Httpanager():
                 queue.receiveOneMessageFromQ("reportq", (time.time() - timestart), newconfig.get_interval())
 
 
-manager = Manager()
+manager = Httpmanager()
 manager.fetchConfig()
