@@ -44,7 +44,7 @@ class Queue():
         :rtype:
         """
         credentials = pika.PlainCredentials('guest', 'guest')
-        connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56', 5672, '/', credentials))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('192.168.56.104', 5672, '/', credentials))
         return connection
 
     def createQueue(self, quename, content):

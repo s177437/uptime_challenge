@@ -9,18 +9,23 @@ def modkey(dbname, groupname, value):
                           emit(doc.group, doc._id);
                         }
                     }'''
-    result=db.query(map_fun)
-    documentid=""
-    for element in result : 
-	documentid=element["value"]
-    doc=db[documentid]
-    try : 
-	oldbalance = doc["Balance"]
-        balance = oldbalance+value
-	doc["Balance"] = balance
-	print balance
-    except KeyError: 
-	print "This user has no previous balance, creating balance"
-    	doc["Balance"]=value
-    db[documentid]=doc
-modkey("testaccounts","group1",300)
+    result = db.query(map_fun)
+    documentid = ""
+    for element in result:
+        documentid = element["value"]
+    doc = db[documentid]
+    try:
+        oldbalance = doc["Balance"]
+        balance = oldbalance + value
+        doc["Balance"] = balance
+        print balance
+    except KeyError:
+
+        print "This user has no previous balance, creating balance"
+        doc["Balance"] = value
+    db[documentid] = doc
+
+
+
+
+modkey("testaccounts", "group1", 300)
