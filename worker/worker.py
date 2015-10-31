@@ -21,7 +21,7 @@ class worker():
         # do :
         # sloop=False
         credentials = pika.PlainCredentials('guest', 'guest')
-        connection = pika.BlockingConnection(pika.ConnectionParameters('192.168.56.104', 5672, '/', credentials))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
         channel = connection.channel()
         channel.queue_declare(queue='testq')
         try:
@@ -63,7 +63,7 @@ class worker():
         message = self.doJob(job)
         print message
         credentials = pika.PlainCredentials('guest', 'guest')
-        connection = pika.BlockingConnection(pika.ConnectionParameters('192.168.56.104', 5672, '/', credentials))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
         channel = connection.channel()
         channel.queue_declare(queue="reportq")
         channel.basic_publish(exchange='', routing_key='reportq', body=message)
