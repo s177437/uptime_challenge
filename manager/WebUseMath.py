@@ -45,12 +45,11 @@ class WebUseMath :
         elif calculation_algorithm == "r":
             strength_number = int(random.uniform((number - variation), (number + variation)))
             #print "Algorithm:", calculation_algorithm, "Strength number:", strength_number
-        worklist = self.create_number_of_scripts(strength_number)
-        print "algorithm:", calculation_algorithm, worklist,  "length:", len(worklist), strength_number
-        return position
+        #worklist = self.create_number_of_scripts(strength_number)
+        #print "algorithm:", calculation_algorithm, worklist,  "length:", len(worklist), strength_number
+        return strength_number
 
-    def create_number_of_scripts(self, number_of_scripts_to_make) :
-        executable_string="ls -a"
+    def create_number_of_scripts(self, number_of_scripts_to_make, executable_string) :
         if number_of_scripts_to_make<=0 :
             return [""]
         else :
@@ -61,5 +60,18 @@ class WebUseMath :
 
 
 
-userdict={"stian": 20, "jostein": 10}
-
+#userdict={"stian": 20, "jostein": 10}
+#math = WebUseMath()
+#for user, offset in userdict.iteritems() :
+#    print user, "\n"
+#    strengthlist = math.createTimeList()
+#    content = math.decideEntry(strengthlist,offset)
+#    listvalues = math.convertToList(content)
+#    position=math.calculateList(listvalues)
+#while 1:
+   # for user, offset in userdict.iteritems():
+   #     print user, "\n"
+   #     strength_value_as_string= math.jumpToNextEntry(strengthlist, position)
+   #     values_in_value_string=math.convertToList(strength_value_as_string)
+   #     position= math.calculateList(values_in_value_string)
+   # time.sleep(1)
