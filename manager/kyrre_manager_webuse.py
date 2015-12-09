@@ -1,5 +1,6 @@
 from Queue import *
 from Config import *
+from WebUseMath import *
 import pika
 import couchdb
 import Pyro4
@@ -31,6 +32,7 @@ class Httpmanager():
             # worklist = [path + "traffic.sh 100 10"]
             worklist = [path + "webuse.pl -U 128.39.121.59 -r '10/10/10/10'"]
             for i in grouplist:
+
                 groupdict = {}
                 groupdict.update({i: worklist})
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
