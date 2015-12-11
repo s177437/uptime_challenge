@@ -26,7 +26,7 @@ class WebUseMath :
         if position == len(fileList):
             return fileList[0]
         else:
-            return fileList[position]
+            return fileList[int(position)]
 
 
     def convertToList(self, strength):

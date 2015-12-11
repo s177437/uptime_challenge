@@ -148,4 +148,5 @@ class Queue():
                 connection.close()
             else:
                 timeused = (timevalue + (time.time() - timestart))
+		time.sleep(0.5)
                 self.receiveOneMessageFromQ(queuename, timeused, interval)

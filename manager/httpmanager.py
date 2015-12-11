@@ -30,6 +30,7 @@ class Httpmanager():
             # worklist=["python "+path+ "check_http.py db.no","python "+path+ "check_http.py vg.no", "python "+path+ "check_http.py facebook.com","python "+path+ "check_http.py arngren.net", "python "+path+ "check_http.py db.no","python "+path+ "check_http.py db.no"]
             # worklist = [path + "traffic.sh 100 10"]
             worklist = ["python " + path + "check_http.py db.no"]
+	    print worklist
             for i in grouplist:
                 groupdict = {}
                 groupdict.update({i: worklist})
