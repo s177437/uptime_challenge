@@ -31,12 +31,13 @@ class Httpmanager():
         executable_string=path + "webuse.pl -U 128.39.121.59 -r '10/10/10/10'"
         index=10
         print "Interval",newconfig.get_interval()
-        for i in grouplist:
+        positiondict = {}
+	for i in grouplist:
             content = math.decideEntry(strengthlist,index)
             worklist=[]
             listvalues = math.convertToList(content)
             position= int(listvalues[0])
-            print "USER:", i,"POSITION", position
+            print "USEREN:", i,"POSITION", position
             strength_number=math.calculateList(listvalues)
             index+=10
             worklist = math.create_number_of_scripts(strength_number,executable_string)
@@ -44,17 +45,21 @@ class Httpmanager():
             groupdict.update({i: worklist})
             newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
             worklist = []
-            position=0
+	    positiondict.update({i:position})
         while True:
-            for i in grouplist:
+            for i, position in positiondict.iteritems():
+		print "USER:", i,"POSITION", position
                 strength_value_as_string= math.jumpToNextEntry(strengthlist, int(position))
                 values_in_value_string=math.convertToList(strength_value_as_string)
-                print "USER:", i,"POSITION", position
-                position=int(values_in_value_string[0])
+                #position=int(values_in_value_string[0])
                 strength_number = math.calculateList(values_in_value_string)
                 worklist = math.create_number_of_scripts(strength_number,executable_string)
                 groupdict = {}
                 groupdict.update({i: worklist})
+		if position == 288 : 
+			positiondict[i]=0
+		else : 
+			positiondict[i]=position+1
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                 queue = Queue()
             # queue.listenContinouslyToQueue("reportq")
