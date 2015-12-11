@@ -15,6 +15,20 @@ class Account():
     semester = ""
     students = []
     balance = 0
+    configfile = ""
+    offset = 0
+
+    def set_configfile(self, c):
+        self.configfile = c
+
+    def get_configfile(self):
+        return self.configfile
+
+    def set_offset(self, o):
+        self.configfile = o
+
+    def get_offset(self):
+        return self.offset
 
     def set_semester(self, s):
         """
