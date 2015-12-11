@@ -35,6 +35,7 @@ class worker():
                 print "Received job:", body, "starting job to reply"
                 self.replyToMaster(body)
                 connection.close()
+		time.sleep(2)
                 self.fetchJobFromQ()
         # while loop = True
         except AttributeError:
@@ -61,7 +62,7 @@ class worker():
         job = dict.values()[0]
         self.set_group_name(dict.keys()[0])
         message = self.doJob(job)
-        print message
+        #print message
         credentials = pika.PlainCredentials('guest', 'guest')
         connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
         channel = connection.channel()
@@ -105,7 +106,7 @@ class worker():
                 list.append(content)
         for i in list:
             j = i.split(":")
-	    print j, len(j) 
+	    #print j, len(j) 
             if len(j) == 1:
                 reportdict.update({"message": j[0]})
             elif (len(j) >= 2):
