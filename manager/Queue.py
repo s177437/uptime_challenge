@@ -94,7 +94,7 @@ class Queue():
         report = Report()
         report.buildReport(body)
 
-    def setTime(self, t):
+    def setTime(self, t=0):
         """
         Set time for the execution interval
         :param t:
@@ -143,10 +143,15 @@ class Queue():
                 report = Report()
                 report.buildReport(body)
         except AttributeError:
-            print "Waiting for answer.."
+            print "Waiting for answer..", "timevalue:", timevalue, "interval:", interval
             if float(timevalue) > float(interval):
+		print "CLOSING, bye "
                 connection.close()
-            else:
+            elif (timevalue + (time.time() - timestart))-self.getTime()<0.5 : 
+		time.sleep(0.5)
+		connection.close()
+	    else: 
                 timeused = (timevalue + (time.time() - timestart))
+		self.setTime(timevalue)
 		time.sleep(0.5)
                 self.receiveOneMessageFromQ(queuename, timeused, interval)
