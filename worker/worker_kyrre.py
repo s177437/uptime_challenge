@@ -40,6 +40,7 @@ class worker():
         # while loop = True
         except AttributeError:
             print "No content"
+	    connection.close()
             time.sleep(2)
             self.fetchJobFromQ()
 

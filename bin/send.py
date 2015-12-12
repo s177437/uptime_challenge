@@ -4,7 +4,7 @@ import sys
 
 def connect(message) : 
 	credentials = pika.PlainCredentials('guest', 'guest')
-	connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.0.56',5672, '/', credentials))
+	connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq',5672, '/', credentials))
 	channel = connection.channel() 
 	channel.queue_declare(queue="stianstestq")
 	channel.basic_publish(exchange='', routing_key='stianstestq',body=message)
