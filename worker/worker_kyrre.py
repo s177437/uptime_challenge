@@ -27,7 +27,7 @@ class worker():
         try:
             method_frame, header_frame, body = channel.basic_get(queue='testq')
             if method_frame.NAME == 'Basic.GetEmpty':
-                print "You end up here"
+                #print "You end up here"
                 connection.close()
             else:
                 # loop=True
@@ -84,30 +84,30 @@ class worker():
         :return:
         :rtype:
         """
-        buf = StringIO.StringIO(content.strip("\n"))
+	lower_content= content.lower()
+        buf = StringIO.StringIO(lower_content.strip("\n"))
+	#print lower_content
         #buf = StringIO.StringIO(content)
         templist = []
         list = []
         reportdict = {}
         for i in buf.readlines():
-            #if " " in i[0]:
-             #   nolines = ""
-            #else:
             templist.append(i)
-	#print templist
 	statusmessage = ""
-	if "<HTML>\n" in templist : 
-		statusstring = " ".join(templist[templist.index("<HTML>\n"):templist.index("</HTML>")+1])
-		del[templist[templist.index("<HTML>\n"):templist.index("</HTML>")+1]]
+	if "</html>" in templist: 
+                statusstring = " ".join(templist[templist.index("<html>\n"):templist.index("</html>")+1])
+                del[templist[templist.index("<html>\n"):templist.index("</html>")+1]]
+                statusmessage= statusstring.replace("\n","")
+	elif "ok\t</html>" in templist : 
+		statusstring = " ".join(templist[templist.index("<html>\n"):templist.index("ok\t</html>")+1])
+		del[templist[templist.index("<html>\n"):templist.index("ok\t</html>")+1]]
 		statusmessage= statusstring.replace("\n","")
-		#templist.append(statusstring)
         for i in templist:
             content = i.replace("\n", "")
             if content != "":
                 list.append(content)
         for i in list:
             j = i.split(":")
-	    #print j, len(j) 
             if len(j) == 1:
                 reportdict.update({"message": j[0]})
             elif (len(j) >= 2):
