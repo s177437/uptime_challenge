@@ -46,6 +46,7 @@ class worker():
 
     def doJob(self, command):
         outputdata = self.getcommandoutput(command)
+	print outputdata
         try:
             dict = ast.literal_eval(outputdata)
             dict.update({"worker": self.getHostName()})
