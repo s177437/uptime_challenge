@@ -52,7 +52,16 @@ class WebUseMath :
             for i in range(0,number_of_scripts_to_make):
                 scriptlist.append(executable_string)
             return scriptlist
-
+    def create_HttperfExecutableString(self, ip, strength, executable_string_start):
+	if strength<=0 : 
+	    return[""]
+	else : 
+		scriptlist=[]
+		full_exec_string=executable_string_start+ " " + ip + " " + str((strength*300)) + " " + str(strength)
+		scriptlist.append(full_exec_string)
+		return scriptlist
+	    	 
+	
 
 
 #userdict={"stian": 20, "jostein": 10}
