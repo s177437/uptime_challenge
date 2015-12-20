@@ -17,6 +17,12 @@ class Account():
     balance = 0
     configfile = ""
     offset = 0
+    ip = ""
+
+    def set_ip(self, i):
+        self.ip=i
+    def get_ip(self):
+        return self.ip
 
     def set_configfile(self, c):
         self.configfile = c

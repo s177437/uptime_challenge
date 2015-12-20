@@ -29,16 +29,18 @@ class Httpmanager():
         self.interpreterServer.createAccounts(userinfo)
         path = newconfig.get_script_path()
         executable_string=path + "traffic.sh"
-	ip="128.39.121.59"
+        #ip="128.39.121.59"
         #executable_string=path + "webuse.pl -U 128.39.121.59 -r '10/10/10/10'"
         index=0
         print "Interval",newconfig.get_interval()
         positiondict = {}
         for i in grouplist:
             userconfig = self.interpreterServer.getFileAndOffsetFromUser(i)
-	    print userconfig
+            print userconfig
+            ipconfig = self.interpreterServer.getIpFromUser(i)
+            ip=ipconfig["ipaddress"]
             index = int(userconfig["offset"])
-	    print "INDEX", index
+            print "INDEX", index
             content = math.decideEntry(strengthlist,index)
             worklist=[]
             listvalues = math.convertToList(content)

@@ -35,9 +35,10 @@ class Httpmanager():
         positiondict = {}
         for i in grouplist:
             userconfig = self.interpreterServer.getFileAndOffsetFromUser(i)
-	    print userconfig
+
+            print userconfig
             index = int(userconfig["offset"])
-	    print "INDEX", index
+            print "INDEX", index
             content = math.decideEntry(strengthlist,index)
             worklist=[]
             listvalues = math.convertToList(content)
