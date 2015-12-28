@@ -28,14 +28,16 @@ class Httpmanager():
         grouplist = newconfig.findGroupnames(newconfig.getAccount().get_groups())
         self.interpreterServer.createAccounts(userinfo)
         path = newconfig.get_script_path()
-        executable_string=path + "webuse.pl -U 128.39.121.59 -r '10:10:10:10'"
+        #executable_string=path + "webuse.pl -U 128.39.121.59 -r '10:10:10:10'"
         #executable_string=path + "webuse.pl -U 128.39.121.59 -r '10/10/10/10'"
         index=0
         print "Interval",newconfig.get_interval()
         positiondict = {}
         for i in grouplist:
             userconfig = self.interpreterServer.getFileAndOffsetFromUser(i)
-
+	    ipconfig = self.interpreterServer.getIpFromUser(i)
+            ip=ipconfig["ipaddress"]
+            executable_string=path + "webuse.pl -U " + ip +" -r '10:10:10:10'"
             print userconfig
             index = int(userconfig["offset"])
             print "INDEX", index
