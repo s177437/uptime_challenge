@@ -112,7 +112,7 @@ class Queue():
         """
         return self.time
 
-    def receiveOneMessageFromQ(self, queuename, timevalue, interval):
+    def receiveOneMessageFromQ(self, queuename, interval):
         """
         Recursive listen method that is used to continously listen to the reportqueue within the execution interval
         :param queuename:
@@ -124,34 +124,23 @@ class Queue():
         :return:
         :rtype:
         """
-        stringValue = ""
         timestart = time.time()
-        connection = self.connectToRabbitMQ()
-        channel = connection.channel()
-        channel.queue_declare(queue=queuename)
-        try:
-            method_frame, header_frame, body = channel.basic_get(queue=queuename)
-            if method_frame.NAME == 'Basic.GetEmpty':
-                connection.close()
-            elif float(timevalue) > float(interval):
-                report = Report()
-                report.buildReport(body)
-                connection.close()
-            else:
-                channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-                connection.close()
-                report = Report()
-                report.buildReport(body)
-        except AttributeError:
-            print "Waiting for answer..", "timevalue:", timevalue, "interval:", interval
-            if float(timevalue) > float(interval):
-		print "CLOSING, bye "
-                connection.close()
-            elif (timevalue + (time.time() - timestart))-self.getTime()<0.5 : 
-		time.sleep(0.5)
-		connection.close()
-	    else: 
-                timeused = (timevalue + (time.time() - timestart))
-		self.setTime(timevalue)
-		time.sleep(0.5)
-                self.receiveOneMessageFromQ(queuename, timeused, interval)
+	while (time.time()-timestart) <=float(interval) :  
+        	stringValue = ""
+        	connection = self.connectToRabbitMQ()
+        	channel = connection.channel()
+        	channel.queue_declare(queue=queuename)
+        	try:
+            		method_frame, header_frame, body = channel.basic_get(queue=queuename)
+            		if method_frame.NAME == 'Basic.GetEmpty':
+                		connection.close()
+            		else:
+                		channel.basic_ack(delivery_tag=method_frame.delivery_tag)
+                		connection.close()
+                		report = Report()
+                		report.buildReport(body)
+        	except AttributeError:
+            		print "Waiting for answer.. time used:", str((time.time()-timestart)), " interval:", interval
+			time.sleep(1)
+                	connection.close()
+
