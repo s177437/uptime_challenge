@@ -125,22 +125,22 @@ class Queue():
         :rtype:
         """
         timestart = time.time()
-	while (time.time()-timestart) <=float(interval) :  
-        	stringValue = ""
-        	connection = self.connectToRabbitMQ()
-        	channel = connection.channel()
-        	channel.queue_declare(queue=queuename)
-        	try:
-            		method_frame, header_frame, body = channel.basic_get(queue=queuename)
-            		if method_frame.NAME == 'Basic.GetEmpty':
-                		connection.close()
-            		else:
-                		channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-                		connection.close()
-                		report = Report()
-                		report.buildReport(body)
-        	except AttributeError:
-            		print "Waiting for answer.. time used:", str((time.time()-timestart)), " interval:", interval
-			time.sleep(1)
-                	connection.close()
+        while (time.time()-timestart) <=float(interval) :
+            stringValue = ""
+            connection = self.connectToRabbitMQ()
+            channel = connection.channel()
+            channel.queue_declare(queue=queuename)
+            try:
+                method_frame, header_frame, body = channel.basic_get(queue=queuename)
+                if method_frame.NAME == 'Basic.GetEmpty':
+                    connection.close()
+                else:
+                    channel.basic_ack(delivery_tag=method_frame.delivery_tag)
+                    connection.close()
+                    report = Report()
+                    report.buildReport(body)
+            except AttributeError:
+                print "Waiting for answer.. time used:", str((time.time()-timestart)), " interval:", interval
+                time.sleep(1)
+                connection.close()
 

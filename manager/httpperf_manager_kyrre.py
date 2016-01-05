@@ -70,9 +70,7 @@ class Httpmanager():
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                 queue = Queue()
             # queue.listenContinouslyToQueue("reportq")
-            timestart = time.time()
-            while (time.time() - timestart <= float(newconfig.get_interval())):
-                queue.receiveOneMessageFromQ("reportq", (time.time() - timestart), newconfig.get_interval())
+            queue.receiveOneMessageFromQ("reportq", newconfig.get_interval())
 
 
 manager = Httpmanager()
