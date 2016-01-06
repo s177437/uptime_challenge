@@ -1,6 +1,7 @@
 from Queue import *
 import ast
 import Pyro4
+import time
 
 '''
 Created on 1. sep. 2015
@@ -56,17 +57,18 @@ class Report():
         """
         groupname = reportdict['group']
         dbname = "testaccounts"
+	added_to_database_already=0
         for key, value in reportdict.iteritems():
             if "Award" in key:
                 self.interpreterServer.updateBalance(dbname, groupname, value)
                 self.interpreterServer.postReportToDatabase(reportdict)
+		added_to_database_already=1
             elif "Lookup status" in key :
                 new_reportdict= self.calculateAward(reportdict)
                 self.interpreterServer.postReportToDatabase(new_reportdict)
-            else :
-                self.interpreterServer.postReportToDatabase(reportdict)
-
-
+		added_to_database_already=1
+	if added_to_database_already ==0:
+	    self.interpreterServer.postReportToDatabase(reportdict)
 
     def calculateAward(self, reportdict):
         dbname="testaccounts"
