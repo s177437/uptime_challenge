@@ -42,12 +42,8 @@ class Purser:
     def runcommand(self, command):
         subprocess.call(command, shell=True)
 
-    def runPurser(self):
+    def runPurser(self, ip, filename, filepath, sentance):
         result={}
-        ip="128.39.121.59"
-        filename="index.php"
-        filepath="/Users/stianstrom/PycharmProjects/uptime_challenge_master/testscript/128.39.121.59/index.php"
-        sentance="Users:"
         file_found="File not found"
         time_used_to_download = self.downloadSiteAndReturnTheTime(ip)
         file_exists_in_directory_tree = self.checkIfFileExists(filename, ip)
@@ -69,7 +65,7 @@ class Purser:
             result["Test status"] = "Not Approved"
         else :
             result["Test status"]= "OK"
-        print result
+        return result
 
 
 
@@ -80,6 +76,6 @@ p = Purser()
 #print p.downloadSiteAndReturnTheTime()
 #print p.checkIfFileExists("index.php", "128.39.121.59")
 #print p.readFileAndCheckIfSentanceExistInTheFile("/Users/stianstrom/PycharmProjects/uptime_challenge_master/testscript/128.39.121.59/index.php", "Users")
-p.runPurser()
-p.deleteDirectory("128.39.121.59")
+#p.runPurser()
+#p.deleteDirectory("128.39.121.59")
 
