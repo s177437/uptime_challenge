@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-my $version = 1.3;
+my $version = 1.5;
 
 my $iconbase = "avatars/";
 my $namesfile = "names.txt";
@@ -119,7 +119,10 @@ sub newPost {
 
 sub getRandomSentence {
 	$limit = 2200;
-	open(SEN,$sentence_file);
+	open(SEN,$sentence_file); 
+        if ( not SEN ){
+	    return "Error open file: $!";
+	}
 	my $linenum = int(rand($limit));
 	for ($i = 0; $i < $linenum; $i++){
 		<SEN>;
