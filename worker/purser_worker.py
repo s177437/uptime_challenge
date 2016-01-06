@@ -1,8 +1,6 @@
 import sys
 sys.path.insert(0, '/root/uptime_challenge_master/testscript')
 from purser import *
-#testdict= p.runPurser("128.39.121.59", "index.php", "/root/uptime_challenge_master/worker/128.39.121.59/index.php", "Users:")
-#p.deleteDirectory("128.39.121.59")
 
 import pika
 import ast
@@ -30,9 +28,9 @@ class worker():
                 credentials = pika.PlainCredentials('guest', 'guest')
                 connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
                 channel = connection.channel()
-                channel.queue_declare(queue='testq')
+                channel.queue_declare(queue='purserq')
                 try:
-                    method_frame, header_frame, body = channel.basic_get(queue='testq')
+                    method_frame, header_frame, body = channel.basic_get(queue='purserq')
                     if method_frame.NAME == 'Basic.GetEmpty':
                         connection.close()
                     else:
@@ -48,25 +46,27 @@ class worker():
 
 
 
-    def doJob(self, command):
+    def doJob(self, variabledict):
         p = Purser()
-        dict= p.runPurser("128.39.121.59", "index.php", "/root/uptime_challenge_master/worker/128.39.121.59/index.php", "Users:")
+	filepath=variabledict["filepath"]+variabledict["ip"]+"/"+variabledict["file"]
+        dict= p.runPurser(variabledict["ip"], variabledict["file"], filepath, variabledict["sentance"])
         dict.update({"worker": self.getHostName()})
         dict.update({"group": self.get_group_name()})
         p.deleteDirectory("128.39.121.59")
+	print dict
         return str(dict)
 
     def replyToMaster(self, content):
-        dict = ast.literal_eval(content)
-        job = dict.values()[0]
-        self.set_group_name(dict.keys()[0])
-        message = self.doJob(job)
+        outerdict = ast.literal_eval(content)
+	innerdict=outerdict.values()[0]
+        self.set_group_name(outerdict.keys()[0])
+        message = self.doJob(innerdict)
         #print message
         credentials = pika.PlainCredentials('guest', 'guest')
         connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
         channel = connection.channel()
         channel.queue_declare(queue="purser_report_q")
-        channel.basic_publish(exchange='', routing_key='reportq', body=message)
+        channel.basic_publish(exchange='', routing_key='purser_report_q', body=message)
         connection.close()
 
     def getcommandoutput(self, command):
