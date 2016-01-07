@@ -1,4 +1,5 @@
 import argparse
+import couchdb
 import textwrap
 from argparse import RawDescriptionHelpFormatter
 import sys
@@ -64,12 +65,7 @@ if args.addusers:
     print args
     run.createUserObject(args.addusers)
 elif args.modifyentry : 
-	string="modifyKey("
-	for element in args.modifyentry : 
-		string += element + " "
-
-	string +=")"
-	print string
+    run.modify_key(args.modifyentry[0], args.modifyentry[1], args.modifyentry[2],args.modifyentry[3],args.modifyentry[4],int(args.modifyentry[5]))
 elif args.stop: 
     print "Exiting program"
     sys.exit(0)
