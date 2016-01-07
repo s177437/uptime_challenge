@@ -22,11 +22,12 @@ class Httpmanager():
         math=WebUseMath()
         config = Config()
         newconfig = config.initDbConfig()
-        userinfo = config.requestUserCreation(newconfig)
-        grouplist = newconfig.findGroupnames(newconfig.getAccount().get_groups())
-        self.interpreterServer.createAccounts(userinfo)
+        #grouplist = newconfig.findGroupnames(newconfig.getAccount().get_groups())
+        #grouplist=newconfig.getAllUsersFromCouchDB()
+        grouplist=newconfig.getAccount().get_groups()
         path = newconfig.get_script_path()
         print "Interval",newconfig.get_interval()
+        print grouplist
         positiondict = {}
         while True:
             for i in grouplist:

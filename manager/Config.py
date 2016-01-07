@@ -137,13 +137,14 @@ class Config:
         configclass.set_queserver(config.get("Global", "queueserver"))
         return configclass
 
+
     def initDbConfig(self):
         """
         Build the final config object after the DbConfig is initialized along with the local config
         :return config :
         :rtype Config:
         """
-        config = self.readConfigFromFile()
+        config = self.initiateUsers()
         configdict = self.interpreterServer.fetchConfig(config.getAccount().get_teacher())
         self.writeConfig(configdict)
         configparser = ConfigParser.SafeConfigParser()
@@ -151,6 +152,32 @@ class Config:
         config.set_interval(configparser.get("Global", "interval"))
         config.set_queue_name(configparser.get("Global", "queue_name"))
         return config
+
+    def createUserList(self,usersdictlist):
+        userlist=[]
+        for userdict in usersdictlist :
+            userlist.append(userdict["group"])
+        return userlist
+
+    def initiateUsers(self):
+        usersdictlist= self.interpreterServer.getEnabledUsers()
+        config = ConfigParser.SafeConfigParser()
+        userlist= self.createUserList(usersdictlist)
+        configclass=Config()
+        configclass.setAccount(self.account)
+        configclass.getAccount().set_course(config.get("Account", "course"))
+        configclass.getAccount().set_teacher(config.get("Account", "teacher"))
+        configclass.getAccount().set_semester(config.get("Account", "semester"))
+        configclass.getAccount().set_groups(userlist)
+        configclass.setConfigDbName(config.get("Global", "configdbname"))
+        configclass.set_script_path(config.get("Global", "scriptpath"))
+        configclass.set_dbserver(config.get("Global", "dbserver"))
+        configclass.set_queserver(config.get("Global", "queueserver"))
+        return configclass
+
+
+
+
 
     def createWorkQ(self, queuename, joblist):
         """
