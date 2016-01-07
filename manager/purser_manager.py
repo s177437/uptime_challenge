@@ -27,20 +27,20 @@ class Httpmanager():
         grouplist=newconfig.getAccount().get_groups()
         path = newconfig.get_script_path()
         print "Interval",newconfig.get_interval()
-        print grouplist
         positiondict = {}
         while True:
             for i in grouplist:
                 userconfig = self.interpreterServer.getUserConfig(i,"couchdb")
                 ip=userconfig["ipaddress"]
                 worklist=[]
-                worklist = [{"ip":ip,"sentance":userconfig["sentance"],"filepath":userconfig["filepath"],"file":userconfig["file"],"timestamp":time.time()}]
+                worklist = [{"ip":ip,"sentance":userconfig["Sentance"],"filepath":userconfig["filepath"],"file":userconfig["file"],"timestamp":time.time()}]
                 groupdict = {}
                 groupdict.update({i: worklist})
+		print groupdict
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                 worklist = []
-                queue = Queue()
-                queue.receiveOneMessageFromQ("purser_report_q", newconfig.get_interval())
+            queue = Queue()
+            queue.receiveOneMessageFromQ("purser_report_q", newconfig.get_interval())
 
 
 manager = Httpmanager()

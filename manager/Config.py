@@ -162,6 +162,7 @@ class Config:
     def initiateUsers(self):
         usersdictlist= self.interpreterServer.getEnabledUsers()
         config = ConfigParser.SafeConfigParser()
+	config.read("config.ini")
         userlist= self.createUserList(usersdictlist)
         configclass=Config()
         configclass.setAccount(self.account)
