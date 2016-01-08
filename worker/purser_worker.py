@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '/root/uptime_challenge_master/testscript')
+#sys.path.insert(0, '/root/uptime_challenge_master/testscript')
 from purser import *
 
 import pika
@@ -53,7 +53,7 @@ class worker():
         dict.update({"worker": self.getHostName()})
         dict.update({"group": self.get_group_name()})
         p.deleteDirectory("128.39.121.59")
-	print dict
+	#print dict
         return str(dict)
 
     def replyToMaster(self, content):
