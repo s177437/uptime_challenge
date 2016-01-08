@@ -74,15 +74,15 @@ class Purser:
 
 
     def downloadUrl(self,hostname):
-        self.runcommand("mkdir "+hostname)
+        self.runcommand("mkdir "+"/root/uptime_challenge_master/worker/"+hostname)
         starttime=time.time()
         http=httplib2.Http()
         status, response = http.request("http://"+hostname)
-        urllib.urlretrieve("http://"+hostname+"/stylesheet.css", hostname+"/stylesheet.css")
-        urllib.urlretrieve("http://"+hostname+"/index.php", hostname+"/index.php")
+        urllib.urlretrieve("http://"+hostname+"/stylesheet.css", "/root/uptime_challenge_master/worker/"+hostname+"/stylesheet.css")
+        urllib.urlretrieve("http://"+hostname+"/index.php", "/root/uptime_challenge_master/worker/"+hostname+"/index.php")
         index=0
         for link in BeautifulSoup(response, parseOnlyThese=SoupStrainer('img')) :
-            filename=hostname+"/picture"+str(index)
+            filename="/root/uptime_challenge_master/worker/"+hostname+"/picture"+str(index)
             urllib.urlretrieve(link['src'],filename)
             index+=1
         return time.time() - starttime
