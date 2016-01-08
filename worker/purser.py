@@ -16,14 +16,18 @@ class Purser:
         # self.runcommand("rm -rf 128.39.121.59")
         self.runcommand("rm -rf " + directory_name)
 
-    def checkIfFileExists(self, filepath):
-        #full_directory_path = os.path.dirname(os.path.abspath(__file__)) + "/" + directory_name + "/"
-	
-        return os.path.exists(filepath)
-
+    def checkIfFileExists(self, filepath, filename):
+	ls_check= self.getcommandoutput("ls "+ filepath)	
+	if filename in ls_check : 
+		return "True"
+	else : 
+		return "False"
 
     def readFileAndCheckIfSentanceExistInTheFile(self, filepath, sentance):
-        lines = [line.rstrip('\n') for line in open(filepath)]
+        data= urllib.urlopen("http://128.39.121.59/index.php")
+        lines=[]
+        for line in data :
+            lines.append(line)
         notfound="Not found"
         for line in lines :
             if sentance in line :
@@ -46,9 +50,9 @@ class Purser:
         result={}
         file_found="File not found"
         time_used_to_download = self.downloadUrl(ip)
-        file_exists_in_directory_tree = self.checkIfFileExists(filepath)
+        file_exists_in_directory_tree = self.checkIfFileExists(filepath, filename)
         sentance_found="Word not found"
-        if file_exists_in_directory_tree :
+        if file_exists_in_directory_tree == "True" :
             sentance_found = self.readFileAndCheckIfSentanceExistInTheFile(filepath, sentance)
         result["Http response code"]=self.getResponseCode(ip)
         result["Time used to download"]=time_used_to_download
@@ -59,9 +63,9 @@ class Purser:
         result["Check timestamp"]=time.time()
         result["Lookup status"]=sentance_found
 
-        if result["File exists"] and result["Http response code"] == 200 and "not found" in sentance_found:
+        if result["File exists"] == "True" and result["Http response code"] == 200 and "not found" in sentance_found:
             result["Test status"] = "Partial OK"
-        elif result["File exists"] == False :
+        elif result["File exists"] == "False" :
             result["Test status"] = "Not Approved"
         else :
             result["Test status"]= "OK"
