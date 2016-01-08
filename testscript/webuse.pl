@@ -4,7 +4,7 @@ my $version = 1.5;
 
 my $iconbase = "avatars/";
 my $namesfile = "names.txt";
-my $sentence_file = "sentences.txt";
+my $sentence_file = "/root/uptime_challenge_master/testscript/sentences.txt";
 my $imagefile = "images.txt";
 my $tempdir = "/run/shm/";
 
