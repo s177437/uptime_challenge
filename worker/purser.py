@@ -14,13 +14,11 @@ class Purser:
         # self.runcommand("rm -rf 128.39.121.59")
         self.runcommand("rm -rf " + directory_name)
 
-    def checkIfFileExists(self, filename, directory_name):
-        full_directory_path = os.path.dirname(os.path.abspath(__file__)) + "/" + directory_name + "/"
-        return os.path.exists(full_directory_path + filename)
+    def checkIfFileExists(self, filepath):
+        #full_directory_path = os.path.dirname(os.path.abspath(__file__)) + "/" + directory_name + "/"
+	
+        return os.path.exists(filepath)
 
-    def getFilePath(self, filename, directory_name):
-        full_directory_path = os.path.dirname(os.path.abspath(__file__)) + "/" + directory_name + "/"
-        return full_directory_path + filename
 
     def readFileAndCheckIfSentanceExistInTheFile(self, filepath, sentance):
         lines = [line.rstrip('\n') for line in open(filepath)]
@@ -46,7 +44,8 @@ class Purser:
         result={}
         file_found="File not found"
         time_used_to_download = self.downloadSiteAndReturnTheTime(ip)
-        file_exists_in_directory_tree = self.checkIfFileExists(filename, ip)
+	full_path=filepath+ip+"/"+filename
+        file_exists_in_directory_tree = self.checkIfFileExists(filepath)
         sentance_found="Word not found"
         if file_exists_in_directory_tree :
             sentance_found = self.readFileAndCheckIfSentanceExistInTheFile(filepath, sentance)
@@ -72,7 +71,8 @@ class Purser:
 
 
 
-p = Purser()
+#p = Purser()
+#print p.runPurser("128.39.121.59", "index.php", "/root/uptime_challenge_master/worker/", "Users:")
 #print p.downloadSiteAndReturnTheTime()
 #print p.checkIfFileExists("index.php", "128.39.121.59")
 #print p.readFileAndCheckIfSentanceExistInTheFile("/Users/stianstrom/PycharmProjects/uptime_challenge_master/testscript/128.39.121.59/index.php", "Users")
