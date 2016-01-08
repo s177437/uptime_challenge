@@ -1,7 +1,6 @@
 import sys
 #sys.path.insert(0, '/root/uptime_challenge_master/testscript')
 from purser import *
-
 import pika
 import ast
 import subprocess

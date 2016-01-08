@@ -1,4 +1,6 @@
 import time
+import httplib2
+from BeautifulSoup import BeautifulSoup, SoupStrainer
 import subprocess
 import urllib
 import os
@@ -42,10 +44,8 @@ class Purser:
 
     def runPurser(self, ip, filename, filepath, sentance):
         result={}
-	self.runcommand("mkdir /opt/stiansmappe")
         file_found="File not found"
-        time_used_to_download = self.downloadSiteAndReturnTheTime(ip)
-	full_path=filepath+ip+"/"+filename
+        time_used_to_download = self.downloadUrl(ip)
         file_exists_in_directory_tree = self.checkIfFileExists(filepath)
         sentance_found="Word not found"
         if file_exists_in_directory_tree :
@@ -66,6 +66,23 @@ class Purser:
         else :
             result["Test status"]= "OK"
         return result
+
+
+
+    def downloadUrl(self,hostname):
+        self.runcommand("mkdir "+hostname)
+        starttime=time.time()
+        http=httplib2.Http()
+        status, response = http.request("http://"+hostname)
+        urllib.urlretrieve("http://"+hostname+"/stylesheet.css", hostname+"/stylesheet.css")
+        urllib.urlretrieve("http://"+hostname+"/index.php", hostname+"/index.php")
+        index=0
+        for link in BeautifulSoup(response, parseOnlyThese=SoupStrainer('img')) :
+            filename=hostname+"/picture"+str(index)
+            urllib.urlretrieve(link['src'],filename)
+            index+=1
+        return time.time() - starttime
+
 
 
 
