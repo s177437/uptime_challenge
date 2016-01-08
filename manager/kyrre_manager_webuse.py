@@ -24,9 +24,8 @@ class Httpmanager():
         position=0
         config = Config()
         newconfig = config.initDbConfig()
-        userinfo = config.requestUserCreation(newconfig)
-        grouplist = newconfig.findGroupnames(newconfig.getAccount().get_groups())
-        self.interpreterServer.createAccounts(userinfo)
+        #grouplist = newconfig.findGroupnames(newconfig.getAccount().get_groups())
+	grouplist=newconfig.getAccount().get_groups()
         path = newconfig.get_script_path()
         #executable_string=path + "webuse.pl -U 128.39.121.59 -r '10:10:10:10'"
         #executable_string=path + "webuse.pl -U 128.39.121.59 -r '10/10/10/10'"
