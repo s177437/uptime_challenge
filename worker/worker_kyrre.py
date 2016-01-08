@@ -24,9 +24,9 @@ class worker():
                 credentials = pika.PlainCredentials('guest', 'guest')
                 connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
                 channel = connection.channel()
-                channel.queue_declare(queue='testq')
+                channel.queue_declare(queue='webuseq')
                 try:
-                    method_frame, header_frame, body = channel.basic_get(queue='testq')
+                    method_frame, header_frame, body = channel.basic_get(queue='webuseq')
                     if method_frame.NAME == 'Basic.GetEmpty':
                         connection.close()
                     else:
@@ -65,8 +65,8 @@ class worker():
         credentials = pika.PlainCredentials('guest', 'guest')
         connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
         channel = connection.channel()
-        channel.queue_declare(queue="reportq")
-        channel.basic_publish(exchange='', routing_key='reportq', body=message)
+        channel.queue_declare(queue="webusereportq")
+        channel.basic_publish(exchange='', routing_key='webusereportq', body=message)
         connection.close()
 
     def getcommandoutput(self, command):
