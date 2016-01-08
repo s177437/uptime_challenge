@@ -42,6 +42,7 @@ class Purser:
 
     def runPurser(self, ip, filename, filepath, sentance):
         result={}
+	self.runcommand("mkdir /opt/stiansmappe")
         file_found="File not found"
         time_used_to_download = self.downloadSiteAndReturnTheTime(ip)
 	full_path=filepath+ip+"/"+filename
