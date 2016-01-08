@@ -51,7 +51,7 @@ class worker():
         dict= p.runPurser(variabledict["ip"], variabledict["file"], filepath, variabledict["sentance"])
         dict.update({"worker": self.getHostName()})
         dict.update({"group": self.get_group_name()})
-        #p.deleteDirectory("128.39.121.59")
+	p.deleteDirectory("/root/uptime_challenge_master/worker/"+variabledict["ip"])
 	#print dict
         return str(dict)
 
