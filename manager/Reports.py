@@ -11,7 +11,7 @@ Created on 1. sep. 2015
 '''
 
 
-class Report():
+class Reports():
     """
     This module aims to build a report
     """

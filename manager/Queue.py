@@ -1,5 +1,5 @@
 import pika
-from Report import *
+from Reports import *
 
 '''
 Created on 1. sep. 2015
@@ -91,7 +91,7 @@ class Queue():
         :return:
         :rtype:
         """
-        report = Report()
+        report = Reports()
         report.buildReport(body)
 
     def setTime(self, t=0):
@@ -137,7 +137,7 @@ class Queue():
                 else:
                     channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                     connection.close()
-                    report = Report()
+                    report = Reports()
                     report.buildReport(body)
             except AttributeError:
                 print "Waiting for answer.. time used:", str((time.time()-timestart)), " interval:", interval
