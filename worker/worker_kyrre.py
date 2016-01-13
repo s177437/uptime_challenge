@@ -21,8 +21,8 @@ class worker():
         # do :
         # sloop=False
         while 1:
-                credentials = pika.PlainCredentials('guest', 'guest')
-                connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
+                credentials = pika.PlainCredentials(***REMOVED***, ***REMOVED***)
+                connection = pika.BlockingConnection(pika.ConnectionParameters(***REMOVED***, 5672, '/', credentials))
                 channel = connection.channel()
                 channel.queue_declare(queue='webuseq')
                 try:
@@ -62,8 +62,8 @@ class worker():
         self.set_group_name(dict.keys()[0])
         message = self.doJob(job)
         #print message
-        credentials = pika.PlainCredentials('guest', 'guest')
-        connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
+        credentials = pika.PlainCredentials(***REMOVED***, ***REMOVED***)
+        connection = pika.BlockingConnection(pika.ConnectionParameters(***REMOVED***, 5672, '/', credentials))
         channel = connection.channel()
         channel.queue_declare(queue="webusereportq")
         channel.basic_publish(exchange='', routing_key='webusereportq', body=message)
