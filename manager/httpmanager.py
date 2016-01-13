@@ -1,4 +1,4 @@
-from Queue import *
+from Queues import *
 from Config import *
 import pika
 import couchdb
@@ -35,7 +35,7 @@ class Httpmanager():
                 groupdict = {}
                 groupdict.update({i: worklist})
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
-                queue = Queue()
+                queue = Queues()
             # queue.listenContinouslyToQueue("reportq")
             timestart = time.time()
             while (time.time() - timestart <= float(newconfig.get_interval())):

@@ -4,7 +4,7 @@ Created on 1. sep. 2015
 @author: stianstrom
 '''
 
-from Queue import *
+from Queues import *
 from Account import *
 import json
 import ConfigParser
@@ -72,7 +72,7 @@ class Config:
         :rtype:
         """
         listtostring = accountlist
-        queue = Queue()
+        queue = Queues()
         queue.createQueue("createuserq", str(listtostring))
 
     def findGroupnames(self, grouplist):
@@ -190,7 +190,7 @@ class Config:
         :return:
         :rtype:
         """
-        queue = Queue()
+        queue = Queues()
         for group, job in joblist.iteritems():
             for j in job:
                 jobdict = {}

@@ -1,4 +1,4 @@
-from Queue import *
+from Queues import *
 from Config import *
 from WebUseMath import *
 import pika
@@ -39,7 +39,7 @@ class Httpmanager():
 		print groupdict
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                 worklist = []
-            queue = Queue()
+            queue = Queues()
             queue.receiveOneMessageFromQ("purser_report_q", newconfig.get_interval())
 
 

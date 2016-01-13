@@ -1,5 +1,5 @@
 #import pdb;pdb.set_trace() 
-from Queue import *
+from Queues import *
 import ast
 import Pyro4
 import time
@@ -9,7 +9,7 @@ Created on 1. sep. 2015
 
 @author: stianstrom
 '''
-
+from Queues import *
 
 class Reports():
     """
@@ -29,7 +29,7 @@ class Reports():
         :return:
         :rtype:
         """
-        queue = Queue()
+        queue = Queues()
         queue.createQueue(queuename, content)
 
     def buildReport(self, content):

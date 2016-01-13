@@ -1,4 +1,4 @@
-from Queue import *
+from Queues import *
 from Config import *
 from WebUseMath import *
 import pika
@@ -67,7 +67,7 @@ class Httpmanager():
                 else :
                     positiondict[i]=position+1
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
-                queue = Queue()
+                queue = Queues()
             # queue.listenContinouslyToQueue("reportq")
             queue.receiveOneMessageFromQ("reportq", newconfig.get_interval())
 

@@ -9,7 +9,7 @@ Created on 1. sep. 2015
 import time
 
 
-class Queue():
+class Queues():
     """
     This module is the Queue class.
     """
