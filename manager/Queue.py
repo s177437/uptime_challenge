@@ -43,7 +43,7 @@ class Queue():
         :return:
         :rtype:
         """
-        credentials = pika.PlainCredentials('guest', 'guest')
+        credentials = pika.PlainCredentials(***REMOVED***, ***REMOVED***)
         connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', 5672, '/', credentials))
         return connection
 

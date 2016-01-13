@@ -24,8 +24,8 @@ class worker():
         # do :
         # sloop=False
         while 1:
-                credentials = pika.PlainCredentials('guest', 'guest')
-                connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
+                credentials = pika.PlainCredentials(***REMOVED***, ***REMOVED***)
+                connection = pika.BlockingConnection(pika.ConnectionParameters(***REMOVED***, 5672, '/', credentials))
                 channel = connection.channel()
                 channel.queue_declare(queue='purserq')
                 try:
@@ -61,8 +61,8 @@ class worker():
         self.set_group_name(outerdict.keys()[0])
         message = self.doJob(innerdict)
         #print message
-        credentials = pika.PlainCredentials('guest', 'guest')
-        connection = pika.BlockingConnection(pika.ConnectionParameters('10.1.1.175', 5672, '/', credentials))
+        credentials = pika.PlainCredentials(***REMOVED***, ***REMOVED***)
+        connection = pika.BlockingConnection(pika.ConnectionParameters(***REMOVED***, 5672, '/', credentials))
         channel = connection.channel()
         channel.queue_declare(queue="purser_report_q")
         channel.basic_publish(exchange='', routing_key='purser_report_q', body=message)

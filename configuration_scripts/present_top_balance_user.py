@@ -2,7 +2,7 @@ import couchdb
 import json
 
 def fetchUsersAndBalance():
-	couch = couchdb.Server("http://couchdb:5984/")
+	couch = couchdb.Server("http://admin:uptime_challenge@couchdb:5984/")
         db = couch["testaccounts"]
         map_fun = '''
 	function(doc) {
