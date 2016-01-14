@@ -1,4 +1,3 @@
-import pika
 from Reports import *
 
 '''
@@ -7,6 +6,7 @@ Created on 1. sep. 2015
 @author: stianstrom
 '''
 import time
+import pika
 
 
 class Queues():
@@ -143,4 +143,5 @@ class Queues():
                 print "Waiting for answer.. time used:", str((time.time()-timestart)), " interval:", interval
                 time.sleep(1)
                 connection.close()
+
 
