@@ -3,7 +3,7 @@
 # VERSION               0.0.2
 
 FROM ubuntu:14.04
-MAINTAINER Sven Dowideit <SvenDowideit@docker.com>
+MAINTAINER Stian Strom Anderssen <s177437@stud.hioa.no>
 
 ENV TERM xterm
 RUN apt-get update && apt-get install -y openssh-server python-pip git git-core httperf libwww-perl
