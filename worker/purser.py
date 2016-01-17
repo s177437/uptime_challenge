@@ -31,7 +31,7 @@ class Purser:
         notfound="Not found"
         for line in lines :
             if sentance in line :
-                return sentance+" is found in " + filepath + " at line " + str(lines.index(line))
+                return "Word is found in " + filepath + " at line " + str(lines.index(line))
         return sentance + " not found in " + filepath
 
 
@@ -58,7 +58,7 @@ class Purser:
         result["Time used to download"]=time_used_to_download
         result["File exists"]=file_exists_in_directory_tree
         result["File"] = filename
-        result["Sentance"] = sentance
+        #result["Sentance"] = sentance
         result["Hostname"]=ip
         result["Check timestamp"]=time.time()
         result["Lookup status"]=sentance_found
