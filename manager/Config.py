@@ -110,12 +110,12 @@ class Config:
         :return:
         :rtype:
         """
-        with open('config.ini', 'r') as f:
+        with open('/root/uptime_challenge_master/manager/config.ini', 'r') as f:
             words = f.read().split()
             if key in words:
                 logging.info("No need to write to file, key is present")
             else:
-                file = open('config.ini', 'a')
+                file = open('/root/uptime_challenge_master/manager/config.ini', 'a')
                 file.write(key + " = " + value + "\n")
 
     def readConfigFromFile(self):
@@ -125,7 +125,7 @@ class Config:
         :rtype Config:
         """
         config = ConfigParser.SafeConfigParser()
-        config.read("config.ini")
+        config.read("/root/uptime_challenge_master/manager/config.ini")
         configclass = Config()
         configclass.setAccount(self.account)
         configclass.getAccount().set_course(config.get("Account", "course"))
@@ -149,7 +149,7 @@ class Config:
         configdict = self.interpreterServer.fetchConfig(config.getAccount().get_teacher())
         self.writeConfig(configdict)
         configparser = ConfigParser.SafeConfigParser()
-        configparser.read("config.ini")
+        configparser.read("/root/uptime_challenge_master/manager/config.ini")
         config.set_interval(configparser.get("Global", "interval"))
         config.set_queue_name(configparser.get("Global", "queue_name"))
         return config
@@ -163,7 +163,7 @@ class Config:
     def initiateUsers(self):
         usersdictlist= self.interpreterServer.getEnabledUsers()
         config = ConfigParser.SafeConfigParser()
-        config.read("config.ini")
+        config.read("/root/uptime_challenge_master/manager/config.ini")
         userlist= self.createUserList(usersdictlist)
         configclass=Config()
         configclass.setAccount(self.account)

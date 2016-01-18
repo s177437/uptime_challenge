@@ -1,0 +1,34 @@
+SERVICE='httpperf_manager_kyrre'
+PID=$(ps ax | grep -v grep | grep $SERVICE | awk '{print $1}')
+
+case "$1" in
+    start)
+        echo -e "Starting the Httperf Manager: "
+	python /root/uptime_challenge_master/manager/httpperf_manager_kyrre.py & 
+        ;;
+    stop)
+        if ps ax | grep -v grep | grep $SERVICE > /dev/null
+	then
+    	echo -e "Stopping the Httperf Manager ..."
+    	kill $PID
+	else
+    	echo -e "The Httperf Manager is not running, no need to stop it"
+	fi
+        ;;
+    status)
+	if ps ax | grep -v grep | grep $SERVICE > /dev/null
+	then
+		echo -e "The Httperf Manager is running"
+	else
+		echo -e "The Httperf Manager is not running"
+	fi
+	;;
+    reload|restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo -e "Usage: $0 start|stop|restart|reload"
+        exit 1
+esac
+exit 0

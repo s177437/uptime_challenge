@@ -1,0 +1,34 @@
+SERVICE='purser_manager'
+PID=$(ps ax | grep -v grep | grep $SERVICE | awk '{print $1}')
+
+case "$1" in
+    start)
+        echo -e "Starting the Purser Manager: "
+	python /root/uptime_challenge_master/manager/purser_manager.py & 
+        ;;
+    stop)
+        if ps ax | grep -v grep | grep $SERVICE > /dev/null
+	then
+    	echo -e "Stopping the Purser Manager ..."
+    	kill $PID
+	else
+    	echo -e "The Purser Manager is not running, no need to stop it"
+	fi
+        ;;
+    status)
+	if ps ax | grep -v grep | grep $SERVICE > /dev/null
+	then
+		echo -e "The Purser Manager is running"
+	else
+		echo -e "Rhe Purser Manager is not running"
+	fi
+	;;
+    reload|restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo -e "Usage: $0 start|stop|restart|reload"
+        exit 1
+esac
+exit 0
