@@ -11,7 +11,7 @@ import logging
 
 
 class Queues():
-    logging.basicConfig(filename='/var/log/manager.log',level=logging.DEBUG)
+    logging.basicConfig(filename='/var/log/manager.log',level=logging.CRITICAL)
 
     """
     This module is the Queue class.
@@ -143,7 +143,7 @@ class Queues():
                     report = Reports()
                     report.buildReport(body)
             except AttributeError:
-                logging.info("Waiting for answer.. time used: "+ str((time.time()-timestart)), + " interval: " + str(interval))
+                logging.critical("Waiting for answer.. time used: "+ str((time.time()-timestart)) + " interval: " + str(interval))
                 time.sleep(1)
                 connection.close()
 
