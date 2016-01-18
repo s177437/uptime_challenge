@@ -4,6 +4,7 @@ from WebUseMath import *
 import pika
 import couchdb
 import Pyro4
+import logging
 import time
 
 
@@ -26,7 +27,7 @@ class Httpmanager():
         #grouplist=newconfig.getAllUsersFromCouchDB()
         grouplist=newconfig.getAccount().get_groups()
         path = newconfig.get_script_path()
-        print "Interval",newconfig.get_interval()
+        logging.info("Interval: "+str(newconfig.get_interval()))
         positiondict = {}
         while True:
             for i in grouplist:
@@ -36,7 +37,6 @@ class Httpmanager():
                 worklist = [{"ip":ip,"sentance":userconfig["Sentance"],"filepath":userconfig["filepath"],"file":userconfig["file"],"timestamp":time.time()}]
                 groupdict = {}
                 groupdict.update({i: worklist})
-		print groupdict
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                 worklist = []
             queue = Queues()

@@ -7,9 +7,12 @@ Created on 1. sep. 2015
 '''
 import time
 import pika
+import logging
 
 
 class Queues():
+    logging.basicConfig(filename='/var/log/manager.log',level=logging.DEBUG)
+
     """
     This module is the Queue class.
     """
@@ -140,7 +143,7 @@ class Queues():
                     report = Reports()
                     report.buildReport(body)
             except AttributeError:
-                print "Waiting for answer.. time used:", str((time.time()-timestart)), " interval:", interval
+                logging.info("Waiting for answer.. time used: "+ str((time.time()-timestart)), + " interval: " + str(interval))
                 time.sleep(1)
                 connection.close()
 

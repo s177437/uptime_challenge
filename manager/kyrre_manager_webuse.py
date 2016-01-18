@@ -1,5 +1,6 @@
 from Queues import *
 from Config import *
+import logging
 from WebUseMath import *
 import pika
 import couchdb
@@ -7,11 +8,13 @@ import Pyro4
 import time
 
 
+
 class Httpmanager():
     """
     This module is the main class for the manager project. This module takes care of the execution of the functions.
     """
     interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
+    logging.basicConfig(filename='/var/log/manager.log',level=logging.DEBUG)
     # comment
     def fetchConfig(self):
         """
@@ -30,21 +33,21 @@ class Httpmanager():
         #executable_string=path + "webuse.pl -U 128.39.121.59 -r '10:10:10:10'"
         #executable_string=path + "webuse.pl -U 128.39.121.59 -r '10/10/10/10'"
         index=0
-        print "Interval",newconfig.get_interval()
+        logging.info("Interval"+str(newconfig.get_interval()))
         positiondict = {}
         for i in grouplist:
             userconfig = self.interpreterServer.getFileAndOffsetFromUser(i)
-	    ipconfig = self.interpreterServer.getIpFromUser(i)
+            ipconfig = self.interpreterServer.getIpFromUser(i)
             ip=ipconfig["ipaddress"]
             executable_string=path + "webuse.pl -U " + ip +" -r '10:10:10:10'"
-            print userconfig
+            logging.info(str(userconfig))
             index = int(userconfig["offset"])
-            print "INDEX", index
+            logging.info("INDEX "+str(index))
             content = math.decideEntry(strengthlist,index)
             worklist=[]
             listvalues = math.convertToList(content)
             position= int(listvalues[0])
-            print "USEREN:", i,"POSITION", position
+            logging.info("USER: "+ str(i)+" POSITION: "+ str(position))
             strength_number=math.calculateList(listvalues)
             worklist = math.create_number_of_scripts(strength_number,executable_string)
             groupdict = {}
@@ -54,7 +57,7 @@ class Httpmanager():
             positiondict.update({i:position})
         while True:
             for i, position in positiondict.iteritems():
-                print "USER:", i,"POSITION", position
+                logging.info("USER: "+ str(i)+" POSITION: "+ str(position))
                 strength_value_as_string= math.jumpToNextEntry(strengthlist, int(position))
                 values_in_value_string=math.convertToList(strength_value_as_string)
                 #position=int(values_in_value_string[0])

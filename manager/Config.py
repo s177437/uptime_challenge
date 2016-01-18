@@ -12,6 +12,7 @@ import couchdb
 import ast
 import Pyro4
 import random
+import logging
 
 
 class Config:
@@ -112,7 +113,7 @@ class Config:
         with open('config.ini', 'r') as f:
             words = f.read().split()
             if key in words:
-                print "No need to write to file, key is present"
+                logging.info("No need to write to file, key is present")
             else:
                 file = open('config.ini', 'a')
                 file.write(key + " = " + value + "\n")
@@ -162,7 +163,7 @@ class Config:
     def initiateUsers(self):
         usersdictlist= self.interpreterServer.getEnabledUsers()
         config = ConfigParser.SafeConfigParser()
-	config.read("config.ini")
+        config.read("config.ini")
         userlist= self.createUserList(usersdictlist)
         configclass=Config()
         configclass.setAccount(self.account)
