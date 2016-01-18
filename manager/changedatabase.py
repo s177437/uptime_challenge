@@ -28,4 +28,4 @@ def modkey(dbname, groupname, value):
 
 
 
-modkey("testaccounts", "group1", 300)
+modkey("accounts", "group1", 300)

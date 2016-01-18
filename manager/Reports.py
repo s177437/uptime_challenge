@@ -57,7 +57,7 @@ class Reports():
         :rtype:
         """
         groupname = reportdict['group']
-        dbname = "testaccounts"
+        dbname = "accounts"
 	added_to_database_already=0
         for key, value in reportdict.iteritems():
             if "Award" in key:
@@ -72,7 +72,7 @@ class Reports():
 	    self.interpreterServer.postReportToDatabase(reportdict)
 
     def calculateAward(self, reportdict):
-        dbname="testaccounts"
+        dbname="accounts"
         userconfig = self.interpreterServer.getUserConfig(reportdict["group"],"couchdb")
         hourly_rate=userconfig["hourly_rate"]
         last_check=userconfig["last_check"]
@@ -93,7 +93,7 @@ class Reports():
             reportdict.update({"Message": "This test finished after a newer one finished."})
             reward= 0
         self.interpreterServer.updateBalance(dbname, reportdict["group"], int(reward))
-        self.interpreterServer.modify_key("couchdb", "testaccounts", "group", reportdict["group"], "last_check", reportdict["Check timestamp"])
+        self.interpreterServer.modify_key("couchdb", "accounts", "group", reportdict["group"], "last_check", reportdict["Check timestamp"])
         return reportdict
 
 
@@ -102,7 +102,7 @@ class Reports():
         time_used=reportdict["Time used to download"]
         bonus_time_cutoff= userconfig["bonus_time_cutoff"]
         bonus= ((float(bonus_time_cutoff)/float(time_used))*bonus_value)
-        self.interpreterServer.updateBalance("testaccounts", reportdict["group"], int(bonus))
+        self.interpreterServer.updateBalance("accounts", reportdict["group"], int(bonus))
 
 
 

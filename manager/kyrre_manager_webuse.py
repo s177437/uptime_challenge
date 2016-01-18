@@ -14,7 +14,6 @@ class Httpmanager():
     This module is the main class for the manager project. This module takes care of the execution of the functions.
     """
     interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
-    logging.basicConfig(filename='/var/log/manager.log',level=logging.DEBUG)
     # comment
     def fetchConfig(self):
         """
