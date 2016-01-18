@@ -9,7 +9,7 @@ class AddUsers() :
 
 	def createUserObject(self, filename) : 
 		couch = couchdb.Server("http://admin:uptime_challenge@couchdb:5984/")
-		db = couch["testaccounts"]
+		db = couch["accounts"]
 		users=self.readFile(filename)
 		for user in users : 
 			attributes={}
