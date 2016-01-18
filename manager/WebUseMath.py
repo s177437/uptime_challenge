@@ -10,7 +10,7 @@ import time
 
 class WebUseMath :
     def createTimeList(self):
-        content = [line.strip("\n") for line in open("transsine.dat")]
+        content = [line.strip("\n") for line in open("/root/uptime_challenge_master/manager/transsine.dat")]
         return content
 
 
