@@ -46,7 +46,11 @@ class WebUseMath :
 
     def create_number_of_scripts(self, number_of_scripts_to_make, executable_string) :
         if number_of_scripts_to_make<=0 :
-            return [""]
+	    scriptlist= []
+	    number_to_run=number_of_scripts_to_make*(-1)
+	    for i in range(0,number_to_run) : 
+		scriptlist.append(executable_string)
+	    return scriptlist 
         else :
             scriptlist=[]
             for i in range(0,number_of_scripts_to_make):
