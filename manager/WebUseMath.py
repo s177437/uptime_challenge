@@ -58,7 +58,11 @@ class WebUseMath :
             return scriptlist
     def create_HttperfExecutableString(self, ip, strength, executable_string_start):
 	if strength<=0 : 
-	    return[""]
+		new_strength=strength*(-1)
+		scriptlist=[]
+		full_exec_string=executable_string_start+ " " + ip + " " + str((new_strength*300)) + " " + str(new_strength)
+		scriptlist.append(full_exec_string)
+
 	else : 
 		scriptlist=[]
 		full_exec_string=executable_string_start+ " " + ip + " " + str((strength*300)) + " " + str(strength)

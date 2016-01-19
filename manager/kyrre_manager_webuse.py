@@ -46,7 +46,6 @@ class Httpmanager():
             worklist=[]
             listvalues = math.convertToList(content)
             position= int(listvalues[0])
-            logging.info("USER: "+ str(i)+" POSITION: "+ str(position))
             strength_number=math.calculateList(listvalues)
             worklist = math.create_number_of_scripts(strength_number,executable_string)
             groupdict = {}
