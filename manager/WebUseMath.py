@@ -62,6 +62,7 @@ class WebUseMath :
 		scriptlist=[]
 		full_exec_string=executable_string_start+ " " + ip + " " + str((new_strength*300)) + " " + str(new_strength)
 		scriptlist.append(full_exec_string)
+		return scriptlist
 
 	else : 
 		scriptlist=[]
