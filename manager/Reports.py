@@ -85,7 +85,6 @@ class Reports():
                 self.calculateBonus(reportdict,userconfig)
             elif "Partial" in  reportdict["Test status"] :
                 reward = (float(hourly_rate)*((now-last_check)/3600))*partial_ok_punishment_decrease
-		print reward
             elif reportdict["Test status"] == "Not Approved" :
                 reward = (float(hourly_rate)*((now-last_check)/3600))*(-1)
             else :

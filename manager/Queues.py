@@ -141,7 +141,6 @@ class Queues():
                     channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                     connection.close()
                     report = Reports()
-		    print body
                     report.buildReport(body)
             except AttributeError:
                 logging.critical("Waiting for answer.. time used: "+ str((time.time()-timestart)) + " interval: " + str(interval))
