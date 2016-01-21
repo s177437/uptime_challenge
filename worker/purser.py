@@ -33,7 +33,7 @@ class Purser:
         for line in lines :
             if sentance in line :
                 return "Word is found in " + filepath + " at line " + str(lines.index(line))
-        return sentance + " not found in " + filepath
+        return "Word not found in " + filepath
 
 
     def getcommandoutput(self, command):
