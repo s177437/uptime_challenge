@@ -23,7 +23,7 @@ class Httpmanager():
         math=WebUseMath()
         config = Config()
         newconfig = config.initDbConfig()
-	print str(newconfig.get_interval())
+	#print str(newconfig.get_interval())
         #grouplist = newconfig.findGroupnames(newconfig.getAccount().get_groups())
         #grouplist=newconfig.getAllUsersFromCouchDB()
         grouplist=newconfig.getAccount().get_groups()
