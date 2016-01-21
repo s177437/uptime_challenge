@@ -61,7 +61,7 @@ class Reports():
 	added_to_database_already=0
         for key, value in reportdict.iteritems():
             if "Award" in key:
-                self.interpreterServer.updateBalance(dbname, groupname, value)
+                self.interpreterServer.updateBalance(dbname, groupname, str(value))
                 self.interpreterServer.postReportToDatabase(reportdict)
 		added_to_database_already=1
             elif "Lookup status" in key :
@@ -83,8 +83,9 @@ class Reports():
             if reportdict["Test status"] == "OK" :
                 reward = float(hourly_rate)*((now-last_check)/3600)
                 self.calculateBonus(reportdict,userconfig)
-            elif reportdict["Test status"] == "Partial OK" :
+            elif "Partial" in  reportdict["Test status"] :
                 reward = (float(hourly_rate)*((now-last_check)/3600))*partial_ok_punishment_decrease
+		print reward
             elif reportdict["Test status"] == "Not Approved" :
                 reward = (float(hourly_rate)*((now-last_check)/3600))*(-1)
             else :
@@ -92,7 +93,7 @@ class Reports():
         else :
             reportdict.update({"Message": "This test finished after a newer one finished."})
             reward= 0
-        self.interpreterServer.updateBalance(dbname, reportdict["group"], int(reward))
+        self.interpreterServer.updateBalance(dbname, reportdict["group"], str(reward))
         self.interpreterServer.modify_key("couchdb", "accounts", "group", reportdict["group"], "last_check", reportdict["Check timestamp"])
         return reportdict
 
@@ -102,7 +103,7 @@ class Reports():
         time_used=reportdict["Time used to download"]
         bonus_time_cutoff= userconfig["bonus_time_cutoff"]
         bonus= ((float(bonus_time_cutoff)/float(time_used))*bonus_value)
-        self.interpreterServer.updateBalance("accounts", reportdict["group"], int(bonus))
+        self.interpreterServer.updateBalance("accounts", reportdict["group"], str(bonus))
 
 
 
