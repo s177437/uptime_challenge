@@ -9,7 +9,7 @@ import os
 class Purser:
     def downloadSiteAndReturnTheTime(self, hostname):
         starttime = time.time()
-        self.runcommand("wget -t 2 -T 5 -p -q http://"+hostname+"/index.php")
+        self.runcommand("wget -t 2 -T 5 -P /root/uptime_challenge_master/worker/ -p -q http://"+hostname+"/index.php")
         return time.time() - starttime
 
     def deleteDirectory(self, directory_name):
@@ -23,12 +23,13 @@ class Purser:
 	else : 
 		return "False"
 
-    def readFileAndCheckIfSentanceExistInTheFile(self, filepath, sentance):
-        data= urllib.urlopen("http://128.39.121.59/index.php")
+    def readFileAndCheckIfSentanceExistInTheFile(self, filepath,ip, sentance):
+        data= urllib.urlopen("http://"+ip+"/index.php")
         lines=[]
         for line in data :
             lines.append(line)
         notfound="Not found"
+	print lines
         for line in lines :
             if sentance in line :
                 return "Word is found in " + filepath + " at line " + str(lines.index(line))
@@ -49,11 +50,12 @@ class Purser:
     def runPurser(self, ip, filename, filepath, sentance):
         result={}
         file_found="File not found"
-        time_used_to_download = self.downloadUrl(ip)
+        #time_used_to_download = self.downloadUrl(ip)
+	time_used_to_download=self.downloadSiteAndReturnTheTime(ip)
         file_exists_in_directory_tree = self.checkIfFileExists(filepath, filename)
         sentance_found="Word not found"
         if file_exists_in_directory_tree == "True" :
-            sentance_found = self.readFileAndCheckIfSentanceExistInTheFile(filepath, sentance)
+            sentance_found = self.readFileAndCheckIfSentanceExistInTheFile(filepath,ip, sentance)
         result["Http response code"]=self.getResponseCode(ip)
         result["Time used to download"]=time_used_to_download
         result["File exists"]=file_exists_in_directory_tree

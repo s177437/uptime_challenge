@@ -52,7 +52,7 @@ class worker():
         dict.update({"worker": self.getHostName()})
         dict.update({"group": self.get_group_name()})
 	p.deleteDirectory("/root/uptime_challenge_master/worker/"+variabledict["ip"])
-	#print dict
+	print dict
         return str(dict)
 
     def replyToMaster(self, content):
