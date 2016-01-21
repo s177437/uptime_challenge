@@ -23,6 +23,7 @@ class Httpmanager():
         math=WebUseMath()
         config = Config()
         newconfig = config.initDbConfig()
+	print str(newconfig.get_interval())
         #grouplist = newconfig.findGroupnames(newconfig.getAccount().get_groups())
         #grouplist=newconfig.getAllUsersFromCouchDB()
         grouplist=newconfig.getAccount().get_groups()
@@ -40,7 +41,8 @@ class Httpmanager():
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                 worklist = []
             queue = Queues()
-            queue.receiveOneMessageFromQ("purser_report_q", newconfig.get_interval())
+	    #print newconfig.get_interval()
+            queue.receiveOneMessageFromQ("purser_report_q", str(newconfig.get_interval()))
 
 
 manager = Httpmanager()

@@ -147,7 +147,7 @@ class Config:
         """
         config = self.initiateUsers()
         configdict = self.interpreterServer.fetchConfig(config.getAccount().get_teacher())
-        self.writeConfig(configdict)
+        #self.writeConfig(configdict)
         configparser = ConfigParser.SafeConfigParser()
         configparser.read("/root/uptime_challenge_master/manager/config.ini")
         config.set_interval(configparser.get("Global", "interval"))
