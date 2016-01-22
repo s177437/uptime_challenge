@@ -36,6 +36,7 @@ class Httpmanager():
         logging.info("Interval: "+ str(newconfig.get_interval()))
         positiondict = {}
         for i in grouplist:
+	    ip =""
             userconfig = self.interpreterServer.getFileAndOffsetFromUser(i)
             ipconfig = self.interpreterServer.getIpFromUser(i)
             ip=ipconfig["ipaddress"]
@@ -56,6 +57,9 @@ class Httpmanager():
         while True:
             for i, position in positiondict.iteritems():
                 logging.info("USER: "+ str(i)+" POSITION: "+ str(position))
+		ip =""
+		ipconfig = self.interpreterServer.getIpFromUser(i)
+            	ip=ipconfig["ipaddress"]
                 strength_value_as_string= math.jumpToNextEntry(strengthlist, int(position))
                 values_in_value_string=math.convertToList(strength_value_as_string)
                 #position=int(values_in_value_string[0])
