@@ -3,7 +3,7 @@ from Queues import *
 import ast
 import Pyro4
 import time
-
+import logging
 '''
 Created on 1. sep. 2015
 
@@ -12,12 +12,14 @@ Created on 1. sep. 2015
 from Queues import *
 
 class Reports():
+
     """
     This module aims to build a report
     """
     groupname = ""
     course = ""
     interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
+    logging.basicConfig(filename='/var/log/manager.log',level=logging.CRITICAL)
 
     def createReportQueue(self, queuename, content):
         """
@@ -77,22 +79,24 @@ class Reports():
         hourly_rate=userconfig["hourly_rate"]
         last_check=userconfig["last_check"]
         partial_ok_punishment_decrease=userconfig["partial_ok_punishment_decrease"]
-        now= time.time()
-        reward = 0.0
+        reward = 0
         if (last_check<reportdict["Check timestamp"]) :
             if reportdict["Test status"] == "OK" :
-                reward = float(hourly_rate)*((now-last_check)/3600)
+                reward = float(hourly_rate)*((time.time()-last_check)/3600)
                 self.calculateBonus(reportdict,userconfig)
             elif "Partial" in  reportdict["Test status"] :
-                reward = ((hourly_rate)*((now-last_check)/3600))*partial_ok_punishment_decrease
+		reward=0
+                reward = (((hourly_rate)*(time.time()-float(last_check)))/3600)*partial_ok_punishment_decrease
+		logging.critical("Group: "+reportdict["group"]+" Hourly rate: "+str(hourly_rate)+ " Time since last check: " + str((time.time()-float(last_check)))+ " POC: "+ str(partial_ok_punishment_decrease)+ " Reward " + str(reward))
             elif reportdict["Test status"] == "Not Approved" :
-                reward = ((hourly_rate)*((now-last_check)/3600))*(-1)
+                reward = ((hourly_rate)*((time.time()-float(last_check))/3600))*(-1)
             else :
                 reward = 0
         else :
             reportdict.update({"Message": "This test finished after a newer one finished."})
             reward= 0
         self.interpreterServer.updateBalance(dbname, reportdict["group"], reward)
+	reward=0
         self.interpreterServer.modify_key("couchdb", "accounts", "group", reportdict["group"], "last_check", reportdict["Check timestamp"])
         return reportdict
 
@@ -101,7 +105,7 @@ class Reports():
         bonus_value=userconfig["bonus"]
         time_used=reportdict["Time used to download"]
         bonus_time_cutoff= userconfig["bonus_time_cutoff"]
-        bonus= (bonus_time_cutoff/time_used)*bonus_value
+        bonus= ((bonus_time_cutoff/time_used)*bonus_value)/288
         self.interpreterServer.updateBalance("accounts", reportdict["group"], bonus)
 
 
