@@ -9,8 +9,12 @@ import os
 class Purser:
     def downloadSiteAndReturnTheTime(self, hostname):
         starttime = time.time()
-        self.runcommand("wget -t 2 -T 5 -P /root/uptime_challenge_master/worker/ -p -q http://"+hostname+"/index.php")
-        return time.time() - starttime
+	output=""
+        output=self.getcommandoutput("wget -t 2 -T 5 -P /root/uptime_challenge_master/worker/ -p -q http://"+hostname+"/index.php")
+	if "No route" in output: 
+		return 0
+	else :
+		return time.time() - starttime
 
     def deleteDirectory(self, directory_name):
         # self.runcommand("rm -rf 128.39.121.59")
@@ -42,8 +46,10 @@ class Purser:
         return output
 
     def getResponseCode(self, sitename):
-        return urllib.urlopen("http://" + sitename).getcode()
-
+        try: 
+		return urllib.urlopen("http://" + sitename).getcode()
+	except IOError : 
+		return 500
     def runcommand(self, command):
         subprocess.call(command, shell=True)
 
@@ -52,26 +58,35 @@ class Purser:
         file_found="File not found"
         #time_used_to_download = self.downloadUrl(ip)
 	time_used_to_download=self.downloadSiteAndReturnTheTime(ip)
-        file_exists_in_directory_tree = self.checkIfFileExists(filepath, filename)
-        sentance_found="Word not found"
-        if file_exists_in_directory_tree == "True" :
-            sentance_found = self.readFileAndCheckIfSentanceExistInTheFile(filepath,ip, sentance)
-        result["Http response code"]=self.getResponseCode(ip)
-        result["Time used to download"]=time_used_to_download
-        result["File exists"]=file_exists_in_directory_tree
-        result["File"] = filename
-        #result["Sentance"] = sentance
-        result["Hostname"]=ip
-        result["Check timestamp"]=time.time()
-        result["Lookup status"]=sentance_found
+	if time_used_to_download == 0 : 
+		result["File exists"]=="False"
+		result["Check timestamp"]=time.time()
+		result["Lookup status"]="Cannot find word, since the network is down"
+		result["Hostname"]=ip
+		result["File"] = filename
+		result["Http response code"]=500
+		return result	
+        else: 
+		file_exists_in_directory_tree = self.checkIfFileExists(filepath, filename)
+        	sentance_found="Word not found"
+        	if file_exists_in_directory_tree == "True" :
+            		sentance_found = self.readFileAndCheckIfSentanceExistInTheFile(filepath,ip, sentance)
+        	result["Http response code"]=self.getResponseCode(ip)
+        	result["Time used to download"]=time_used_to_download
+        	result["File exists"]=file_exists_in_directory_tree
+        	result["File"] = filename
+        	#result["Sentance"] = sentance
+        	result["Hostname"]=ip
+        	result["Check timestamp"]=time.time()
+        	result["Lookup status"]=sentance_found
 
-        if result["File exists"] == "True" and result["Http response code"] == 200 and "not found" in sentance_found:
-            result["Test status"] = "Partial OK"
-        elif result["File exists"] == "False" :
-            result["Test status"] = "Not Approved"
-        else :
-            result["Test status"]= "OK"
-        return result
+        	if result["File exists"] == "True" and result["Http response code"] == 200 and "not found" in sentance_found:
+            		result["Test status"] = "Partial OK"
+        	elif result["File exists"] == "False" :
+            		result["Test status"] = "Not Approved"
+        	else :
+            		result["Test status"]= "OK"
+        	return result
 
 
 
