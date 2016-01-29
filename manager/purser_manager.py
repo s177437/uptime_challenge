@@ -13,6 +13,8 @@ class Httpmanager():
     This module is the main class for the manager project. This module takes care of the execution of the functions.
     """
     interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
+    logging.basicConfig(filename='/var/log/manager.log',level=logging.CRITICAL)
+
     # comment
     def fetchConfig(self):
         """
@@ -38,6 +40,7 @@ class Httpmanager():
                 worklist = [{"ip":ip,"sentance":userconfig["Sentance"],"filepath":userconfig["filepath"],"file":userconfig["file"],"timestamp":time.time()}]
                 groupdict = {}
                 groupdict.update({i: worklist})
+		logging.critical(str(i)+" "+str(worklist))
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                 worklist = []
             queue = Queues()

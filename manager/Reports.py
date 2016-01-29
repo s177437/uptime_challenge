@@ -105,7 +105,7 @@ class Reports():
         bonus_value=userconfig["bonus"]
         time_used=reportdict["Time used to download"]
         bonus_time_cutoff= userconfig["bonus_time_cutoff"]
-        bonus= ((bonus_time_cutoff/time_used)*bonus_value)/288
+        bonus= ((bonus_time_cutoff/time_used)*bonus_value)/12
         self.interpreterServer.updateBalance("accounts", reportdict["group"], bonus)
 
 
