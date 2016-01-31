@@ -93,7 +93,9 @@ class Reports():
             else :
                 reward = 0
         else :
-            reportdict.update({"Message": "This test finished after a newer one finished."})
+	    logging.critical("The timestamp on the report is older than a newer already written to the database")
+            #reportdict.update({"Message": "This test finished after a newer one finished."})
+	    reportdict["Test status"]="The timestamp on this report is older than a previous posted one"
             reward= 0
         self.interpreterServer.updateBalance(dbname, reportdict["group"], reward)
 	reward=0

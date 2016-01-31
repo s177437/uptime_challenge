@@ -80,7 +80,7 @@ class Purser:
         	result["Check timestamp"]=time.time()
         	result["Lookup status"]=sentance_found
 
-        	if result["File exists"] == "True" and result["Http response code"] == 200 and "not found" in sentance_found:
+        	if result["File exists"] == "True" and "not found" in sentance_found:
             		result["Test status"] = "Partial OK"
         	elif result["File exists"] == "False" :
             		result["Test status"] = "Not Approved"
