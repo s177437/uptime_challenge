@@ -24,26 +24,26 @@ class worker():
         # do :
         # sloop=False
         while 1:
+            time.sleep(2)
+            try:
                 credentials = pika.PlainCredentials(***REMOVED***, ***REMOVED***)
                 connection = pika.BlockingConnection(pika.ConnectionParameters(***REMOVED***, 5672, '/', credentials))
                 channel = connection.channel()
                 channel.queue_declare(queue='purserq')
-                try:
-                    method_frame, header_frame, body = channel.basic_get(queue='purserq')
-                    if method_frame.NAME == 'Basic.GetEmpty':
-                        connection.close()
-                    else:
-                        channel.basic_ack(delivery_tag=method_frame.delivery_tag)
-                        print "Received job:", body, "starting job to reply"
-                        self.replyToMaster(body)
-                        connection.close()
-                        time.sleep(2)
-                except AttributeError:
-                    print "No content"
+                method_frame, header_frame, body = channel.basic_get(queue='purserq')
+                if method_frame.NAME == 'Basic.GetEmpty':
                     connection.close()
-                    time.sleep(2)
-
-
+                else:
+                    channel.basic_ack(delivery_tag=method_frame.delivery_tag)
+                    print "Received job:", body, "starting job to reply"
+                    connection.close()
+                    self.replyToMaster(body)
+            except AttributeError:
+                print "No content"
+                connection.close()
+            except pika.exceptions.ConnectionClosed :
+                print "You get Connection Closed"
+                continue
 
     def doJob(self, variabledict):
         p = Purser()
