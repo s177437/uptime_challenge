@@ -41,6 +41,9 @@ class worker():
                     print "No content"
                     connection.sleep(2)
                     #time.sleep(2)
+                except pika.exceptions.ConnectionClosed : 
+                    print "No content"
+                    connection.sleep(2)
 
 
 
