@@ -28,7 +28,8 @@ class worker():
                 try:
                     method_frame, header_frame, body = channel.basic_get(queue='leeshoreq')
                     if method_frame.NAME == 'Basic.GetEmpty':
-                        connection.close()
+                        connection.sleep(2)
+                        #connection.close()
                     else:
                         channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                         print "Received job:", body, "starting job to reply"
