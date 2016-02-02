@@ -69,7 +69,8 @@ class worker():
         channel = connection.channel()
         channel.queue_declare(queue="leeshore_reportq")
         channel.basic_publish(exchange='', routing_key='leeshore_reportq', body=message)
-        connection.close()
+        connection.sleep(1)
+        #connection.close()
 
     def getcommandoutput(self, command):
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
