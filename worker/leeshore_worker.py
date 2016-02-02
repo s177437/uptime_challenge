@@ -21,11 +21,11 @@ class worker():
         # do :
         # sloop=False
         while 1:
-                credentials = pika.PlainCredentials(***REMOVED***, ***REMOVED***)
-                connection = pika.BlockingConnection(pika.ConnectionParameters(***REMOVED***, 5672, '/', credentials))
-                channel = connection.channel()
-                channel.queue_declare(queue='leeshoreq')
                 try:
+                    credentials = pika.PlainCredentials(***REMOVED***, ***REMOVED***)
+                    connection = pika.BlockingConnection(pika.ConnectionParameters(***REMOVED***, 5672, '/', credentials))
+                    channel = connection.channel()
+                    channel.queue_declare(queue='leeshoreq')
                     method_frame, header_frame, body = channel.basic_get(queue='leeshoreq')
                     if method_frame.NAME == 'Basic.GetEmpty':
                         connection.close()
