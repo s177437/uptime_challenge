@@ -21,6 +21,7 @@ class worker():
         # do :
         # sloop=False
         while 1:
+		time.sleep(2)
                 try:
                     credentials = pika.PlainCredentials(***REMOVED***, ***REMOVED***)
                     connection = pika.BlockingConnection(pika.ConnectionParameters(***REMOVED***, 5672, '/', credentials))
@@ -32,17 +33,14 @@ class worker():
                     else:
                         channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                         print "Received job:", body, "starting job to reply"
-                        self.replyToMaster(body)
                         connection.close()
-                        time.sleep(2)
+                        self.replyToMaster(body)
                 except AttributeError:
                     print "No content"
-                    connection.close()
-                    time.sleep(2)
+		    connection.close()
                 except pika.exceptions.ConnectionClosed : 
-                    print "No content"
-                    connection.close()
-                    time.sleep(2)
+                    print "You get Connection Closed"
+		    continue
 
 
     def doJob(self, command):
