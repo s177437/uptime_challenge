@@ -28,23 +28,21 @@ class worker():
                 try:
                     method_frame, header_frame, body = channel.basic_get(queue='leeshoreq')
                     if method_frame.NAME == 'Basic.GetEmpty':
-                        connection.sleep(2)
-                        #connection.close()
+                        connection.close()
                     else:
                         channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                         print "Received job:", body, "starting job to reply"
                         self.replyToMaster(body)
-                        #connection.close()
-                        connection.sleep(2)
-                        #time.sleep(2)
+                        connection.close()
+                        time.sleep(2)
                 except AttributeError:
                     print "No content"
-                    connection.sleep(2)
-                    #time.sleep(2)
+                    connection.close()
+                    time.sleep(2)
                 except pika.exceptions.ConnectionClosed : 
                     print "No content"
-                    connection.sleep(2)
-
+                    connection.close()
+                    time.sleep(2)
 
 
     def doJob(self, command):
@@ -72,8 +70,7 @@ class worker():
         channel = connection.channel()
         channel.queue_declare(queue="leeshore_reportq")
         channel.basic_publish(exchange='', routing_key='leeshore_reportq', body=message)
-        connection.sleep(1)
-        #connection.close()
+        connection.close()
 
     def getcommandoutput(self, command):
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
