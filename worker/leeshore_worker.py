@@ -33,12 +33,13 @@ class worker():
                         channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                         print "Received job:", body, "starting job to reply"
                         self.replyToMaster(body)
-                        connection.close()
-                        time.sleep(2)
+                        #connection.close()
+                        connection.sleep(2)
+                        #time.sleep(2)
                 except AttributeError:
                     print "No content"
-                    connection.close()
-                    time.sleep(2)
+                    connection.sleep(2)
+                    #time.sleep(2)
 
 
 
