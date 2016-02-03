@@ -80,7 +80,7 @@ sub run_on_leeshore {
     # stop the active virtual machine
 	$report{"result"} = "$names{$random} runs om a leeshore!";
 # Enable this
-	#system("nova stop $random");
+	system("nova stop $random");
     } else {
 	verbose("No candidate was found.");
 	$report{"result"} = "No candidate was found";
