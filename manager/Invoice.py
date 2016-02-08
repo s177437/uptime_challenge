@@ -13,5 +13,5 @@ class Invoice :
 	    else : 
             	unitprice=self.pricelist[flavor]
             	price+=unitprice*numberofunits
-        return price/12
+        return ((price/12)*(-1))
 
