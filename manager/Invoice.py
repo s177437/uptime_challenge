@@ -12,5 +12,3 @@ class Invoice :
             price+=unitprice*numberofunits
         return price/12
 
-i=Invoice()
-print i.calculatePrice({"m1.tiny":2,"m1.2xlarge":0,"m1.xlarge":0,"m1.micro":0,"m1.medium":1,"m1.large":0,"m1.small":0})
