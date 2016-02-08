@@ -8,7 +8,10 @@ class Invoice :
     def calculatePrice(self,accountingdict):
         price = 0
         for flavor, numberofunits in accountingdict.iteritems():
-            unitprice=self.pricelist[flavor]
-            price+=unitprice*numberofunits
+	    if flavor =="" : 
+		continue
+	    else : 
+            	unitprice=self.pricelist[flavor]
+            	price+=unitprice*numberofunits
         return price/12
 

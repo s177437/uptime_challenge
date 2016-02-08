@@ -115,9 +115,9 @@ class Reports():
 
     def charge(self,vmcountdict,groupname,dbname):
         i = Invoice()
+	#print vmcountdict
         price=i.calculatePrice(vmcountdict)
         self.interpreterServer.updateBalance(dbname, groupname,price)
-        print "Price is updated on user", groupname, "with price", price
 
 
 
