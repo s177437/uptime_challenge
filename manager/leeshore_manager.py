@@ -31,18 +31,17 @@ class Httpmanager():
         positiondict = {}
         while True:
             for i in grouplist: 
-                if datetime.datetime.today().weekday() == day : 
-                    print "Today is a day of for leeshore"
+                userconfig = self.interpreterServer.getUserConfig(i,"couchdb")
+                if datetime.datetime.today().weekday() == day or userconfig["leeshore_enabled"]==0: 
+                    logging.info("Today is a day of for leeshore")
                     time.sleep(runinterval)
                 else: 
-                    userconfig = self.interpreterServer.getUserConfig(i,"couchdb")
                     tenant_name=userconfig["tenant_name"]
                     ip=userconfig["ipaddress"]
                     executable_string=""
                     executable_string="/root/uptime_challenge_master/testscript/leeshore_short.pl -n "+tenant_name
                     worklist=[]
                     worklist.append(executable_string)
-                    print worklist
                     groupdict = {}
                     groupdict.update({i: worklist})
                     newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
