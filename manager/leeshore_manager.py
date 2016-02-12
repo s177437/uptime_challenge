@@ -33,7 +33,7 @@ class Httpmanager():
             for i in grouplist: 
                 userconfig = self.interpreterServer.getUserConfig(i,"couchdb")
                 if datetime.datetime.today().weekday() == day or userconfig["leeshore_enabled"]==0: 
-                    logging.info("Today is a day of for leeshore")
+                    logging.critical("Today is a day off for leeshore")
                     time.sleep(runinterval)
                 else: 
                     tenant_name=userconfig["tenant_name"]
