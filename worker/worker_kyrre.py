@@ -55,6 +55,7 @@ class worker():
             dict = self.convertOutPutToDict(outputdata)
             dict.update({"worker": self.getHostName()})
             dict.update({"group": self.get_group_name()})
+            dict.update({"check_timestamp":time.time()})
             return str(dict)
 
     def replyToMaster(self, content):
