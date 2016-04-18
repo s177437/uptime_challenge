@@ -30,6 +30,7 @@ class Config:
     account = Account()
     interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
 
+    @staticmethod
     def convert_json_to_dictionary(self, data):
         """
         A function to convert JSON contents to a dict.
@@ -40,7 +41,7 @@ class Config:
         """
         jsondict = json.loads(data)[0]
         return jsondict
-
+    @staticmethod
     def request_user_creation(self, configobject):
         """
         Build dictionary containtaining courseinformation that is sent to the interpreter based on the content of the
@@ -64,6 +65,7 @@ class Config:
         listtosend.append(groupsdict)
         return listtosend
 
+    @staticmethod
     def send_users_to_queue(self, accountlist):
         """
         OUTDATED- This function converts the accountlist to a string that can be sent over a queue.
@@ -74,8 +76,9 @@ class Config:
         """
         listtostring = accountlist
         queue = Queues()
-        queue.createQueue("createuserq", str(listtostring))
+        queue.create_queue("createuserq", str(listtostring))
 
+    @staticmethod
     def find_groupnames(self, grouplist):
         """
         Return a list of the groupnames
@@ -100,6 +103,7 @@ class Config:
         for key, value in configdata.iteritems():
             self.write_to_file(key, str(value))
 
+    @staticmethod
     def write_to_file(self, key, value):
         """
         Write config to config.ini
@@ -154,6 +158,7 @@ class Config:
         config.set_queue_name(configparser.get("Global", "queue_name"))
         return config
 
+    @staticmethod
     def create_user_list(self,usersdictlist):
         userlist=[]
         for userdict in usersdictlist :
@@ -196,7 +201,7 @@ class Config:
             for j in job:
                 jobdict = {}
                 jobdict.update({group: j})
-                queue.createQueue(queuename, jobdict)
+                queue.create_queue(queuename, jobdict)
 
     def get_queue_name(self):
         """
@@ -344,11 +349,14 @@ class Config:
         :rtype:
         """
         self.scriptpath = path
+    @staticmethod
     def function(self, x):
         return -0.25 * x ** 2 + 50
 
+    @staticmethod
     def derived_off_function(self, x):
         return -0.5 * x
+
 
     def return_load(self, x):
         answer = []

@@ -23,7 +23,8 @@ class Reports():
     interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
     logging.basicConfig(filename='/var/log/manager.log', level=logging.CRITICAL)
 
-    def createReportQueue(self, queuename, content):
+    @staticmethod
+    def create_report_queue(self, queuename, content):
         """
         Create the report queue
         :param queuename:
@@ -34,9 +35,9 @@ class Reports():
         :rtype:
         """
         queue = Queues()
-        queue.createQueue(queuename, content)
+        queue.create_queue(queuename, content)
 
-    def buildReport(self, content):
+    def build_report(self, content):
         """
         Build and format the report content
         :param content:
@@ -45,14 +46,14 @@ class Reports():
         :rtype:
         """
         dict = ast.literal_eval(content)
-        self.writeReportToDatabase(dict)
+        self.write_report_to_database(dict)
 
     # comment
 
 
 
 
-    def writeReportToDatabase(self, reportdict):
+    def write_report_to_database(self, reportdict):
         """
         Write report to the database and update the balance of the user.
         :param reportdict:
@@ -69,7 +70,7 @@ class Reports():
                 self.interpreterServer.postReportToDatabase(reportdict)
                 added_to_database_already = 1
             elif "Lookup status" in key:
-                new_reportdict = self.calculateAward(reportdict)
+                new_reportdict = self.calculate_award(reportdict)
                 self.interpreterServer.postReportToDatabase(new_reportdict)
                 added_to_database_already = 1
             elif "vmcount" in key:
@@ -77,7 +78,7 @@ class Reports():
         if added_to_database_already == 0:
             self.interpreterServer.postReportToDatabase(reportdict)
 
-    def calculateAward(self, reportdict):
+    def calculate_award(self, reportdict):
         """
         Calculate an award for the purser-check based on the incoming status of the report.
         :param reportdict:
@@ -92,15 +93,15 @@ class Reports():
         last_check = userconfig["last_check"]
         partial_ok_punishment_decrease = userconfig["partial_ok_punishment_decrease"]
         reward = 0
-        if (last_check < reportdict["Check timestamp"]):
+        if last_check < reportdict["Check timestamp"]:
             if reportdict["Test status"] == "OK":
                 reward = float(hourly_rate) * ((time.time() - last_check) / 3600)
-                self.calculateBonus(reportdict, userconfig)
+                self.calculate_bonus(reportdict, userconfig)
             elif "Partial" in reportdict["Test status"]:
                 reward = 0
                 reward = (((hourly_rate) * (time.time() - float(last_check))) / 3600) * partial_ok_punishment_decrease
                 logging.critical("Group: " + reportdict["group"] + " Hourly rate: " + str(
-                    hourly_rate) + " Time since last check: " + str((time.time() - float(last_check))) + " POC: " + str(
+                    hourly_rate) + " Time since last check: " + str(time.time() - float(last_check)) + " POC: " + str(
                     partial_ok_punishment_decrease) + " Reward " + str(reward))
             elif reportdict["Test status"] == "Not Approved":
                 reward = ((hourly_rate) * ((time.time() - float(last_check)) / 3600)) * (-1)
@@ -116,7 +117,7 @@ class Reports():
                                           reportdict["Check timestamp"])
         return reportdict
 
-    def calculateBonus(self, reportdict, userconfig):
+    def calculate_bonus(self, reportdict, userconfig):
         """
         Calculate bonus for purser if report status=OK
         :param reportdict:

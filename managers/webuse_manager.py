@@ -22,23 +22,20 @@ class Httpmanager():
         :rtype:
         """	
         math=WebUseMath()
-        strengthlist = math.createTimeList()
+        strengthlist = math.create_time_list()
         position=0
         config = Config()
         newconfig = config.initDbConfig()
-        #grouplist = newconfig.findGroupnames(newconfig.getAccount().get_groups())
-	grouplist=newconfig.getAccount().get_groups()
+        grouplist=newconfig.getAccount().get_groups()
         path = newconfig.get_script_path()
-        #executable_string=path + "webuse.pl -U 128.39.121.59 -r '10:10:10:10'"
-        #executable_string=path + "webuse.pl -U 128.39.121.59 -r '10/10/10/10'"
         index=0
         logging.info("Interval"+str(newconfig.get_interval()))
         positiondict = {}
-	ip=""
+        ip=""
         for i in grouplist:
             userconfig = self.interpreterServer.getFileAndOffsetFromUser(i)
             ipconfig = self.interpreterServer.getIpFromUser(i)
-	    ip=""
+            ip=""
             ip=ipconfig["ipaddress"]
             executable_string=path + "webuse.pl -U " + ip +" -r '10:10:10:10'"
             logging.info(str(userconfig))
@@ -57,15 +54,14 @@ class Httpmanager():
             positiondict.update({i:position})
         while True:
             for i, position in positiondict.iteritems():
-		worklist=[]
-		ip=""
-		ipconfig = self.interpreterServer.getIpFromUser(i)
-		ip=ipconfig["ipaddress"]
-		executable_string=path + "webuse.pl -U " + ip +" -r '10:10:10:10'"	
+                worklist=[]
+                ip=""
+                ipconfig = self.interpreterServer.getIpFromUser(i)
+                ip=ipconfig["ipaddress"]
+                executable_string=path + "webuse.pl -U " + ip +" -r '10:10:10:10'"
                 logging.info("USER: "+ str(i)+" POSITION: "+ str(position))
                 strength_value_as_string= math.jumpToNextEntry(strengthlist, int(position))
                 values_in_value_string=math.convertToList(strength_value_as_string)
-                #position=int(values_in_value_string[0])
                 strength_number = math.calculateList(values_in_value_string)
                 worklist = math.create_number_of_scripts(strength_number,executable_string)
                 groupdict = {}
@@ -76,8 +72,7 @@ class Httpmanager():
                     positiondict[i]=position+1
                 newconfig.createWorkQ(newconfig.get_queue_name(), groupdict)
                 queue = Queues()
-            # queue.listenContinouslyToQueue("reportq")
-            queue.receiveOneMessageFromQ("webusereportq", newconfig.get_interval())
+            queue.receive_one_message_from_q("webusereportq", newconfig.get_interval())
 
 
 manager = Httpmanager()

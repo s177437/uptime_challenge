@@ -24,7 +24,7 @@ class Httperfmanager():
         :rtype:
         """	
         math=WebUseMath()
-        strengthlist = math.createTimeList()
+        strengthlist = math.create_time_list()
         position=0
         config = Config()
         newconfig = config.init_db_config()
@@ -72,7 +72,7 @@ class Httperfmanager():
                     positiondict[i]=position+1
                 newconfig.create_work_queue(newconfig.get_queue_name(), groupdict)
                 queue = Queues()
-            queue.receiveOneMessageFromQ("httperfreportq", newconfig.get_interval())
+            queue.receive_one_message_from_q("httperfreportq", newconfig.get_interval())
 
 
 manager = Httperfmanager()

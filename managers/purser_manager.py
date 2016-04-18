@@ -42,7 +42,7 @@ class Httpmanager():
                 newconfig.create_work_queue(newconfig.get_queue_name(), groupdict)
                 worklist = []
             queue = Queues()
-            queue.receiveOneMessageFromQ("purser_report_q", str(newconfig.get_interval()))
+            queue.receive_one_message_from_q("purser_report_q", str(newconfig.get_interval()))
 
 
 manager = Httpmanager()

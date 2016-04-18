@@ -47,7 +47,7 @@ class LeeshoreManager():
                     newconfig.create_work_queue(newconfig.get_queue_name(), groupdict)
                     worklist = []
                     queue = Queues()
-                    queue.receiveOneMessageFromQ("leeshore_reportq", str(runinterval))
+                    queue.receive_one_message_from_q("leeshore_reportq", str(runinterval))
 
 
 manager = LeeshoreManager()

@@ -36,11 +36,11 @@ class Httpmanager():
                 groupdict.update({i: worklist})
                 newconfig.create_work_queue(newconfig.get_queue_name(), groupdict)
                 queue = Queues()
-            # queue.listenContinouslyToQueue("reportq")
+            # queue.listen_continously_to_queue("reportq")
             timestart = time.time()
             while (time.time() - timestart <= float(newconfig.get_interval())):
                 print time.time() - timestart
-                queue.receiveOneMessageFromQ("reportq", (time.time() - timestart), newconfig.get_interval())
+                queue.receive_one_message_from_q("reportq", (time.time() - timestart), newconfig.get_interval())
 
 
 manager = Httpmanager()

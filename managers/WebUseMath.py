@@ -8,7 +8,8 @@ class WebUseMath:
     for different managers.
     """
 
-    def createTimeList(self):
+    @staticmethod
+    def create_time_list(self):
         """
         Read transsine-files and return a list of each line.
         :return:
@@ -17,6 +18,7 @@ class WebUseMath:
         content = [line.strip("\n") for line in open("/root/uptime_challenge_master/manager/transsine.dat")]
         return content
 
+    @staticmethod
     def decide_entry(self, fileList, offset):
         """
         Decide workload-profile line-entry for a user
@@ -33,6 +35,7 @@ class WebUseMath:
         content = fileList[entry - 1]
         return content
 
+    @staticmethod
     def jump_to_next_entry(self, fileList, position):
         """
         Jump to next entry in the workload-profile
@@ -48,9 +51,12 @@ class WebUseMath:
         else:
             return fileList[int(position)]
 
+    @staticmethod
     def convert_to_list(self, strength):
         """
         Convert Python string to list and return it
+        :rtype : object
+        :param self: 
         :param strength:
         :type strength:
         :return:
@@ -59,6 +65,7 @@ class WebUseMath:
         listvalues = strength.split(":")
         return listvalues
 
+    @staticmethod
     def calculatelist(self, listvalues):
         """
         Calculate workload-profile strength
@@ -74,9 +81,10 @@ class WebUseMath:
         if calculation_algorithm == "g":
             strength_number = int(random.gauss(number, variation))
         elif calculation_algorithm == "r":
-            strength_number = int(random.uniform((number - variation), (number + variation)))
+            strength_number = int(random.uniform(number - variation), number + variation)
         return strength_number
 
+    @staticmethod
     def create_number_of_scripts(self, number_of_scripts_to_make, executable_string):
         """
         Generate a given number of test executable string from the generated strength to webuse
@@ -99,6 +107,7 @@ class WebUseMath:
                 scriptlist.append(executable_string)
             return scriptlist
 
+    @staticmethod
     def create_httperf_executable_string(self, ip, strength, executable_string_start):
         """
         Generate executable String for Httperf
@@ -114,7 +123,7 @@ class WebUseMath:
         if strength <= 0:
             new_strength = strength * (-1)
             scriptlist = []
-            full_exec_string = executable_string_start + " " + ip + " " + str((new_strength * 300)) + " " + str(
+            full_exec_string = executable_string_start + " " + ip + " " + str(new_strength * 300) + " " + str(
                 new_strength)
             scriptlist.append(full_exec_string)
             return scriptlist

@@ -17,12 +17,10 @@ class Queues():
     This module is the Queue class.
     """
     queuename = ""
-    # comment
-    # time=0
     time = time.time()
     queuecontent = ""
 
-    def setQueueContent(self, value):
+    def set_queue_content(self, value):
         """
         This sets the Queue content to be used later.
         :param value:
@@ -32,7 +30,7 @@ class Queues():
         """
         self.queuecontent = value
 
-    def getQueueContent(self):
+    def get_queue_content(self):
         """
         Return the queue content
         :return:
@@ -40,7 +38,8 @@ class Queues():
         """
         return self.queuecontent
 
-    def connectToRabbitMQ(self):
+    @staticmethod
+    def connect_to_rabbitmq(self):
         """
         Connect to the rabbitmq server.
         :return:
@@ -50,7 +49,7 @@ class Queues():
         connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', 5672, '/', credentials))
         return connection
 
-    def createQueue(self, quename, content):
+    def create_queue(self, quename, content):
         """
         Create a queue with a given name and fill it with some content
         :param quename:
@@ -60,13 +59,13 @@ class Queues():
         :return:
         :rtype:
         """
-        connection = self.connectToRabbitMQ()
+        connection = self.connect_to_rabbitmq()
         channel = connection.channel()
         channel.queue_declare(queue=quename)
         channel.basic_publish(exchange='', routing_key=quename, body=str(content))
         connection.close()
 
-    def listenContinouslyToQueue(self, quename):
+    def listen_continously_to_queue(self, quename):
         """
         Listen continously to the queue.
         :param quename:
@@ -74,12 +73,13 @@ class Queues():
         :return:
         :rtype:
         """
-        connection = self.connectToRabbitMQ()
+        connection = self.connect_to_rabbitmq()
         channel = connection.channel()
         channel.queue_declare(queue=quename)
         channel.basic_consume(self.callback, queue=quename, no_ack=True)
         channel.start_consuming()
 
+    @staticmethod
     def callback(self, channel, method, properties, body):
         """
         Fetch the report from the queue and build a report to be sent to the interpreter. s
@@ -95,9 +95,9 @@ class Queues():
         :rtype:
         """
         report = Reports()
-        report.buildReport(body)
+        report.build_report(body)
 
-    def setTime(self, t=0):
+    def set_time(self, t=0):
         """
         Set time for the execution interval
         :param t:
@@ -107,7 +107,7 @@ class Queues():
         """
         self.time = t
 
-    def getTime(self):
+    def get_time(self):
         """
         Return the execution time interval
         :return:
@@ -115,7 +115,7 @@ class Queues():
         """
         return self.time
 
-    def receiveOneMessageFromQ(self, queuename, interval):
+    def receive_one_message_from_q(self, queuename, interval):
         """
         Recursive listen method that is used to continously listen to the reportqueue within the execution interval
         :param queuename:
@@ -130,7 +130,7 @@ class Queues():
         timestart = time.time()
         while (time.time()-timestart) <=float(interval) :
             stringValue = ""
-            connection = self.connectToRabbitMQ()
+            connection = self.connect_to_rabbitmq()
             channel = connection.channel()
             channel.queue_declare(queue=queuename)
             try:
@@ -141,9 +141,9 @@ class Queues():
                     channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                     connection.close()
                     report = Reports()
-                    report.buildReport(body)
+                    report.build_report(body)
             except AttributeError:
-                logging.critical("Waiting for answer.. time used: "+ str((time.time()-timestart)) + " interval: " + str(interval))
+                logging.critical("Waiting for answer.. time used: "+ str(time.time()-timestart) + " interval: " + str(interval))
                 time.sleep(1)
                 connection.close()
 

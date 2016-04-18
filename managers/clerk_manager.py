@@ -43,7 +43,7 @@ class ClerkManager():
                 newconfig.create_work_queue(newconfig.get_queue_name(), groupdict)
                 worklist = []
             queue = Queues()
-            queue.receiveOneMessageFromQ("clerk_reportq", str(newconfig.get_interval()))
+            queue.receive_one_message_from_q("clerk_reportq", str(newconfig.get_interval()))
 
 
 manager = ClerkManager()
