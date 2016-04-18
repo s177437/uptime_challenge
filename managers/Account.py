@@ -163,7 +163,7 @@ class Account():
         """
         return self.teacher
 
-    def setStudentList(self, studentlist):
+    def set_student_list(self, studentlist):
         """
         Set the list of students.
         :param studentlist:
@@ -173,7 +173,7 @@ class Account():
         """
         self.students = studentlist
 
-    def getStudentList(self):
+    def get_student_list(self):
         """
         Return a list of the members to a group.
         :return:

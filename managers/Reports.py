@@ -146,5 +146,5 @@ class Reports():
         :rtype:
         """
         i = Invoice()
-        price = i.calculatePrice(vmcountdict)
+        price = i.calculate_price(vmcountdict)
         self.interpreterServer.updateBalance(dbname, groupname, price)

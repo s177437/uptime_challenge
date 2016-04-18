@@ -129,7 +129,7 @@ class Queues():
         """
         timestart = time.time()
         while (time.time()-timestart) <=float(interval) :
-            stringValue = ""
+            stringvalue = ""
             connection = self.connect_to_rabbitmq()
             channel = connection.channel()
             channel.queue_declare(queue=queuename)

@@ -48,7 +48,7 @@ class Httperfmanager():
             position= int(listvalues[0])
             logging.info("USER: "+ str(i)+" POSITION: "+ str(position))
             strength_number=math.calculatelist(listvalues)
-            worklist = math.create_httperf_executable_string(ip, strength_number,executable_string)
+            worklist = math.create_httperf_string(ip, strength_number,executable_string)
             groupdict = {}
             groupdict.update({i: worklist})
             newconfig.create_work_queue(newconfig.get_queue_name(), groupdict)
@@ -63,7 +63,7 @@ class Httperfmanager():
                 strength_value_as_string= math.jump_to_next_entry(strengthlist, int(position))
                 values_in_value_string=math.convert_to_list(strength_value_as_string)
                 strength_number = math.calculatelist(values_in_value_string)
-                worklist = math.create_httperf_executable_string(ip, strength_number,executable_string)
+                worklist = math.create_httperf_string(ip, strength_number,executable_string)
                 groupdict = {}
                 groupdict.update({i: worklist})
                 if position == 288 :

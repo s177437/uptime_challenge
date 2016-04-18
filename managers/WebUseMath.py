@@ -19,11 +19,11 @@ class WebUseMath:
         return content
 
     @staticmethod
-    def decide_entry(self, fileList, offset):
+    def decide_entry(self, filelist, offset):
         """
         Decide workload-profile line-entry for a user
-        :param fileList:
-        :type fileList:
+        :param filelist:
+        :type filelist:
         :param offset:
         :type offset:
         :return:
@@ -32,24 +32,24 @@ class WebUseMath:
         mytime = time.time()
         now = int((mytime % 86400) / 300)
         entry = (now + offset) % 288
-        content = fileList[entry - 1]
+        content = filelist[entry - 1]
         return content
 
     @staticmethod
-    def jump_to_next_entry(self, fileList, position):
+    def jump_to_next_entry(self, filelist, position):
         """
         Jump to next entry in the workload-profile
-        :param fileList:
-        :type fileList:
+        :param filelist:
+        :type filelist:
         :param position:
         :type position:
         :return:
         :rtype:
         """
-        if position == len(fileList):
-            return fileList[0]
+        if position == len(filelist):
+            return filelist[0]
         else:
-            return fileList[int(position)]
+            return filelist[int(position)]
 
     @staticmethod
     def convert_to_list(self, strength):
@@ -108,7 +108,7 @@ class WebUseMath:
             return scriptlist
 
     @staticmethod
-    def create_httperf_executable_string(self, ip, strength, executable_string_start):
+    def create_httperf_string(self, ip, strength, executable_string_start):
         """
         Generate executable String for Httperf
         :param ip:
@@ -129,6 +129,6 @@ class WebUseMath:
             return scriptlist
         else:
             scriptlist = []
-            full_exec_string = executable_string_start + " " + ip + " " + str((strength * 300)) + " " + str(strength)
+            full_exec_string = executable_string_start + " " + ip + " " + str(strength * 300) + " " + str(strength)
             scriptlist.append(full_exec_string)
             return scriptlist

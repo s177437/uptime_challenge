@@ -28,7 +28,7 @@ class Config:
     queserver = ""
     configinstance = "None"
     account = Account()
-    interpreterServer = Pyro4.Proxy("PYRONAME:interpreter")
+    interpreterserver = Pyro4.Proxy("PYRONAME:interpreter")
 
     @staticmethod
     def convert_json_to_dictionary(self, data):
@@ -150,7 +150,7 @@ class Config:
         :rtype Config:
         """
         config = self.initiate_users()
-        configdict = self.interpreterServer.fetchConfig(config.get_account().get_teacher())
+        configdict = self.interpreterserver.fetchConfig(config.get_account().get_teacher())
         #self.write_config(configdict)
         configparser = ConfigParser.SafeConfigParser()
         configparser.read("/root/uptime_challenge_master/manager/config.ini")
@@ -166,7 +166,7 @@ class Config:
         return userlist
 
     def initiate_users(self):
-        usersdictlist= self.interpreterServer.getEnabledUsers()
+        usersdictlist= self.interpreterserver.getEnabledUsers()
         config = ConfigParser.SafeConfigParser()
         config.read("/root/uptime_challenge_master/manager/config.ini")
         userlist= self.create_user_list(usersdictlist)
@@ -185,7 +185,7 @@ class Config:
 
 
 
-
+    @staticmethod
     def create_work_queue(self, queuename, joblist):
         """
         Function to create a workqueue that is used to put jobs on

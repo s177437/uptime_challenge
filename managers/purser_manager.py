@@ -16,7 +16,7 @@ class Httpmanager():
     logging.basicConfig(filename='/var/log/manager.log', level=logging.CRITICAL)
 
     # comment
-    def fetchConfig(self):
+    def fetch_config(self):
         """
         This function is the main method where everything is governed on the manager.
         :return:
@@ -46,4 +46,4 @@ class Httpmanager():
 
 
 manager = Httpmanager()
-manager.fetchConfig()
+manager.fetch_config()
