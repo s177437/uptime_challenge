@@ -1,4 +1,4 @@
 #!/bin/bash
-/usr/bin/python /root/uptime_challenge_master/worker/purser_worker.py
+/usr/bin/python /root/uptime_challenge_master/Worker/purser_worker.py
 
 

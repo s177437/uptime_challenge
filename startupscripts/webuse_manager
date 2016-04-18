@@ -4,7 +4,7 @@ PID=$(ps ax | grep -v grep | grep $SERVICE | awk '{print $1}')
 case "$1" in
     start)
         echo -e "Starting the Webuse Manager: "
-	python /root/uptime_challenge_master/manager/kyrre_manager_webuse.py & 
+	python /PATH/TO/EXECUTABLE &
         ;;
     stop)
         if ps ax | grep -v grep | grep $SERVICE > /dev/null

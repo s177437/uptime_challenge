@@ -4,7 +4,7 @@ PID=$(ps ax | grep -v grep | grep $SERVICE | awk '{print $1}')
 case "$1" in
     start)
         echo -e "Starting the Httperf Manager: "
-	python /root/uptime_challenge_master/manager/httpperf_manager_kyrre.py & 
+	python /PATH/TO/EXECUTABLE &
         ;;
     stop)
         if ps ax | grep -v grep | grep $SERVICE > /dev/null
