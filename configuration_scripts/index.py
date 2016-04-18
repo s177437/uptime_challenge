@@ -12,7 +12,7 @@ print
 print "<!DOCTYPE html>"
 
 url ='http://IP:5984/accounts/_design/top_balance/_view/top_balance'
-response =requests.get(url, auth=(***REMOVED***,***REMOVED***))
+response =requests.get(url, auth=('admin','uptime_challenge'))
 data = response.json()
 balancedict={}
 for key,value in data.iteritems() : 

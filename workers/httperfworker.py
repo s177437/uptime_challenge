@@ -64,7 +64,7 @@ class worker():
         message = self.do_job(job)
         # print message
         credentials = pika.PlainCredentials('USER', 'PASSWORD')
-        connection = pika.BlockingConnection(pika.ConnectionParameters(***REMOVED***, 5672, '/', credentials))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('128.39.121.78', 5672, '/', credentials))
         channel = connection.channel()
         channel.queue_declare(queue="httperfreportq")
         channel.basic_publish(exchange='', routing_key='httperfreportq', body=message)
