@@ -4,10 +4,12 @@ import subprocess
 import time
 import StringIO
 
+__author__ = 'Stian Stroem Anderssen'
 
-class worker():
+
+class ClerkWorker():
     """
-    This function is the Worker class that listen to the workqueue and executed the job scripts
+    This is the clerk-worker class.
     """
     groupname = ""
 
@@ -17,9 +19,6 @@ class worker():
         :return:
         :rtype:
         """
-
-        # do :
-        # sloop=False
         while 1:
             time.sleep(2)
             try:
@@ -38,10 +37,9 @@ class worker():
             except AttributeError:
                 print "No content"
                 connection.close()
-            except pika.exceptions.ConnectionClosed :
+            except pika.exceptions.ConnectionClosed:
                 print "You get Connection Closed"
                 continue
-
 
     def do_job(self, command):
         """
@@ -54,13 +52,13 @@ class worker():
         outputdata = self.getcommandoutput(command)
         try:
             dict = ast.literal_eval(outputdata)
-            dict.update({"Worker": self.get_hostname()})
+            dict.update({"worker": self.get_hostname()})
             dict.update({"group": self.get_group_name()})
             return str(dict)
         except SyntaxError:
             print "This is not a dict"
             dict = self.convert_output_to_dict(outputdata)
-            dict.update({"Worker": self.get_hostname()})
+            dict.update({"worker": self.get_hostname()})
             dict.update({"group": self.get_group_name()})
             return str(dict)
 
@@ -84,11 +82,20 @@ class worker():
         channel.basic_publish(exchange='', routing_key='clerk_reportq', body=message)
         connection.close()
 
+    @staticmethod
     def getcommandoutput(self, command):
+        """
+        Execute bash-command and save output
+        :param command:
+        :type command:
+        :return:
+        :rtype:
+        """
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, error) = p.communicate()
         return output
 
+    @staticmethod
     def convert_output_to_dict(self, content):
         """
         Convert test result to a dictionary
@@ -97,10 +104,11 @@ class worker():
         :return:
         :rtype:
         """
-        reportdict={}
+        reportdict = {}
         reportdict.update({"Message": "Something went very vrong"})
         return reportdict
 
+    @staticmethod
     def run_command(self, command):
         """
         Execute bash command in python
@@ -113,7 +121,7 @@ class worker():
 
     def get_hostname(self):
         """
-        return the hostname of the Worker
+        return the hostname of the worker
         :return:
         :rtype:
         """
@@ -138,5 +146,5 @@ class worker():
         return self.groupname
 
 
-worker = worker()
+worker = ClerkWorker()
 worker.fetch_job_from_queue()

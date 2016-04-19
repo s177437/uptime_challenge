@@ -4,10 +4,12 @@ import subprocess
 import time
 import StringIO
 
+__author__ = 'Stian Stroem Anderssen'
 
-class Worker():
+
+class LeeshoreWorker():
     """
-    This function is the Worker class that listen to the workqueue and executed the job scripts
+    This is the leeshore-worker class.
     """
     groupname = ""
 
@@ -38,22 +40,21 @@ class Worker():
             except AttributeError:
                 print "No content"
                 connection.close()
-            except pika.exceptions.ConnectionClosed :
+            except pika.exceptions.ConnectionClosed:
                 print "You get Connection Closed"
                 continue
-
 
     def do_job(self, command):
         outputdata = self.getcommandoutput(command)
         try:
             dict = ast.literal_eval(outputdata)
-            dict.update({"Worker": self.get_host_name()})
+            dict.update({"worker": self.get_host_name()})
             dict.update({"group": self.get_group_name()})
             return str(dict)
         except SyntaxError:
             print "This is not a dict"
             dict = self.convert_output_to_dict(outputdata)
-            dict.update({"Worker": self.get_host_name()})
+            dict.update({"worker": self.get_host_name()})
             dict.update({"group": self.get_group_name()})
             return str(dict)
 
@@ -70,11 +71,13 @@ class Worker():
         channel.basic_publish(exchange='', routing_key='leeshore_reportq', body=message)
         connection.close()
 
+    @staticmethod
     def getcommandoutput(self, command):
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, error) = p.communicate()
         return output
 
+    @staticmethod
     def runcommand(self, command):
         """
         Execute bash command in python
@@ -87,7 +90,7 @@ class Worker():
 
     def get_host_name(self):
         """
-        return the hostname of the Worker
+        return the hostname of the worker
         :return:
         :rtype:
         """
@@ -112,5 +115,5 @@ class Worker():
         return self.groupname
 
 
-worker = Worker()
+worker = LeeshoreWorker()
 worker.fetch_job_from_queue()

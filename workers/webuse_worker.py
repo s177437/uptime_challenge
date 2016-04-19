@@ -4,22 +4,21 @@ import subprocess
 import time
 import StringIO
 
+__author__ = 'Stian Stroem Anderssen'
 
-class worker():
+
+class WebuseWorker():
     """
-    This function is the Worker class that listen to the workqueue and executed the job scripts
+This is the webuse-worker class
     """
     groupname = ""
 
-    def fetchJobFromQ(self):
+    def fetch_job_from_queue(self):
         """
         Listen to the workqueue, perform a job and return the report.
         :return:
         :rtype:
         """
-
-        # do :
-        # sloop=False
         while 1:
             time.sleep(2)
             try:
@@ -34,36 +33,48 @@ class worker():
                     channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                     print "Received job:", body, "starting job to reply"
                     connection.close()
-                    self.replyToMaster(body)
+                    self.reply_to_master(body)
             except AttributeError:
                 print "No content"
                 connection.close()
-            except pika.exceptions.ConnectionClosed :
+            except pika.exceptions.ConnectionClosed:
                 print "You get Connection Closed"
                 continue
 
-
-    def doJob(self, command):
-        outputdata = self.getcommandoutput(command)
+    def do_job(self, command):
+        """
+        Execute received job and convert the result to a report.
+        :param command:
+        :type command:
+        :return:
+        :rtype:
+        """
+        outputdata = self.get_command_output(command)
         try:
             dict = ast.literal_eval(outputdata)
-            dict.update({"Worker": self.getHostName()})
+            dict.update({"Worker": self.get_host_name()})
             dict.update({"group": self.get_group_name()})
             return str(dict)
         except SyntaxError:
             print "This is not a dict"
-            dict = self.convertOutPutToDict(outputdata)
-            dict.update({"Worker": self.getHostName()})
+            dict = self.convert_output_to_dict(outputdata)
+            dict.update({"Worker": self.get_host_name()})
             dict.update({"group": self.get_group_name()})
-            dict.update({"check_timestamp":time.time()})
+            dict.update({"check_timestamp": time.time()})
             return str(dict)
 
-    def replyToMaster(self, content):
+    def reply_to_master(self, content):
+        """
+        Post report to the queues
+        :param content:
+        :type content:
+        :return:
+        :rtype:
+        """
         dict = ast.literal_eval(content)
         job = dict.values()[0]
         self.set_group_name(dict.keys()[0])
-        message = self.doJob(job)
-        #print message
+        message = self.do_job(job)
         credentials = pika.PlainCredentials('USER', 'PASSWORD')
         connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', 5672, '/', credentials))
         channel = connection.channel()
@@ -71,37 +82,44 @@ class worker():
         channel.basic_publish(exchange='', routing_key='webusereportq', body=message)
         connection.close()
 
-    def getcommandoutput(self, command):
+    @staticmethod
+    def get_command_output(self, command):
+        """
+        Execute bash-command and save output
+        :param command:
+        :type command:
+        :return:
+        :rtype:
+        """
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, error) = p.communicate()
         return output
 
-    def convertOutPutToDict(self, content):
+    @staticmethod
+    def convert_output_to_dict(self, content):
         """
-        Convert test result to a dictionary
+        Convert test output to a dictionary
         :param content:
         :type content:
         :return:
         :rtype:
         """
-	lower_content= content.lower()
+        lower_content = content.lower()
         buf = StringIO.StringIO(lower_content.strip("\n"))
-	#print lower_content
-        #buf = StringIO.StringIO(content)
         templist = []
         list = []
         reportdict = {}
         for i in buf.readlines():
             templist.append(i)
-	statusmessage = ""
-	if "</html>" in templist: 
-                statusstring = " ".join(templist[templist.index("<html>\n"):templist.index("</html>")+1])
-                del[templist[templist.index("<html>\n"):templist.index("</html>")+1]]
-                statusmessage= statusstring.replace("\n","")
-	elif "ok\t</html>" in templist : 
-		statusstring = " ".join(templist[templist.index("<html>\n"):templist.index("ok\t</html>")+1])
-		del[templist[templist.index("<html>\n"):templist.index("ok\t</html>")+1]]
-		statusmessage= statusstring.replace("\n","")
+        statusmessage = ""
+        if "</html>" in templist:
+            statusstring = " ".join(templist[templist.index("<html>\n"):templist.index("</html>") + 1])
+            del [templist[templist.index("<html>\n"):templist.index("</html>") + 1]]
+            statusmessage = statusstring.replace("\n", "")
+        elif "ok\t</html>" in templist:
+            statusstring = " ".join(templist[templist.index("<html>\n"):templist.index("ok\t</html>") + 1])
+            del [templist[templist.index("<html>\n"):templist.index("ok\t</html>") + 1]]
+            statusmessage = statusstring.replace("\n", "")
         for i in templist:
             content = i.replace("\n", "")
             if content != "":
@@ -110,12 +128,13 @@ class worker():
             j = i.split(":")
             if len(j) == 1:
                 reportdict.update({"message": j[0]})
-            elif (len(j) >= 2):
+            elif len(j) >= 2:
                 reportdict.update({j[0]: "".join(j[1:len(j)])})
         reportdict.update({"status": statusmessage})
         return reportdict
 
-    def runcommand(self, command):
+    @staticmethod
+    def run_command(self, command):
         """
         Execute bash command in python
         :param command:
@@ -125,13 +144,13 @@ class worker():
         """
         subprocess.call(command, shell=True)
 
-    def getHostName(self):
+    def get_host_name(self):
         """
-        return the hostname of the Worker
+        return the hostname of the worker
         :return:
         :rtype:
         """
-        return self.getcommandoutput("hostname").strip("\n")
+        return self.get_command_output("hostname").strip("\n")
 
     def set_group_name(self, name):
         """
@@ -152,5 +171,5 @@ class worker():
         return self.groupname
 
 
-worker = worker()
-worker.fetchJobFromQ()
+worker = WebuseWorker()
+worker.fetch_job_from_queue()

@@ -4,10 +4,11 @@ import subprocess
 import time
 import StringIO
 
+__author__ = 'Stian Stroem Anderssen'
 
-class worker():
+class HttperfWorker():
     """
-    This function is the Worker class that listen to the workqueue and executed the job scripts
+    This is the httperf-worker class
     """
     groupname = ""
 
@@ -17,9 +18,6 @@ class worker():
         :return:
         :rtype:
         """
-
-        # do :
-        # sloop=False
         while 1:
             time.sleep(2)
             try:
@@ -43,38 +41,60 @@ class worker():
                 continue
 
     def do_job(self, command):
+        """
+        Execute received job
+        :param command:
+        :type command:
+        :return:
+        :rtype:
+        """
         outputdata = self.getcommandoutput(command)
         try:
             dict = ast.literal_eval(outputdata)
-            dict.update({"Worker": self.get_host_name()})
+            dict.update({"worker": self.get_host_name()})
             dict.update({"group": self.get_group_name()})
             return str(dict)
         except SyntaxError:
             print "This is not a dict"
             dict = self.convert_outout_to_dict(outputdata)
-            dict.update({"Worker": self.get_host_name()})
+            dict.update({"worker": self.get_host_name()})
             dict.update({"group": self.get_group_name()})
             dict.update({"check_timestamp": time.time()})
             return str(dict)
 
     def reply_to_master(self, content):
+        """
+        Port report to report-queue
+        :param content:
+        :type content:
+        :return:
+        :rtype:
+        """
         dict = ast.literal_eval(content)
         job = dict.values()[0]
         self.set_group_name(dict.keys()[0])
         message = self.do_job(job)
-        # print message
         credentials = pika.PlainCredentials('USER', 'PASSWORD')
-        connection = pika.BlockingConnection(pika.ConnectionParameters('128.39.121.78', 5672, '/', credentials))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('IP', 5672, '/', credentials))
         channel = connection.channel()
         channel.queue_declare(queue="httperfreportq")
         channel.basic_publish(exchange='', routing_key='httperfreportq', body=message)
         connection.close()
 
+    @staticmethod
     def getcommandoutput(self, command):
+        """
+        Execute bash-command and save output
+        :param command:
+        :type command:
+        :return:
+        :rtype:
+        """
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, error) = p.communicate()
         return output
 
+    @staticmethod
     def convert_outout_to_dict(self, content):
         """
         Convert test result to a dictionary
@@ -85,8 +105,6 @@ class worker():
         """
         lower_content = content.lower()
         buf = StringIO.StringIO(lower_content.strip("\n"))
-        # print lower_content
-        # buf = StringIO.StringIO(content)
         templist = []
         list = []
         reportdict = {}
@@ -109,11 +127,12 @@ class worker():
             j = i.split(":")
             if len(j) == 1:
                 reportdict.update({"message": j[0]})
-            elif (len(j) >= 2):
+            elif len(j) >= 2:
                 reportdict.update({j[0]: "".join(j[1:len(j)])})
         reportdict.update({"status": statusmessage})
         return reportdict
 
+    @staticmethod
     def runcommand(self, command):
         """
         Execute bash command in python
@@ -126,7 +145,7 @@ class worker():
 
     def get_host_name(self):
         """
-        return the hostname of the Worker
+        return the hostname of the worker
         :return:
         :rtype:
         """
@@ -151,5 +170,5 @@ class worker():
         return self.groupname
 
 
-worker = worker()
+worker = HttperfWorker()
 worker.fetch_job_from_queue()
