@@ -6,6 +6,8 @@ import Pyro4
 import time
 import random
 
+__author__ = 'Stian Stroem Anderssen'
+
 
 class Manager():
     """

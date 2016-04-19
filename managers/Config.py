@@ -1,9 +1,3 @@
-'''
-Created on 1. sep. 2015
-
-@author: stianstrom
-'''
-
 from Queues import *
 from Account import *
 import json
@@ -13,6 +7,8 @@ import ast
 import Pyro4
 import random
 import logging
+
+__author__ = 'Stian Stroem Anderssen'
 
 
 class Config:
@@ -41,6 +37,7 @@ class Config:
         """
         jsondict = json.loads(data)[0]
         return jsondict
+
     @staticmethod
     def request_user_creation(self, configobject):
         """
@@ -142,7 +139,6 @@ class Config:
         configclass.set_queserver(config.get("Global", "queueserver"))
         return configclass
 
-
     def init_db_config(self):
         """
         Build the final config object after the DbConfig is initialized along with the local config
@@ -151,7 +147,7 @@ class Config:
         """
         config = self.initiate_users()
         configdict = self.interpreterserver.fetchConfig(config.get_account().get_teacher())
-        #self.write_config(configdict)
+        # self.write_config(configdict)
         configparser = ConfigParser.SafeConfigParser()
         configparser.read("/root/uptime_challenge_master/manager/config.ini")
         config.set_interval(configparser.get("Global", "interval"))
@@ -159,18 +155,18 @@ class Config:
         return config
 
     @staticmethod
-    def create_user_list(self,usersdictlist):
-        userlist=[]
-        for userdict in usersdictlist :
+    def create_user_list(self, usersdictlist):
+        userlist = []
+        for userdict in usersdictlist:
             userlist.append(userdict["group"])
         return userlist
 
     def initiate_users(self):
-        usersdictlist= self.interpreterserver.getEnabledUsers()
+        usersdictlist = self.interpreterserver.getEnabledUsers()
         config = ConfigParser.SafeConfigParser()
         config.read("/root/uptime_challenge_master/manager/config.ini")
-        userlist= self.create_user_list(usersdictlist)
-        configclass=Config()
+        userlist = self.create_user_list(usersdictlist)
+        configclass = Config()
         configclass.set_account(self.account)
         configclass.get_account().set_course(config.get("Account", "course"))
         configclass.get_account().set_teacher(config.get("Account", "teacher"))
@@ -181,9 +177,6 @@ class Config:
         configclass.set_dbserver(config.get("Global", "dbserver"))
         configclass.set_queserver(config.get("Global", "queueserver"))
         return configclass
-
-
-
 
     @staticmethod
     def create_work_queue(self, queuename, joblist):
@@ -334,7 +327,7 @@ class Config:
 
     def get_script_path(self):
         """
-        Return the path to the executable location of the test on the Worker.
+        Return the path to the executable location of the test on the LeeshoreWorker.
         :return:
         :rtype:
         """
@@ -342,13 +335,14 @@ class Config:
 
     def set_script_path(self, path):
         """
-        Set the script path on the Worker.
+        Set the script path on the LeeshoreWorker.
         :param path:
         :type path:
         :return:
         :rtype:
         """
         self.scriptpath = path
+
     @staticmethod
     def function(self, x):
         return -0.25 * x ** 2 + 50
@@ -357,7 +351,6 @@ class Config:
     def derived_off_function(self, x):
         return -0.5 * x
 
-
     def return_load(self, x):
         answer = []
         load = self.function(x)
@@ -365,4 +358,3 @@ class Config:
         answer.append(float(load))
         answer.append(float(derivative))
         return answer
-

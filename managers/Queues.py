@@ -9,6 +9,7 @@ import time
 import pika
 import logging
 
+__author__ = 'Stian Stroem Anderssen'
 
 class Queues():
     logging.basicConfig(filename='/var/log/manager.log',level=logging.CRITICAL)

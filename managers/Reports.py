@@ -1,17 +1,12 @@
-# import pdb;pdb.set_trace()
 from Queues import *
 import ast
 import Pyro4
 import time
 import logging
-
-'''
-Created on 1. sep. 2015
-
-@author: stianstrom
-'''
 from Queues import *
 from Invoice import *
+
+__author__ = 'Stian Stroem Anderssen'
 
 
 class Reports():

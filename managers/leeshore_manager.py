@@ -8,6 +8,8 @@ import time
 import datetime
 import sys
 
+__author__ = 'Stian Stroem Anderssen'
+
 
 class LeeshoreManager():
     """
@@ -21,26 +23,26 @@ class LeeshoreManager():
         :return:
         :rtype:
         """
-        day=int(sys.argv[1])
+        day = int(sys.argv[1])
         config = Config()
         newconfig = config.init_db_config()
-        grouplist=newconfig.get_account().get_groups()
+        grouplist = newconfig.get_account().get_groups()
         path = newconfig.get_script_path()
-        runinterval=int(newconfig.get_interval())/len(grouplist)
-        logging.info("Interval: "+str(newconfig.get_interval()))
+        runinterval = int(newconfig.get_interval()) / len(grouplist)
+        logging.info("Interval: " + str(newconfig.get_interval()))
         positiondict = {}
         while True:
-            for i in grouplist: 
-                userconfig = self.interpreterServer.getUserConfig(i,"couchdb")
-                if datetime.datetime.today().weekday() == day or userconfig["leeshore_enabled"]==0: 
+            for i in grouplist:
+                userconfig = self.interpreterServer.getUserConfig(i, "couchdb")
+                if datetime.datetime.today().weekday() == day or userconfig["leeshore_enabled"] == 0:
                     logging.critical("Today is a day off for leeshore")
                     time.sleep(runinterval)
-                else: 
-                    tenant_name=userconfig["tenant_name"]
-                    ip=userconfig["ipaddress"]
-                    executable_string=""
-                    executable_string="/root/uptime_challenge_master/testscript/leeshore_short.pl -n "+tenant_name
-                    worklist=[]
+                else:
+                    tenant_name = userconfig["tenant_name"]
+                    ip = userconfig["ipaddress"]
+                    executable_string = ""
+                    executable_string = "/root/uptime_challenge_master/testscript/leeshore_short.pl -n " + tenant_name
+                    worklist = []
                     worklist.append(executable_string)
                     groupdict = {}
                     groupdict.update({i: worklist})

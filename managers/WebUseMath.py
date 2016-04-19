@@ -1,6 +1,7 @@
 import random
 import time
 
+__author__ = 'Stian Stroem Anderssen'
 
 class WebUseMath:
     """

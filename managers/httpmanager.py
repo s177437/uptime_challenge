@@ -5,6 +5,8 @@ import couchdb
 import Pyro4
 import time
 
+__author__ = 'Stian Stroem Anderssen'
+
 
 class Httpmanager():
     """

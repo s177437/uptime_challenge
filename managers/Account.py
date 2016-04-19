@@ -1,8 +1,4 @@
-'''
-Created on 1. sep. 2015
-
-@author: stianstrom
-'''
+__author__ = 'Stian Stroem Anderssen'
 
 
 class Account():

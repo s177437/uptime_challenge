@@ -7,6 +7,8 @@ import Pyro4
 import logging
 import time
 
+__author__ = 'Stian Stroem Anderssen'
+
 
 class Httpmanager():
     """
