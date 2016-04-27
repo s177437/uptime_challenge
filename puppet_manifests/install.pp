@@ -1,3 +1,5 @@
+include 'docker'
+class uptime::install {
 docker::image {'stianstrom/purserworker':
 image_tag => 'latest'
  }
